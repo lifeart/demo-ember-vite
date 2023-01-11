@@ -34,6 +34,7 @@
     "@glimmer/reference": "0.84.2",
     "@glimmer/runtime": "0.84.2",
     "@glimmer/validator": "0.84.2",
+    "@types/ember": "^4.0.3",
     "babel-plugin-ember-template-compilation": "^2.0.0",
     "backburner.js": "^2.7.0",
     "dag-map": "^2.0.2",
