@@ -6,7 +6,5 @@ export function setupApplicationGlobals(Ember) {
     Ember._setComponentManager((owner) => {
         return new GlimmerComponentManager(owner);
     }, Component);
-
-    console.log('setupApplicationGlobals');
     window._Ember = Ember;
 }
