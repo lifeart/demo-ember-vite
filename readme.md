@@ -10,10 +10,11 @@ It uses `vite` to build the app.
 ### Supported features
 
 1. `@tracked` decorator
-1. `controllers` and `routes`
+1. `controllers`, `routes`, `services`, `components`, `helpers`
 1. `@glimmer/components`
 1. Strict mode
 1. Style imports from components
+1. Lazy-loading for routes
 
 ### Unsupported
 

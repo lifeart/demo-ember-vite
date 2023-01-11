@@ -2,7 +2,7 @@ import Ember from './ember';
 
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
-import { MainRoute } from '../routes/main';
+// import { MainRoute } from '../routes/main';
 
 /* imported controllers */
 import { ApplicationController } from '../controllers/application';
@@ -23,12 +23,21 @@ export function registerComponent<T>(component: T & { template: any }): T {
     return Ember._setComponentTemplate(component.template, component);
 }
 
+export const lazyRoutes = {
+    main: () => ({
+        route: import('../routes/main').then((m) => m.MainRoute),
+        template: MainTemplate,
+    }),
+    'not-found': () => ({
+        template: import('../templates/not-found').then((m) => m.default),
+    }),
+}
+
 function registry() {
     return {
         'service:date': DateService,
         'controller:application': ApplicationController,
         'route:application': ApplicationRoute,
-        'route:main': MainRoute,
         'template:application': ApplicationTemplate,
         'template:main': MainTemplate,
         'template:about': AboutTemplate,
