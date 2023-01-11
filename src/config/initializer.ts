@@ -1,7 +1,8 @@
 import ENV from "./env";
 import registry from "./registry";
+import type ApplicationInstance from '@ember/application/instance';
 
-export function init(application) {
+export function init(application: ApplicationInstance) {
     const MyApp = application.create({
         "name": ENV.modulePrefix,
         "version": "0.0.0+33d058ab"
@@ -9,9 +10,9 @@ export function init(application) {
 
 
     const registryObjects = registry();
-
+    console.table(registryObjects);
+    
     Object.keys(registryObjects).forEach((key) => {
-        console.log(registryObjects[key].toString());
         MyApp.register(key, registryObjects[key]);
     });
 

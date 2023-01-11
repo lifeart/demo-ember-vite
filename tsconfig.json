@@ -1,4 +1,5 @@
 {
+  "extends": "@tsconfig/ember/tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -22,10 +23,9 @@
       "backburner": ["./node_modules/backburner.js/dist/es6/backburner.js"],
       "ember": ["./node_modules/ember-source/dist/packages/ember/index.js"],
       "@glimmer/application": ["./node_modules/ember-source/dist/dependencies/@glimmer/manager.js"],
-      "@glimmer/component": ["./node_modules/@glimmer/component/dist/modules/es2017/index.js"],
-      "@glimmer/component/*": ["./node_modules/@glimmer/component/dist/modules/es2017/*"],
-      "@glimmer/tracking": ["./node_modules/ember-source/dist/packages/@glimmer/tracking/index.js"],
+      "@glimmer/component": ["./node_modules/@glimmer/component"],
+      "@glimmer/tracking": ["./node_modules/ember-source/dist/packages/@glimmer/tracking"],
     }
   },
-  "include": ["src"]
+  "include": ["src", "types"]
 }
