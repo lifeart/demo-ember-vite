@@ -4,8 +4,8 @@ import babel from 'vite-plugin-babel';
 export default defineConfig({
     plugins: [
         babel({
-            // regexp to match js and ts files 
-            filter: /\.(js|ts)?$/,
+            // regexp to match files in src folder
+            filter: /^.*src\/.*\.(ts|js)$/,
             babelConfig: {
                 babelrc: false,
                 configFile: false,
