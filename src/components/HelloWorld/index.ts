@@ -1,9 +1,11 @@
 import Component from '@glimmer/component/addon/-private/component';
 import { tracked }  from './../../config/ember';
 import { precompileTemplate } from '@ember/template-compilation';
-
+import Local from './local';
+import './style.css';
 export default class HelloWorld extends Component {
     @tracked _date = new Date().toString();
+    Local = Local;
     constructor() {
         super(...arguments);
         setInterval(() => {
@@ -14,6 +16,8 @@ export default class HelloWorld extends Component {
         return this._date;
     }
     static template = precompileTemplate(`
-        <h1>Hello World (from component) {{this.date}}</h1>
+        <h1 class="hello-world">Hello World (from component)</h1>
+        <pre>{{this.date}}</pre>
+        <this.Local />
     `)
 }

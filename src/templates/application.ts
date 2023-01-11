@@ -6,6 +6,8 @@ export default precompileTemplate(`
 
 <HelloWorld />
 
+<a href="https://github.com/lifeart/demo-ember-vite">Repo</a>
+
 <ul>
     {{#each this.model as |item|}}
         <li>{{item}}</li>

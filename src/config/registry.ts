@@ -4,7 +4,7 @@ import ApplicationTemplate from '../templates/application';
 import Ember from './ember';
 import HelloWorld from '../components/HelloWorld';
 
-function registerComponent(component) {
+export function registerComponent(component) {
     return Ember._setComponentTemplate(component.template, component);
 }
 
