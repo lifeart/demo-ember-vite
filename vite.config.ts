@@ -25,7 +25,8 @@ export default defineConfig({
                     
                     }]
                     
-                ]
+                ],
+                "presets": ["@babel/preset-typescript"]
             }
         }),
         // ...
