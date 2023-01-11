@@ -5,14 +5,14 @@ import Ember from './ember';
 import HelloWorld from '../components/HelloWorld';
 
 function registerComponent(component) {
-    return Ember._setComponentTemplate(window.compile(component.template), component);
+    return Ember._setComponentTemplate(component.template, component);
 }
 
 function registry() {
     return {
         'controller:application': ApplicationController,
         'route:application': ApplicationRoute,
-        'template:application': ApplicationTemplate(),
+        'template:application': ApplicationTemplate,
         'component:hello-world': registerComponent(HelloWorld),
     };
 }

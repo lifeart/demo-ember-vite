@@ -13,7 +13,17 @@ export default defineConfig({
                     ['@babel/plugin-proposal-decorators', {
                          legacy: true
                     }],
-                    ['@babel/plugin-proposal-class-properties', { loose: false }]
+                    ['@babel/plugin-proposal-class-properties', { loose: false }],
+                    ['babel-plugin-ember-template-compilation/node', {
+                        compilerPath: "ember-source/dist/ember-template-compiler.js",
+                        targetFormat: 'wire',
+                        outputModuleOverrides: {
+                            '@ember/template-factory': {
+                                createTemplateFactory: ['createTemplateFactory', 'ember-source/dist/packages/@ember/template-factory/index.js'],
+                            }
+                        }
+                    
+                    }]
                     
                 ]
             }

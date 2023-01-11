@@ -1,5 +1,7 @@
 import Component from '@glimmer/component/addon/-private/component';
 import { tracked }  from './../../config/ember';
+import { precompileTemplate } from '@ember/template-compilation';
+
 export default class HelloWorld extends Component {
     @tracked _date = new Date().toString();
     constructor() {
@@ -11,7 +13,7 @@ export default class HelloWorld extends Component {
     get date() {
         return this._date;
     }
-    static template = `
+    static template = precompileTemplate(`
         <h1>Hello World (from component) {{this.date}}</h1>
-    `
+    `)
 }
