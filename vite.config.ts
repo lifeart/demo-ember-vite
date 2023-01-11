@@ -4,12 +4,13 @@ import fs from 'node:fs';
 
 const emberPackages = fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
 
-console.log(emberPackages);
-
 export default defineConfig({
     resolve: {
         alias: [
+            { find: '@glimmer/tracking', replacement: './src/config/ember' },
             { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
+            { find: 'ember-component-manager', replacement: '@glimmer/component/addon/-private/ember-component-manager'},
+            { find: '@glimmer/component', replacement: '@glimmer/component/addon/-private/component' },
             ...emberPackages.map((pkg) => ({
 
                 find: `@ember/${pkg}`,

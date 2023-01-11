@@ -1,5 +1,5 @@
-import Component from "@glimmer/component/addon/-private/component";
-import { tracked } from "./../../config/ember";
+import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
 import { precompileTemplate } from "@ember/template-compilation";
 import Local from "./local";
 import "./style.css";
