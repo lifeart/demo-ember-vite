@@ -1,4 +1,4 @@
-import Controller from 'ember-source/dist/packages/@ember/controller';
+import Controller from '@ember/controller';
 
 export class ApplicationController extends Controller {
     init() {

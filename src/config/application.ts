@@ -1,4 +1,4 @@
-import EmberApplication from 'ember-source/dist/packages/@ember/application';
+import EmberApplication from '@ember/application';
 import Resolver from 'ember-resolver/addon/index.js';
 import ENV from './env';
 

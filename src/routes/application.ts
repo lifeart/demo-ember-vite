@@ -1,4 +1,4 @@
-import Route from 'ember-source/dist/packages/@ember/routing/route';
+import Route from '@ember/routing/route';
 
 
 export class ApplicationRoute extends Route {

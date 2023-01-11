@@ -1,5 +1,4 @@
-import Ember from 'ember-source/dist/packages/ember/index.js';
-
+import Ember from 'ember';
 
 export default Ember;
 
