@@ -1,0 +1,27 @@
+diff --git a/node_modules/ember-resolver/addon/resolvers/classic/index.js b/node_modules/ember-resolver/addon/resolvers/classic/index.js
+index 930d35f..9481be9 100644
+--- a/node_modules/ember-resolver/addon/resolvers/classic/index.js
++++ b/node_modules/ember-resolver/addon/resolvers/classic/index.js
+@@ -9,13 +9,10 @@ import { dasherize, classify, underscore } from '@ember/string';
+ import { DEBUG } from '@glimmer/env';
+ import classFactory from '../../utils/class-factory';
+ 
+-if (typeof requirejs.entries === 'undefined') {
+-  requirejs.entries = requirejs._eak_seen;
+-}
+ 
+ export class ModuleRegistry {
+   constructor(entries) {
+-    this._entries = entries || requirejs.entries;
++    this._entries = entries || {};
+   }
+   moduleNames() {
+     return Object.keys(this._entries);
+@@ -24,6 +21,7 @@ export class ModuleRegistry {
+     return moduleName in this._entries;
+   }
+   get(...args) {
++    console.log('resolve: ', [args]);
+     return require(...args);
+   }
+ }

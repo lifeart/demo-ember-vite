@@ -1,0 +1,43 @@
+{
+  "name": "ember-vite",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "postinstall": "patch-package"
+  },
+  "resolutions": {
+    "@glimmer/env": "file:./glimmer-env"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.3",
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "@glimmer/compiler": "0.84.2",
+    "@glimmer/component": "^1.1.2",
+    "@glimmer/destroyable": "0.84.2",
+    "@glimmer/env": "^0.1.7",
+    "@glimmer/global-context": "0.84.2",
+    "@glimmer/interfaces": "0.84.2",
+    "@glimmer/manager": "0.84.2",
+    "@glimmer/node": "0.84.2",
+    "@glimmer/opcode-compiler": "0.84.2",
+    "@glimmer/owner": "0.84.2",
+    "@glimmer/program": "0.84.2",
+    "@glimmer/reference": "0.84.2",
+    "@glimmer/runtime": "0.84.2",
+    "@glimmer/validator": "0.84.2",
+    "backburner.js": "^2.7.0",
+    "dag-map": "^2.0.2",
+    "ember-resolver": "^9.0.1",
+    "ember-source": "^4.9.3",
+    "patch-package": "^6.5.1",
+    "postinstall-postinstall": "^2.1.0",
+    "route-recognizer": "^0.3.4",
+    "router_js": "^8.0.3"
+  }
+}
