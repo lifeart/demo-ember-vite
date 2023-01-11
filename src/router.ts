@@ -12,6 +12,20 @@ class Router extends EmberRouter {
   rootURL = config.rootURL;
   loadedRoutes = new Set();
 
+
+  // This is necessary in order to prevent the premature loading of lazy routes
+  // when we are merely trying to render a link-to that points at them.
+  // Unfortunately the stock query parameter behavior pulls on routes just to
+  // check what their previous QP values were.
+  _getQPMeta(handlerInfo: { name: string }, ...rest: unknown[]) {
+    if (handlerInfo.name in lazyRoutes && !this.loadedRoutes.has(handlerInfo.name)) {
+      return undefined;
+    }
+    // @ts-expect-error extending private method
+    return super._getQPMeta(handlerInfo, ...rest);
+  }
+
+
   // This is the framework method that we're overriding to provide our own
   // handlerResolver.
   setupRouter(...args: unknown[]) {
@@ -36,7 +50,11 @@ class Router extends EmberRouter {
           const values = await Promise.all(keys.map((key) => hash[key]));
           keys.forEach((key, index) => {
             // owner.unregister(`${key}:${name}`);
-            owner.register(`${key}:${name}`, values[index]);
+            try {
+              owner.register(`${key}:${name}`, values[index]);
+            } catch(e) {
+              // ignore
+            }
           });
           this.loadedRoutes.add(name);
         },

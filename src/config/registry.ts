@@ -11,7 +11,6 @@ import { ApplicationController } from '../controllers/application';
 import ApplicationTemplate from '../templates/application';
 import MainTemplate from '../templates/main';
 import AboutTemplate from '../templates/about';
-import NotFoundTemplate from '../templates/not-found';
 
 /* imported services */
 import DateService from '../services/date';
@@ -41,7 +40,6 @@ function registry() {
         'template:application': ApplicationTemplate,
         'template:main': MainTemplate,
         'template:about': AboutTemplate,
-        'template:not-found': NotFoundTemplate,
         'component:hello-world': registerComponent(HelloWorld),
     };
 }

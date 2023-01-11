@@ -8,6 +8,8 @@ export default precompileTemplate(`
 
     <a href="https://github.com/lifeart/demo-ember-vite">Repo</a> | 
     <LinkTo @route="about">About</LinkTo>
+    | 
+    <LinkTo @route="not-found" @model="404">404</LinkTo>
 
     <ul>
         {{#each this.model as |item|}}
