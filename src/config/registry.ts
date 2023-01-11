@@ -13,6 +13,8 @@ import MainTemplate from '../templates/main';
 import AboutTemplate from '../templates/about';
 import NotFoundTemplate from '../templates/not-found';
 
+/* imported services */
+import DateService from '../services/date';
 
 /* imported components */
 import HelloWorld from '../components/HelloWorld';
@@ -23,6 +25,7 @@ export function registerComponent<T>(component: T & { template: any }): T {
 
 function registry() {
     return {
+        'service:date': DateService,
         'controller:application': ApplicationController,
         'route:application': ApplicationRoute,
         'route:main': MainRoute,
