@@ -1,19 +1,25 @@
 import { defineConfig } from 'vite';
 import babel from 'vite-plugin-babel';
 import fs from 'node:fs';
+import { fileURLToPath, URL } from "node:url";
+
 
 const emberPackages = fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
 
 export default defineConfig({
     resolve: {
         alias: [
-            { find: '@glimmer/tracking', replacement: './src/config/ember' },
+            { find: '@glimmer/tracking', replacement: fileURLToPath(new URL("./src/config/ember.ts", import.meta.url)) },
             { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
             { find: 'ember-component-manager', replacement: '@glimmer/component/addon/-private/ember-component-manager'},
             { find: '@glimmer/component', replacement: '@glimmer/component/addon/-private/component' },
             {
                 find: '@glimmer/env',
                 replacement: './glimmer-env/index.ts',
+            },
+            {
+                find: 'backburner',
+                replacement: 'backburner.js/dist/es6/backburner.js',
             },
             ...emberPackages.map((pkg) => ({
 
