@@ -1,7 +1,5 @@
 import Component from '@glimmer/component';
 import { precompileTemplate } from '@ember/template-compilation';
-import { registerComponent } from '../../config/utils';
-
 
 /* 
     This is sample of local component, which is not registered in global namespace
@@ -23,16 +21,10 @@ import { registerComponent } from '../../config/utils';
             `, { scope: () => ({ Local }), isStrictMode: true });
         }
     ```
-  
-
-    For local (scoped) components, we need to call `registerComponent` here, to setComponentTemplate.
-
-    If you want to use it in global namespace, 
-        you need to register it in src/config/registry.ts and remove registerComponent call here
 
 */
 
-export default registerComponent(class HelloWorld extends Component {
+export default class HelloWorld extends Component {
     onClick = () => alert('Fine');
     static template = precompileTemplate(`
         <h2 class="bg-white text-black">Local Component</h2>
@@ -40,4 +32,4 @@ export default registerComponent(class HelloWorld extends Component {
         <Button {{on "click" this.onClick}}>Click Me</Button>
         </div>
     `)
-});
+};
