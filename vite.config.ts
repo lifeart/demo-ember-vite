@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
                 { find: 'ember-cli-htmlbars', replacement: fileURLToPath(new URL("./compat/ember-cli-htmlbars/index.ts", import.meta.url)) },
                 { find: 'ember-qunit-styles/container.css', replacement: fileURLToPath(new URL("./node_modules/ember-qunit/vendor/ember-qunit/test-container-styles.css", import.meta.url)) },
                 { find: '@/config', replacement: './src/config' },
+                { find: '@/components', replacement: fileURLToPath(new URL("./src/components", import.meta.url)) },
                 { find: 'ember-cli-test-loader/test-support/index', replacement: fileURLToPath(new URL("./compat/ember-cli-test-loader/index.ts", import.meta.url)) },
                 { find: '@ember/test-helpers', replacement: '@ember/test-helpers/addon-test-support/@ember/test-helpers'},
                 { find: '@ember/test-waiters', replacement: '@ember/test-waiters/addon/@ember/test-waiters'},
