@@ -19,20 +19,23 @@ import Button from '../components/Button';
 /* imported helpers */
 import MemoryUsage from '../helpers/memory-usage';
 
+/* imported modifiers */
+import ClickTracker from '../modifiers/click-tracker';
+
 import { IRegistry } from './utils';
 
-
 function registry(): IRegistry {
-    return {
-        'service:date': DateService,
-        'controller:application': ApplicationController,
-        'route:application': ApplicationRoute,
-        'template:application': ApplicationTemplate,
-        'template:about': AboutTemplate,
-        'component:hello-world': HelloWorld,
-        'component:button': Button,
-        'helper:memory-usage': MemoryUsage,
-    };
+  return {
+    'service:date': DateService,
+    'controller:application': ApplicationController,
+    'route:application': ApplicationRoute,
+    'template:application': ApplicationTemplate,
+    'template:about': AboutTemplate,
+    'component:hello-world': HelloWorld,
+    'component:button': Button,
+    'helper:memory-usage': MemoryUsage,
+    'modifier:click-tracker': ClickTracker,
+  };
 }
 
 export default registry;

@@ -40,6 +40,7 @@
     "babel-plugin-unassert": "^3.2.0",
     "backburner.js": "^2.7.0",
     "dag-map": "^2.0.2",
+    "ember-modifier": "^4.0.0",
     "ember-resolver": "^9.0.1",
     "ember-source": "^4.9.3",
     "patch-package": "^6.5.1",
