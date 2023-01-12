@@ -8,7 +8,8 @@
     "build": "vite build",
     "compile": "tsc",
     "preview": "vite preview",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "clear:cache": "rm -rf node_modules/.vite"
   },
   "devDependencies": {
     "@tsconfig/ember": "^2.0.0",

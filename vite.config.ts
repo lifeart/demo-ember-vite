@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
         resolve: {
             alias: [
                 { find: '@glimmer/tracking', replacement: fileURLToPath(new URL("./src/config/ember.ts", import.meta.url)) },
+                { find: '@embroider/macros', replacement: fileURLToPath(new URL("./embroider-macros/index.ts", import.meta.url)) },
                 { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
                 { find: 'ember-component-manager', replacement: '@glimmer/component/addon/-private/ember-component-manager'},
                 { find: '@glimmer/component', replacement: '@glimmer/component/addon/-private/component' },
