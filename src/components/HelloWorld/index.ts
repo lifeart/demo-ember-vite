@@ -2,10 +2,11 @@ import Component from "@glimmer/component";
 import { service } from "@ember/service";
 import { precompileTemplate } from "@ember/template-compilation";
 import Local from "./local";
+import type DateService from "../../services/date";
 import "./style.css";
-import DateService from "../../services/date";
 
-const myHelper = (a: number, b: number) => a + b;
+
+const calculateSummary = (a: number, b: number) => `${a}+${b}=${a + b}`;
 export default class HelloWorld extends Component {
   @service('date') dateService!: DateService;
   static template = precompileTemplate(
@@ -14,14 +15,14 @@ export default class HelloWorld extends Component {
         <pre class="font-mono">{{this.dateService.date}}</pre>
         <Local />
         <br>
-        3+2={{myHelper 3 2}}
+        {{calculateSummary 3 2}}
         <br>
     `,
     {
       isStrictMode: true,
       scope: () => ({
         Local,
-        myHelper,
+        calculateSummary,
       }),
     }
   );

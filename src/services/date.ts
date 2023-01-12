@@ -6,14 +6,14 @@ export default class DateService extends Service {
     init() {
         super.init(...arguments);
         this.interval = setInterval(() => {
-            this._date = new Date().toString();
+            this._date = new Date().toLocaleTimeString();
         }, 1000);
     }
     willDestroy() {
         super.willDestroy(...arguments);
         clearInterval(this.interval);
     }
-    @tracked _date = new Date().toString();
+    @tracked _date = new Date().toLocaleTimeString();
     get date() {
         return this._date;
     }
