@@ -17,13 +17,23 @@ import { setup } from 'qunit-dom';
 // testing.Test.Adapter = testing.Adapter;
 // Ember.Test = testing.Test;
 
-console.log('Ember.Test.Adapter', Ember.Test.Adapter);
-console.log('testing', testing);
+// console.log('Ember.Test.Adapter', Ember.Test.Adapter);
+// console.log('testing', testing);
 setupApplicationGlobals(Ember);
 
 
 setApplication(Application.create(config.APP));
 
 setup(QUnit.assert);
+
+function add(a: number, b: number) {
+  return a + b;
+}
+
+QUnit.module('add', hooks => {
+    QUnit.test('two numbers', assert => {
+        assert.equal(add(1, 2), 3);
+    });
+});
 
 // start();
