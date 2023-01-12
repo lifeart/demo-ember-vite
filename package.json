@@ -9,9 +9,6 @@
     "preview": "vite preview",
     "postinstall": "patch-package"
   },
-  "resolutions": {
-    "@glimmer/env": "file:./glimmer-env"
-  },
   "devDependencies": {
     "@tsconfig/ember": "^2.0.0",
     "typescript": "^4.9.3",

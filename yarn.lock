@@ -1186,8 +1186,10 @@
     "@glimmer/interfaces" "0.84.2"
     "@glimmer/vm" "0.84.2"
 
-"@glimmer/env@0.1.7", "@glimmer/env@^0.1.7", "@glimmer/env@file:./glimmer-env":
-  version "0.0.0"
+"@glimmer/env@0.1.7", "@glimmer/env@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@glimmer/env/-/env-0.1.7.tgz#fd2d2b55a9029c6b37a6c935e8c8871ae70dfa07"
+  integrity sha512-JKF/a9I9jw6fGoz8kA7LEQslrwJ5jms5CXhu/aqkBWk+PmZ6pTl8mlb/eJ/5ujBGTiQzBhy5AIWF712iA+4/mw==
 
 "@glimmer/global-context@0.84.2":
   version "0.84.2"

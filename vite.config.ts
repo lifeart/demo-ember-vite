@@ -11,6 +11,10 @@ export default defineConfig({
             { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
             { find: 'ember-component-manager', replacement: '@glimmer/component/addon/-private/ember-component-manager'},
             { find: '@glimmer/component', replacement: '@glimmer/component/addon/-private/component' },
+            {
+                find: '@glimmer/env',
+                replacement: './glimmer-env/index.ts',
+            },
             ...emberPackages.map((pkg) => ({
 
                 find: `@ember/${pkg}`,
