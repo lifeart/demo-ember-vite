@@ -38,5 +38,12 @@
       // "ember-simple-auth/*": ["./node_modules/ember-simple-auth/addon/*"],
     }
   },
-  "include": ["src", "types"]
+  "include": ["src", "types"],
+  "glint": {
+    "environment": {
+      "ember-loose": {
+        "allowPlainFunctionInvocation": true
+      }
+    }
+  }
 }
