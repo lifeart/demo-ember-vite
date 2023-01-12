@@ -37,6 +37,7 @@
     "@types/ember": "^4.0.3",
     "autoprefixer": "^10.4.13",
     "babel-plugin-ember-template-compilation": "^2.0.0",
+    "babel-plugin-unassert": "^3.2.0",
     "backburner.js": "^2.7.0",
     "dag-map": "^2.0.2",
     "ember-resolver": "^9.0.1",
