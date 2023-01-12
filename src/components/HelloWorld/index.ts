@@ -11,7 +11,7 @@ export default class HelloWorld extends Component {
   static template = precompileTemplate(
     `
         <h1 class="hello-world">Hello World (from component)</h1>
-        <pre clsss="font-mono">{{this.dateService.date}}</pre>
+        <pre class="font-mono">{{this.dateService.date}}</pre>
         <Local />
         <br>
         3+2={{myHelper 3 2}}

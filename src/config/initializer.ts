@@ -1,6 +1,7 @@
 import ENV from "./env";
 import registry from "./registry";
 import type Application from '@ember/application';
+import { registerComponent } from "./utils";
 
 export function init(application: Application, router: any) {
     const MyApp = application.create({
@@ -13,7 +14,12 @@ export function init(application: Application, router: any) {
     console.table(registryObjects);
     
     Object.keys(registryObjects).forEach((key) => {
-        MyApp.register(key, registryObjects[key]);
+        const value = registryObjects[key];
+        if (key.startsWith('component:')) {
+            MyApp.register(key, registerComponent(value));
+        } else {
+            MyApp.register(key, value);
+        }
     });
 
     MyApp.register('router:main', router);
