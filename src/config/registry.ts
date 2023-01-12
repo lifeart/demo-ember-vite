@@ -1,4 +1,9 @@
 import Ember from './ember';
+import type Service from '@ember/service';
+import type Controller from '@ember/controller';
+import type Route from '@ember/routing/route';
+import type GlimmerComponent from '@glimmer/component';
+
 
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
@@ -9,36 +14,34 @@ import { ApplicationController } from '../controllers/application';
 
 /* imported templates */
 import ApplicationTemplate from '../templates/application';
-import MainTemplate from '../templates/main';
 import AboutTemplate from '../templates/about';
-
+import { PrecompiledTemplate } from '@ember/template-compilation';
 /* imported services */
 import DateService from '../services/date';
 
 /* imported components */
 import HelloWorld from '../components/HelloWorld';
 
-export function registerComponent<T>(component: T & { template: any }): T {
+type RegisteredComponent = typeof GlimmerComponent & { template: any };
+type RegistryType = 'service' | 'controller' | 'route' | 'template' | 'component';
+type RegistryKey = `${RegistryType}:${string}`;
+interface IRegistry {
+    [key: RegistryKey]: typeof Service | typeof Controller | typeof Route | RegisteredComponent | PrecompiledTemplate;
+}
+
+export function registerComponent<T>(component: T & { template: any }): RegisteredComponent {
     return Ember._setComponentTemplate(component.template, component);
 }
 
-export const lazyRoutes = {
-    main: () => ({
-        route: import('../routes/main').then((m) => m.MainRoute),
-        template: MainTemplate,
-    }),
-    'not-found': () => ({
-        template: import('../templates/not-found').then((m) => m.default),
-    }),
-}
 
-function registry() {
+
+
+function registry(): IRegistry {
     return {
         'service:date': DateService,
         'controller:application': ApplicationController,
         'route:application': ApplicationRoute,
         'template:application': ApplicationTemplate,
-        'template:main': MainTemplate,
         'template:about': AboutTemplate,
         'component:hello-world': registerComponent(HelloWorld),
     };

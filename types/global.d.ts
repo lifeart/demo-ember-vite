@@ -3,7 +3,8 @@ declare module '@ember/template-compilation' {
 }
 
 declare module '@ember/template-compilation' {
-    export function precompileTemplate(template: string, options?: any): any;
+    export type PrecompiledTemplate = Function & { id: string };
+    export function precompileTemplate(template: string, options?: any): PrecompiledTemplate;
 }
 
 declare module 'ember-component-manager' {
