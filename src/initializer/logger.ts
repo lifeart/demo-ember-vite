@@ -9,6 +9,7 @@ export class Logger extends EmberObject {
 
 export function initialize(application: Application) {
   application.register('logger:main', Logger);
+  console.log('logger registered');
 }
 
 export default {
