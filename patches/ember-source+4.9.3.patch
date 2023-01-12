@@ -11,6 +11,35 @@ index f1ed636..ee96189 100644
 +
 +
 +export { capabilities, setInternalHelperManager, setInternalModifierManager, setInternalComponentManager, getInternalHelperManager, getInternalModifierManager, getInternalComponentManager, hasInternalHelperManager, hasInternalModifierManager, hasInternalComponentManager, setHelperManager, setModifierManager, setComponentManager, componentCapabilities, CustomComponentManager, modifierCapabilities, CustomModifierManager, helperCapabilities, hasDestroyable, hasValue, CustomHelperManager, getComponentTemplate, setComponentTemplate, capabilityFlagsFrom, hasCapability, managerHasCapability, getCustomTagFor, setCustomTagFor };
+diff --git a/node_modules/ember-source/dist/packages/@ember/test/index.js b/node_modules/ember-source/dist/packages/@ember/test/index.js
+index 8d78b05..90567d1 100644
+--- a/node_modules/ember-source/dist/packages/@ember/test/index.js
++++ b/node_modules/ember-source/dist/packages/@ember/test/index.js
+@@ -1,14 +1,22 @@
+-import require, { has } from 'require';
++// import require, { has } from 'require';
+ export let registerAsyncHelper;
+ export let registerHelper;
+ export let registerWaiter;
+ export let unregisterHelper;
+ export let unregisterWaiter;
+ 
++function has() {
++  return false;
++}
++
+ if (has('ember-testing')) {
+   let {
+     Test
+-  } = require('ember-testing');
++  } = {
++    Test: {
++      
++    }
++  }
+ 
+   registerAsyncHelper = Test.registerAsyncHelper;
+   registerHelper = Test.registerHelper;
 diff --git a/node_modules/ember-source/dist/packages/ember/index.js b/node_modules/ember-source/dist/packages/ember/index.js
 index 9382f12..d1ba788 100644
 --- a/node_modules/ember-source/dist/packages/ember/index.js

@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import babel from 'vite-plugin-babel';
 import fs from 'node:fs';
 import { fileURLToPath, URL } from "node:url";
+import { resolve } from 'node:path'
 
 
 const emberPackages = fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
@@ -10,14 +11,32 @@ export default defineConfig(({ mode }) => {
     const isProd = mode === 'production';
     const isDev = mode === 'development';
     return {
+        build: {
+            rollupOptions: {
+              input: {
+                main: resolve(__dirname, 'index.html'),
+                nested: resolve(__dirname, 'tests/index.html'),
+              },
+            },
+        },
         define: {
             ENV_DEBUG: isProd ? false : true,
             ENV_CI: false,
         },
         resolve: {
             alias: [
+                { find: 'ember-testing', replacement: 'ember-source/dist/packages/ember-testing' },
+                { find: 'ember-cli-htmlbars', replacement: fileURLToPath(new URL("./compat/ember-cli-htmlbars/index.ts", import.meta.url)) },
+                { find: 'ember-qunit-styles/container.css', replacement: fileURLToPath(new URL("./node_modules/ember-qunit/vendor/ember-qunit/test-container-styles.css", import.meta.url)) },
+                { find: '@/config', replacement: './src/config' },
+                { find: 'ember-cli-test-loader/test-support/index', replacement: fileURLToPath(new URL("./compat/ember-cli-test-loader/index.ts", import.meta.url)) },
+                { find: '@ember/test-helpers', replacement: '@ember/test-helpers/addon-test-support/@ember/test-helpers'},
+                { find: '@ember/test-waiters', replacement: '@ember/test-waiters/addon/@ember/test-waiters'},
+                { find: 'ember-qunit', replacement: 'ember-qunit/addon-test-support' },
+                { find: 'qunit-dom', replacement: 'qunit-dom/dist/addon-test-support/index.js' },
                 { find: '@glimmer/tracking', replacement: fileURLToPath(new URL("./src/config/ember.ts", import.meta.url)) },
                 { find: '@embroider/macros', replacement: fileURLToPath(new URL("./compat/embroider-macros/index.ts", import.meta.url)) },
+                { find: '@embroider/util', replacement: fileURLToPath(new URL("./compat/embroider-util/index.ts", import.meta.url)) },
                 { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
                 { find: 'ember-component-manager', replacement: '@glimmer/component/addon/-private/ember-component-manager'},
                 { find: '@glimmer/component', replacement: '@glimmer/component/addon/-private/component' },
