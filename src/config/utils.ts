@@ -3,13 +3,14 @@ import type Service from '@ember/service';
 import type Controller from '@ember/controller';
 import type Route from '@ember/routing/route';
 import type GlimmerComponent from '@glimmer/component';
+import type Helper from "@ember/component/helper";
 import { PrecompiledTemplate } from '@ember/template-compilation';
 
 export type RegisteredComponent = typeof GlimmerComponent & { template: any };
-export type RegistryType = 'service' | 'controller' | 'route' | 'template' | 'component';
+export type RegistryType = 'service' | 'controller' | 'route' | 'template' | 'component' | 'helper';
 export type RegistryKey = `${RegistryType}:${string}`;
 export interface IRegistry {
-    [key: RegistryKey]: typeof Service | typeof Controller | typeof Route | RegisteredComponent | PrecompiledTemplate;
+    [key: RegistryKey]: typeof Service | typeof Controller | typeof Route | typeof Helper | RegisteredComponent | PrecompiledTemplate;
 }
 
 export function registerComponent<T>(component: T & { template: any }): RegisteredComponent {
@@ -20,5 +21,3 @@ export function registerComponent<T>(component: T & { template: any }): Register
         return component as unknown as RegisteredComponent;
     }
 }
-
-

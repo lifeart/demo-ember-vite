@@ -6,9 +6,9 @@ export default precompileTemplate(`
 
     <HelloWorld />
 
-    <a href="https://github.com/lifeart/demo-ember-vite">Repo</a> | 
+    <a href="https://github.com/lifeart/demo-ember-vite">Repo</a> |
     <LinkTo @route="about">About</LinkTo>
-    | 
+    |
     <LinkTo @route="not-found" @model="404">404</LinkTo>
 
     <ul>
@@ -16,4 +16,6 @@ export default precompileTemplate(`
             <li>{{item}}</li>
         {{/each}}
     </ul>
+
+    {{memory-usage}}
 `);
