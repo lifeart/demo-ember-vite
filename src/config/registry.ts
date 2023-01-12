@@ -24,8 +24,11 @@ import ClickTracker from '../modifiers/click-tracker';
 
 import { IRegistry } from './utils';
 
+import addonsRegistry from './../addons';
+
 function registry(): IRegistry {
   return {
+    ...addonsRegistry,
     'service:date': DateService,
     'controller:application': ApplicationController,
     'route:application': ApplicationRoute,

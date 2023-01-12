@@ -44,6 +44,7 @@
     "ember-modifier": "^4.0.0",
     "ember-resolver": "^9.0.1",
     "ember-source": "^4.9.3",
+    "ember-truth-helpers": "^3.1.1",
     "patch-package": "^6.5.1",
     "postcss": "^8.4.21",
     "postinstall-postinstall": "^2.1.0",

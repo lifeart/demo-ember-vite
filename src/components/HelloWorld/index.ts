@@ -13,6 +13,10 @@ export default class HelloWorld extends Component {
     `
         <h1 class="hello-world">Hello World (from component)</h1>
         <pre class="font-mono">{{this.dateService.date}}</pre>
+
+        {{if (eq "a" "a") "equal" "not equal"}}
+        {{if (and (eq "a" "a") (eq "b" "b")) "equal" "not equal"}}
+
         <Local />
         <br>
         {{calculateSummary 3 2}}
