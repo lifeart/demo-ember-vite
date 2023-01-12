@@ -7,6 +7,8 @@ It's TypeScript'ed by default.
 
 It uses `vite` to build the app.
 
+`tailwind` used for styling.
+
 ### Supported features
 
 1. `@tracked` decorator
