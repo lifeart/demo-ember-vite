@@ -1,0 +1,16 @@
+diff --git a/node_modules/@glimmer/manager/dist/modules/es2017/lib/public/template.js b/node_modules/@glimmer/manager/dist/modules/es2017/lib/public/template.js
+index 7cb4d1e..a548a65 100644
+--- a/node_modules/@glimmer/manager/dist/modules/es2017/lib/public/template.js
++++ b/node_modules/@glimmer/manager/dist/modules/es2017/lib/public/template.js
+@@ -15,6 +15,11 @@ export function setComponentTemplate(factory, obj) {
+   return obj;
+ }
+ export function getComponentTemplate(obj) {
++
++  if (!TEMPLATES.has(obj) && 'template' in obj) {
++    setComponentTemplate(obj.template, obj);
++  }
++
+   let pointer = obj;
+ 
+   while (pointer !== null) {
