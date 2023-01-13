@@ -56,9 +56,16 @@ PR's are welcome.
 To check app, run:
 
 ```bash
-`yarn dev`
+yarn dev
 ```
 
 ---
+
+
+## Why?
+
+I would like to bulletproof opinion, that modern ember application could be statically resolvable by default, and I would like to use `Vite` for that. It give as ability to use `TypeScript` and `ESM` by default, and it's very fast.
+
+## Disclaimer
 
 I'm not planning to actively maintain this repo, but if you have any questions, feel free to ask.
