@@ -27,7 +27,7 @@ It uses `vite` to build the app.
 1. no component testing yet
 
 
-We able to run this addons [(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons):
+### We able to run this addons
 
 1. `ember-concurrency`
 1. `ember-concurrency-decorators`
@@ -40,8 +40,20 @@ We able to run this addons [(see code for samples)](https://github.com/lifeart/d
 1. `ember-element-helper`
 1. `ember-style-modifier`
 
+[(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons)
+
+---
+
 PR's are welcome.
 
-To check app, run `yarn dev`.
+---
+
+To check app, run:
+
+```bash
+`yarn dev`
+```
+
+---
 
 I'm not planning to actively maintain this repo, but if you have any questions, feel free to ask.
