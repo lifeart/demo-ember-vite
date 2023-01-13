@@ -129,7 +129,7 @@ export default defineConfig(({ mode }) => {
             // babel config for addons ??
             babel({
                 // regexp to match files in src folder
-                filter: /^.*(ember-power-select|ember-basic-dropdown)\/.*\.(ts|js|hbs)$/,
+                filter: /^.*(ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
                 babelConfig: {
                     babelrc: false,
                     configFile: false,

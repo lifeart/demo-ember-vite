@@ -6,6 +6,7 @@ import EmberElementHelper from './ember-element-helper';
 import EmberRenderModifiers from './ember-render-modifiers';
 import EmberStyleModifier from './ember-style-modifier';
 import EmberIntl from './ember-intl';
+import EmberPageTitle from './ember-page-title';
 
 const registry = {
     ...EmberTruthHelpers,
@@ -15,7 +16,8 @@ const registry = {
     ...EmberElementHelper,
     ...EmberStyleModifier,
     ...EmberPowerSelect,
-    ...EmberIntl
+    ...EmberIntl,
+    ...EmberPageTitle
 }
 
 export default registry;

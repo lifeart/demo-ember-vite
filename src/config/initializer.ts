@@ -24,6 +24,7 @@ export function init(application: Application, router: any) {
     MyApp.register(key, value);
   });
 
+  MyApp.register('config:environment', ENV);
   MyApp.register('router:main', router);
 
   return MyApp;
