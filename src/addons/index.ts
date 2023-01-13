@@ -5,6 +5,7 @@ import EmberAssignHelper from './ember-assign-helper';
 import EmberElementHelper from './ember-element-helper';
 import EmberRenderModifiers from './ember-render-modifiers';
 import EmberStyleModifier from './ember-style-modifier';
+import EmberIntl from './ember-intl';
 
 const registry = {
     ...EmberTruthHelpers,
@@ -13,7 +14,8 @@ const registry = {
     ...EmberRenderModifiers,
     ...EmberElementHelper,
     ...EmberStyleModifier,
-    ...EmberPowerSelect
+    ...EmberPowerSelect,
+    ...EmberIntl
 }
 
 export default registry;
