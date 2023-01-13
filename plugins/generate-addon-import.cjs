@@ -82,6 +82,10 @@ Object.keys(uniquePaths).forEach((p) => {
         importNames.push(nameForImport);
     });
 
+    if (importNames.length === 0) {
+        return;
+    }
+
     if (importNames.length > 1) {
         const tpl = importNames.find((n) => n.includes('Template'));
         const comp = importNames.find((n) => n !== tpl);
