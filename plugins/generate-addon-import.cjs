@@ -95,7 +95,7 @@ Object.keys(uniquePaths).forEach((p) => {
         ]);
         hasSetComponentTemplate = true;
     } else {
-        registry.push([`${scope}:${name}`, importNames[0]]);
+        registry.push([`${scope.slice(0,-1)}:${name}`, importNames[0]]);
     }
 });
 
