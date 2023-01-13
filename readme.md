@@ -39,7 +39,7 @@ It uses `vite` to build the app.
 1. `ember-style-modifier`
 1. `ember-assign-helper`
 1. `ember-element-helper`
-1. `ember-intl`
+1. `ember-style-modifier`
 
 [(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons)
 
