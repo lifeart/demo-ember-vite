@@ -18,16 +18,16 @@ It uses `vite` to build the app.
 1. Template-only components
 1. Style imports from components
 1. Lazy-loading for routes
-
+1. `hbs` templates and template-only components
+1. basic testing
 ### Unsupported
 
-1. `.hbs` templates not supported yet
 1. `ember-data` not supported yet
 1. `.gts` and `.gjs` not supported yet
-1. no testing yet
+1. no component testing yet
 
 
-We able to run this addons (see code for samples):
+We able to run this addons [(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons):
 
 1. `ember-concurrency`
 1. `ember-concurrency-decorators`
