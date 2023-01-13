@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { fileURLToPath, URL } from "node:url";
 import { resolve } from 'node:path'
 import hbsResolver from './plugins/hbs-resolver';
+import i18nLoader from './plugins/i18n-loader';
 
 
 const emberPackages = fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
@@ -27,7 +28,7 @@ export default defineConfig(({ mode }) => {
         resolve: {
             extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
             alias: [
-                { find: 'ember-intl/translations', replacement: fileURLToPath(new URL("./compat/empty-array", import.meta.url)) },
+                // { find: 'ember-intl/translations', replacement: fileURLToPath(new URL("./compat/empty-array", import.meta.url)) },
                 { find: 'ember-modifier', replacement: fileURLToPath(new URL("./node_modules/ember-modifier/dist", import.meta.url)) },
                 // { find: '@glimmer/manager', replacement: '@glimmer/manager/dist/modules/es2017' },
                 { find: 'ember-concurrency', replacement: 'ember-concurrency/addon' },
@@ -60,7 +61,7 @@ export default defineConfig(({ mode }) => {
                     replacement: 'backburner.js/dist/es6/backburner.js',
                 },
                 ...emberPackages.map((pkg) => ({
-    
+
                     find: `@ember/${pkg}`,
                     replacement: `ember-source/dist/packages/@ember/${pkg}`
                 }))
@@ -68,6 +69,7 @@ export default defineConfig(({ mode }) => {
         },
         plugins: [
             hbsResolver(),
+            i18nLoader(),
             !isDev ? babel({
                 filter: /^.*@(ember|glimmer)\/.*\.(ts|js)$/,
                 babelConfig: {
@@ -117,9 +119,9 @@ export default defineConfig(({ mode }) => {
                                     createTemplateFactory: ['createTemplateFactory', 'ember-source/dist/packages/@ember/template-factory/index.js'],
                                 }
                             }
-                        
+
                         }]
-                        
+
                     ],
                     "presets": ["@babel/preset-typescript"]
                 }
@@ -144,16 +146,16 @@ export default defineConfig(({ mode }) => {
                                     createTemplateFactory: ['createTemplateFactory', 'ember-source/dist/packages/@ember/template-factory/index.js'],
                                 }
                             }
-                        
+
                         }]
-                        
+
                     ],
                     "presets": ["@babel/preset-typescript"]
                 }
             }),
             // ...
         ].filter(el => el !== null),
-    
+
         // ...
     };
 });
