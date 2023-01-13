@@ -3,6 +3,7 @@ import { service } from "@ember/service";
 import { precompileTemplate } from "@ember/template-compilation";
 import Local from "./local";
 import type DateService from "../../services/date";
+import TemplateOnlyComponent from "@/components/OnlyTemplate/component";
 import "./style.css";
 
 
@@ -17,6 +18,8 @@ export default class HelloWorld extends Component {
         {{if (eq "a" "a") "equal" "not equal"}}
         {{if (and (eq "a" "a") (eq "b" "b")) "equal" "not equal"}}
 
+        <TemplateOnlyComponent />
+
         <Local />
         <br>
         {{calculateSummary 3 2}}
@@ -27,6 +30,7 @@ export default class HelloWorld extends Component {
       scope: () => ({
         Local,
         calculateSummary,
+        TemplateOnlyComponent,
       }),
     }
   );
