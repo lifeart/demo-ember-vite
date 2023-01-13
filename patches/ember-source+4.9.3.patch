@@ -72,6 +72,15 @@ index 8d78b05..9d15054 100644
  
    registerAsyncHelper = Test.registerAsyncHelper;
    registerHelper = Test.registerHelper;
+@@ -17,7 +25,7 @@ if (has('ember-testing')) {
+   unregisterWaiter = Test.unregisterWaiter;
+ } else {
+   let testingNotAvailableMessage = () => {
+-    throw new Error('Attempted to use test utilities, but `ember-testing` was not included');
++    console.error(new Error("Attempted to use test utilities, but `ember-testing` was not included"));
+   };
+ 
+   registerAsyncHelper = testingNotAvailableMessage;
 diff --git a/node_modules/ember-source/dist/packages/ember/index.js b/node_modules/ember-source/dist/packages/ember/index.js
 index 9382f12..a0dfc65 100644
 --- a/node_modules/ember-source/dist/packages/ember/index.js

@@ -1,6 +1,13 @@
 import * as renderer from '@ember/renderer';
 import * as validator from '@glimmer/validator';
 import * as manager from '@glimmer/manager';
+import * as recordData from '@ember-data/record-data/-private';
+import * as model from '@ember-data/model/-private';
+
+export function isDevelopingApp() {x
+    console.log('isDevelopingApp',...arguments);
+    return true;
+}
 
 export function getOwnConfig(...args: unknown[]) {
   console.info('getOwnConfig', ...args);
@@ -44,6 +51,7 @@ export function macroCondition(value: boolean) {
   return value;
 }
 
+
 export function importSync(name: string) {
   if (name === '@ember/renderer') {
     return renderer;
@@ -54,6 +62,13 @@ export function importSync(name: string) {
   if (name === '@glimmer/manager') {
     return manager;
   }
+  if (name === '@ember-data/record-data/-private') {
+    return recordData;
+  }
+  if (name === '@ember-data/model/-private') {
+    return model;
+  }
+
   console.info('importSync', name, new Error().stack);
   return true;
 }
