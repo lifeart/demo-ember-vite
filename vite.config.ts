@@ -3,6 +3,7 @@ import babel from 'vite-plugin-babel';
 import fs from 'node:fs';
 import { fileURLToPath, URL } from "node:url";
 import { resolve } from 'node:path'
+import hbsResolver from './plugins/hbs-resolver';
 
 
 const emberPackages = fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
@@ -24,7 +25,9 @@ export default defineConfig(({ mode }) => {
             ENV_CI: false,
         },
         resolve: {
+            extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
             alias: [
+                // { find: '@glimmer/manager', replacement: '@glimmer/manager/dist/modules/es2017' },
                 { find: 'ember-testing', replacement: 'ember-source/dist/packages/ember-testing' },
                 { find: 'ember-cli-htmlbars', replacement: fileURLToPath(new URL("./compat/ember-cli-htmlbars/index.ts", import.meta.url)) },
                 { find: 'ember-qunit-styles/container.css', replacement: fileURLToPath(new URL("./node_modules/ember-qunit/vendor/ember-qunit/test-container-styles.css", import.meta.url)) },
@@ -57,6 +60,7 @@ export default defineConfig(({ mode }) => {
             ],
         },
         plugins: [
+            hbsResolver(),
             !isDev ? babel({
                 filter: /^.*@(ember|glimmer)\/.*\.(ts|js)$/,
                 babelConfig: {
@@ -88,7 +92,7 @@ export default defineConfig(({ mode }) => {
             }) : null,
             babel({
                 // regexp to match files in src folder
-                filter: /^.*src\/.*\.(ts|js)$/,
+                filter: /^.*src\/.*\.(ts|js|hbs)$/,
                 babelConfig: {
                     babelrc: false,
                     configFile: false,
