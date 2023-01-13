@@ -26,6 +26,20 @@ It uses `vite` to build the app.
 1. `.gts` and `.gjs` not supported yet
 1. no testing yet
 
+
+We able to run this addons (see code for samples):
+
+1. `ember-concurrency`
+1. `ember-concurrency-decorators`
+1. `ember-render-modifiers`
+1. `ember-truth-helpers`
+1. `ember-basic-dropdown`
+1. `ember-power-select`
+1. `ember-style-modifier`
+1. `ember-assign-helper`
+1. `ember-element-helper`
+1. `ember-style-modifier`
+
 PR's are welcome.
 
 To check app, run `yarn dev`.
