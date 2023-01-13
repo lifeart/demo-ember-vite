@@ -20,12 +20,12 @@ const paths = walkSync(path.join(addonPath, 'addon'), { globs: ['**/*.{ts,js,hbs
 const uniquePaths = {};
 paths.forEach((p) => {
     const [fPath, extension] = p.split('.');
-    const [scope, name] = fPath.split('/');
+    const [scope, ...name] = fPath.split('/');
     if (!(fPath in uniquePaths)) {
         uniquePaths[fPath] = {
             relativePath: `${packageName}/addon/${fPath}`,
             scope,
-            name,
+            name: name.join('/'),
             extensions: [],
         }
     }
@@ -50,7 +50,7 @@ function nameForScope(scope) {
 }
 
 function camelCase(str) {
-    return str.split('.').join('-').replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+    return str.split('.').join('-').split('/').join('-').replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
 }
 
 function capitalize(str) {
@@ -72,7 +72,11 @@ Object.keys(uniquePaths).forEach((p) => {
     } = uniquePaths[p];
     const importNames = [];
     extensions.forEach((e) => {
-        const nameForImport = capitalize(`${camelCase(name)}${nameForScope(scope)}${e === 'hbs' ? 'Template' : ''}`);
+        const scopeName = nameForScope(scope);
+        if (scopeName === 'X') {
+            return;
+        }
+        const nameForImport = capitalize(`${camelCase(name)}${scopeName}${e === 'hbs' ? 'Template' : ''}`);
         const impName = `import ${nameForImport} from "${relativePath}${e === 'hbs' ? '.hbs' : ''}";`;
         imports.push(impName);
         importNames.push(nameForImport);
