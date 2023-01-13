@@ -27,8 +27,14 @@ export default defineConfig(({ mode }) => {
         resolve: {
             extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
             alias: [
+                { find: 'ember-modifier', replacement: fileURLToPath(new URL("./node_modules/ember-modifier/dist", import.meta.url)) },
                 // { find: '@glimmer/manager', replacement: '@glimmer/manager/dist/modules/es2017' },
+                { find: 'ember-concurrency', replacement: 'ember-concurrency/addon' },
+                { find: 'ember-concurrency-decorators', replacement: 'ember-concurrency-decorators/addon' },
                 { find: 'ember-testing', replacement: 'ember-source/dist/packages/ember-testing' },
+                { find: '@ember-decorators/utils', replacement: '@ember-decorators/utils/addon' },
+                { find: 'ember-cli-version-checker', replacement: fileURLToPath(new URL("./compat/ember-cli-version-checker/index.ts", import.meta.url)) },
+                { find: 'ember-compatibility-helpers', replacement: fileURLToPath(new URL("./compat/ember-compatibility-helpers/index.ts", import.meta.url)) },
                 { find: 'ember-cli-htmlbars', replacement: fileURLToPath(new URL("./compat/ember-cli-htmlbars/index.ts", import.meta.url)) },
                 { find: 'ember-qunit-styles/container.css', replacement: fileURLToPath(new URL("./node_modules/ember-qunit/vendor/ember-qunit/test-container-styles.css", import.meta.url)) },
                 { find: '@/config', replacement: './src/config' },
@@ -90,9 +96,37 @@ export default defineConfig(({ mode }) => {
                     "presets": ["@babel/preset-typescript"]
                 }
             }) : null,
+            // babel config for app code
             babel({
                 // regexp to match files in src folder
                 filter: /^.*src\/.*\.(ts|js|hbs)$/,
+                babelConfig: {
+                    babelrc: false,
+                    configFile: false,
+                    plugins: [
+                        ['@babel/plugin-proposal-decorators', {
+                             legacy: true
+                        }],
+                        ['@babel/plugin-proposal-class-properties', { loose: false }],
+                        ['babel-plugin-ember-template-compilation/node', {
+                            compilerPath: "ember-source/dist/ember-template-compiler.js",
+                            targetFormat: 'wire',
+                            outputModuleOverrides: {
+                                '@ember/template-factory': {
+                                    createTemplateFactory: ['createTemplateFactory', 'ember-source/dist/packages/@ember/template-factory/index.js'],
+                                }
+                            }
+                        
+                        }]
+                        
+                    ],
+                    "presets": ["@babel/preset-typescript"]
+                }
+            }),
+            // babel config for addons ??
+            babel({
+                // regexp to match files in src folder
+                filter: /^.*(ember-power-select|ember-basic-dropdown)\/.*\.(ts|js|hbs)$/,
                 babelConfig: {
                     babelrc: false,
                     configFile: false,

@@ -5,7 +5,7 @@ import Local from "./local";
 import type DateService from "../../services/date";
 import TemplateOnlyComponent from "@/components/OnlyTemplate/component.hbs";
 import "./style.css";
-
+import Select from '@/components/Select';
 
 const calculateSummary = (a: number, b: number) => `${a}+${b}=${a + b}`;
 export default class HelloWorld extends Component {
@@ -24,11 +24,14 @@ export default class HelloWorld extends Component {
         <br>
         {{calculateSummary 3 2}}
         <br>
+
+        <Select />
     `,
     {
       isStrictMode: true,
       scope: () => ({
         Local,
+        Select,
         calculateSummary,
         TemplateOnlyComponent,
       }),

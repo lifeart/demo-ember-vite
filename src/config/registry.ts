@@ -36,6 +36,9 @@ function registry(): IRegistry {
     'template:about': AboutTemplate,
     'component:hello-world': HelloWorld,
     'component:button': Button,
+    'helper:ensure-safe-component': function(a) {
+      return a;
+    },
     'helper:memory-usage': MemoryUsage,
     'modifier:click-tracker': ClickTracker,
   };

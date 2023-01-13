@@ -6,7 +6,8 @@ declare module '@ember/template-compilation' {
 
 declare module '*.hbs' {
   import { TemplateOnlyComponent } from '@glimmer/runtime';
-  export default TemplateOnlyComponent;
+  import { TemplateFactory } from 'htmlbars-inline-precompile';
+  export default TemplateOnlyComponent && TemplateFactory;
 }
 
 declare module '@ember/template-compilation' {
