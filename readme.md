@@ -1,25 +1,25 @@
-## Ember + Vite demo
+## Ember + Vite
+
+---
+    
+This is sample Ember application running only on `Vite`, without `ember-cli` and `embroider`.
+
+* It's `TypeScript`'ed by default.
+* It uses `vite` to build the app.
+* `tailwind` used for styling.
 
 
-This is sample application, using ember `4.x` without `ember-cli` and `embroider`.
+Main difference with classic Ember application, is that we don't trying to automatically resolve addons and it's dependencies - we just import them directly, only once needed.
 
-It's TypeScript'ed by default.
+---
 
-It uses `vite` to build the app.
+### Key supported features
 
-`tailwind` used for styling.
-
-### Supported features
-
-1. `@tracked` decorator
-1. `controllers`, `routes`, `services`, `components`, `helpers`, `modifiers`, `initializers`, `instance-initializers`
-1. `@glimmer/components`
 1. Strict mode
+1. Lazy-loading for routes
 1. Template-only components
 1. Style imports from components
-1. Lazy-loading for routes
-1. `hbs` templates and template-only components
-1. basic testing
+
 ### Unsupported
 
 1. `ember-data` not supported yet
@@ -27,7 +27,7 @@ It uses `vite` to build the app.
 1. no component testing yet
 
 
-### We able to run this addons
+### In scope of this app we able to run this addons
 
 1. `ember-concurrency`
 1. `ember-intl`
@@ -43,6 +43,9 @@ It uses `vite` to build the app.
 1. `ember-page-title`
 
 [(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons)
+
+
+*This is not complete list, and you could add `any` ember addon you want (if it don't have `ember-cli` logic)* 
 
 ---
 
