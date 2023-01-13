@@ -15,6 +15,7 @@ It uses `vite` to build the app.
 1. `controllers`, `routes`, `services`, `components`, `helpers`, `modifiers`, `initializers`, `instance-initializers`
 1. `@glimmer/components`
 1. Strict mode
+1. Template-only components
 1. Style imports from components
 1. Lazy-loading for routes
 

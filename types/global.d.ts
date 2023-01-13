@@ -1,5 +1,12 @@
+
+
 declare module '@ember/template-compilation' {
   export default function <T>(component: T): T;
+}
+
+declare module '*.hbs' {
+  import { TemplateOnlyComponent } from '@glimmer/runtime';
+  export default TemplateOnlyComponent;
 }
 
 declare module '@ember/template-compilation' {

@@ -3,7 +3,7 @@ import { service } from "@ember/service";
 import { precompileTemplate } from "@ember/template-compilation";
 import Local from "./local";
 import type DateService from "../../services/date";
-import TemplateOnlyComponent from "@/components/OnlyTemplate/component";
+import TemplateOnlyComponent from "@/components/OnlyTemplate/component.hbs";
 import "./style.css";
 
 
