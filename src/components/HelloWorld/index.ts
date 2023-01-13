@@ -12,7 +12,8 @@ export default class HelloWorld extends Component {
   @service('date') dateService!: DateService;
   static template = precompileTemplate(
     `
-        <h1 class="hello-world">{{t "hello.world"}} (from component)</h1>
+
+        <h1 class="hello-world">{{t 'hello-world'}}</h1>
         <pre class="font-mono">{{format-date this.dateService._date}} {{this.dateService.date}}</pre>
 
         {{if (eq "a" "a") "equal" "not equal"}}

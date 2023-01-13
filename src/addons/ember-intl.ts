@@ -1,13 +1,23 @@
 import FormatDateHelper from 'ember-intl/addon/helpers/format-date';
-import THelper from 'ember-intl/addon/helpers/t';
-import intl from 'ember-intl/addon/services/intl';
-import MissingMessage from 'ember-intl/app/utils/intl/missing-message';
+import EmberIntlService from 'ember-intl/addon/services/intl';
+import EmberTHelper from 'ember-intl/addon/helpers/t';
+import EmberMissingMessage from 'ember-intl/addon/-private/utils/missing-message';
+import translations from '../../translations';
+
+class Service extends EmberIntlService {
+    init() {
+        super.init();
+        translations.forEach(([locale, translations]) => {
+            this.addTranslations(locale, translations);
+        });
+    }
+}
 
 const registry = {
-  'helper:format-date': FormatDateHelper,
-  'helper:t': THelper,
-  'service:intl': intl,
-  'util:intl/missing-message': MissingMessage,
+    'helper:format-date': FormatDateHelper,
+    'service:intl': Service,
+    'helper:t': EmberTHelper,
+    'util:intl/missing-message': EmberMissingMessage,
 }
 
 export default registry;

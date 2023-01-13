@@ -30,6 +30,7 @@ It uses `vite` to build the app.
 ### We able to run this addons
 
 1. `ember-concurrency`
+1. `ember-intl`
 1. `ember-concurrency-decorators`
 1. `ember-render-modifiers`
 1. `ember-truth-helpers`
