@@ -230,7 +230,7 @@ export default defineConfig(({ mode }) => {
       // babel config for app code
       babel({
         // regexp to match files in src folder
-        filter: /^.*src\/.*\.(ts|js|hbs)$/,
+        filter: /^.*src\/.*\.(ts|js|hbs|tsx)$/,
         babelConfig: {
           babelrc: false,
           configFile: false,
