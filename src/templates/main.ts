@@ -12,6 +12,8 @@ export default precompileTemplate(`
     <LinkTo @route="not-found" @model="404">404</LinkTo>
     |
     <a href="/tests/">Tests (QUnit)</a>
+    |
+    <LinkTo @route="profile">Profile</LinkTo>
 
     <ul>
         {{#each this.model as |item|}}
