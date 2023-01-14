@@ -1,1 +1,27 @@
 {{outlet}}
+
+<br>
+<br>
+
+<LinkTo @route="main">Home</LinkTo>
+|
+<LinkTo @route="profile">Profile</LinkTo>
+|
+{{#if this.session.isAuthenticated}}
+  <LinkTo @route="logout">Logout</LinkTo>
+{{else}}
+  <LinkTo @route="login">Login</LinkTo>
+{{/if}}
+
+<br>
+
+{{#if this.session.isAuthenticated}}
+  You are authenticated as {{ this.session.data.authenticated.name }}
+{{else}}
+  You are not authenticated
+{{/if}}
+
+<br>
+<br>
+
+{{memory-usage}}

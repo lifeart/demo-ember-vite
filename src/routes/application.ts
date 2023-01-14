@@ -3,9 +3,12 @@ import { service } from '@ember/service';
 import translations from 'ember-intl/translations';
 
 export class ApplicationRoute extends Route {
+  @service session;
   @service intl;
 
   async beforeModel() {
+    await this.session.setup();
+
     const response = await fetch('/translations/en-us.json');
     const en = await response.json();
 

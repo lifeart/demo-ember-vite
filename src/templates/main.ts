@@ -20,6 +20,4 @@ export default precompileTemplate(`
             <li>{{item}}</li>
         {{/each}}
     </ul>
-
-    {{memory-usage}}
 `);
