@@ -12,7 +12,9 @@ const MyApp = init(App, Router);
 
 window.MyApp = MyApp; // for debugging and experiments
 
-MyApp.visit(window.location.pathname);
+MyApp.visit(window.location.pathname).then(() => {
+    document.querySelector('lds-ripple')?.remove();
+});
 
 
 console.log(MyApp);
