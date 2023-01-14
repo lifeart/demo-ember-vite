@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => {
           find: /ember-simple-auth\/(?!(app|addon)\/)(.+)/,
           replacement: 'ember-simple-auth/addon/$2',
         },
-        // { find: 'ember-intl/translations', replacement: fileURLToPath(new URL("./compat/empty-array", import.meta.url)) },
+        { find: 'ember-intl/-private', replacement: fileURLToPath(new URL("./node_modules/ember-intl/addon/-private", import.meta.url)) },
         {
           find: 'ember-modifier',
           replacement: fileURLToPath(
