@@ -6,6 +6,7 @@ import type DateService from '../../services/date';
 import TemplateOnlyComponent from '@/components/OnlyTemplate/component.hbs';
 import './style.css';
 import Select from '@/components/Select';
+import Hello from '@/components/React/HelloWorld';
 import type IntlService from 'ember-intl/addon/services/intl';
 const calculateSummary = (a: number, b: number) => `${a}+${b}=${a + b}`;
 export default class HelloWorld extends Component {
@@ -18,7 +19,7 @@ export default class HelloWorld extends Component {
 
   static template = precompileTemplate(
     `
-      <h1 class="hello-world">{{t 'hello.world'}}</h1>
+      <Hello @name={{t 'hello.world'}} />
       <pre class="font-mono">{{format-date this.dateService._date}} {{this.dateService.date}}</pre>
 
       {{if (eq "a" "a") "equal" "not equal"}}
@@ -41,6 +42,7 @@ export default class HelloWorld extends Component {
       isStrictMode: true,
       scope: () => ({
         Local,
+        Hello,
         Select,
         calculateSummary,
         TemplateOnlyComponent
