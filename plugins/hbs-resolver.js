@@ -1,23 +1,24 @@
 const fileRegex = /\.(hbs)$/
 
 
-function tpl(raw, id, isComponent) {
+function tpl(raw) {
 
     const code = raw.split('`').join('\\`');
-    
-    if (isComponent) {
-        return `
-        import { precompileTemplate } from '@ember/template-compilation';
-        import { templateOnlyComponent } from '@glimmer/runtime';
-        import { setComponentTemplate} from '@glimmer/manager';
-        export default setComponentTemplate(precompileTemplate(${"`" + code + "`"}), templateOnlyComponent());
-        `.trim();
-    }
+
+    // we always want to return a template-only component
+    // and corner-cases handled by patched ember-source, and glimmer
     
     return `
-        import { precompileTemplate } from '@ember/template-compilation';
-        export default precompileTemplate(${"`" + code + "`"});
+    import { precompileTemplate } from '@ember/template-compilation';
+    import { templateOnlyComponent } from '@glimmer/runtime';
+    import { setComponentTemplate} from '@glimmer/manager';
+    export default setComponentTemplate(precompileTemplate(${"`" + code + "`"}), templateOnlyComponent());
     `.trim();
+    
+    // return `
+    //     import { precompileTemplate } from '@ember/template-compilation';
+    //     export default precompileTemplate(${"`" + code + "`"});
+    // `.trim();
 }
 
 export default function hbsResolver() {
@@ -27,7 +28,7 @@ export default function hbsResolver() {
     transform(src, id) {
       if (fileRegex.test(id, id)) {
         return {
-          code: tpl(src, id, id.includes('/components/')),
+          code: tpl(src, id),
           map: null, // provide source map if available
         }
       }

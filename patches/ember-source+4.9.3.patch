@@ -27,6 +27,28 @@ index 681b1a6..ce8bcdd 100644
 +
  export { assert, info, warn, debug, deprecate, debugSeal, debugFreeze, runInDebug, deprecateFunc, setDebugFunction, getDebugFunction, _warnIfUsingStrippedFeatureFlags };
 \ No newline at end of file
+diff --git a/node_modules/ember-source/dist/packages/@ember/routing/route.js b/node_modules/ember-source/dist/packages/@ember/routing/route.js
+index cead465..927f282 100644
+--- a/node_modules/ember-source/dist/packages/@ember/routing/route.js
++++ b/node_modules/ember-source/dist/packages/@ember/routing/route.js
+@@ -6,6 +6,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
+   return c > 3 && r && Object.defineProperty(target, key, r), r;
+ };
+ 
++import { getComponentTemplate } from '@glimmer/manager';
+ import { privatize as P } from '@ember/-internals/container';
+ import { addObserver, defineProperty, descriptorForProperty, flushAsyncObservers } from '@ember/-internals/metal';
+ import { getOwner } from '@ember/-internals/owner';
+@@ -1351,6 +1352,9 @@ function buildRenderOptions(route, nameOrOptions, options) {
+   }
+ 
+   let template = owner.lookup(`template:${templateName}`);
++  if (typeof template !== 'finction' && typeof template === 'object') {
++    template = getComponentTemplate(template);
++  }
+   assert(`Could not find "${templateName}" template, view, or component.`, isDefaultRender || template !== undefined);
+   let parent;
+ 
 diff --git a/node_modules/ember-source/dist/packages/@ember/test/index.js b/node_modules/ember-source/dist/packages/@ember/test/index.js
 index 8d78b05..90567d1 100644
 --- a/node_modules/ember-source/dist/packages/@ember/test/index.js
