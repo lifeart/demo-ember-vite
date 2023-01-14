@@ -4,9 +4,10 @@ import * as manager from '@glimmer/manager';
 import * as recordData from '@ember-data/record-data/-private';
 import * as model from '@ember-data/model/-private';
 
-export function isDevelopingApp() {x
-    console.log('isDevelopingApp',...arguments);
-    return true;
+export function isDevelopingApp() {
+  // eslint-disable-next-line prefer-rest-params
+  console.log('isDevelopingApp', ...arguments);
+  return true;
 }
 
 export function getOwnConfig(...args: unknown[]) {
@@ -50,7 +51,6 @@ export function macroCondition(value: boolean) {
   // console.log('macroCondition', el, ...args);
   return value;
 }
-
 
 export function importSync(name: string) {
   if (name === '@ember/renderer') {

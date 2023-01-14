@@ -146,7 +146,7 @@ export default defineConfig(({ mode }) => {
           replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
         },
         {
-          find: /@glimmer\/tracking[^/]$/,
+          find: /@glimmer\/tracking$/,
           replacement: fileURLToPath(
             new URL('./src/config/ember.ts', import.meta.url)
           ),
@@ -195,6 +195,14 @@ export default defineConfig(({ mode }) => {
           find: `@ember/${pkg}`,
           replacement: nodePath(`ember-source/dist/packages/@ember/${pkg}`),
         })),
+        ...eDataPackages().map((pkg) => ({
+          find: `@ember-data/${pkg}`,
+          replacement: `@ember-data/${pkg}/addon`,
+        })),
+        {
+          find: 'ember-data',
+          replacement: 'ember-data/addon',
+        },
       ],
     },
     plugins: [
@@ -227,16 +235,16 @@ export default defineConfig(({ mode }) => {
                 [
                   '@babel/plugin-proposal-decorators',
                   {
-                    legacy: true,
+                    version: 'legacy',
                   },
                 ],
-                ['@babel/plugin-proposal-class-properties', { loose: false }],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
               ],
               presets: ['@babel/preset-typescript'],
             },
           })
         : null,
-      // babel config for app code
+      // babel config for app.js code
       babel({
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
@@ -250,7 +258,7 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
+          /^.*(@ember-data|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
         babelConfig: defaultBabelConfig([], isProd),
       }),
       // ...
@@ -262,6 +270,10 @@ export default defineConfig(({ mode }) => {
 
 function emberPackages() {
   return fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
+}
+
+function eDataPackages() {
+  return fs.readdirSync('node_modules/@ember-data');
 }
 
 function localScopes() {
@@ -334,10 +346,22 @@ function templateCompilationPlugin(isProd: boolean) {
 
 function defaultBabelPlugins(isProd: boolean) {
   return [
+    // [
+    //   '@babel/plugin-proposal-private-methods',
+    //   {
+    //     loose: true,
+    //   },
+    // ],
     [
       '@babel/plugin-proposal-decorators',
       {
-        legacy: true,
+        version: 'legacy',
+      },
+    ],
+    [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true,
       },
     ],
     ['@babel/plugin-proposal-class-properties', { loose: false }],
