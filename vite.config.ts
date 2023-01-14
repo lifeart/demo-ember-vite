@@ -6,34 +6,6 @@ import { resolve } from 'node:path';
 import hbsResolver from './plugins/hbs-resolver';
 import i18nLoader from './plugins/i18n-loader';
 
-const emberPackages = fs.readdirSync(
-  'node_modules/ember-source/dist/packages/@ember'
-);
-
-const localScopes = [
-  'config',
-  'addons',
-  'controllers',
-  'components',
-  'helpers',
-  'services',
-  'templates',
-  'modifiers',
-];
-
-function addonExport(name: string) {
-  return {
-    find: name,
-    replacement: nodePath(`${name}/addon`),
-  };
-}
-
-function nodePath(name) {
-  return fileURLToPath(new URL(`./node_modules/${name}`, import.meta.url));
-}
-function compatPath(name) {
-  return fileURLToPath(new URL(`./compat/${name}`, import.meta.url));
-}
 
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
@@ -54,6 +26,14 @@ export default defineConfig(({ mode }) => {
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
       alias: [
+        addonExport('ember-ref-bucket'),
+        addonExport('@ember-decorators/object'),
+        addonExport('@ember-decorators/component'),
+        addonExport('@ember-decorators/utils'),
+        addonExport('ember-concurrency'),
+        addonExport('tracked-toolbox'),
+        addonExport('ember-concurrency-decorators'),
+        addonExport('ember-bootstrap'),
         {
           find: 'ember-simple-auth/use-session-setup-method',
           replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
@@ -74,14 +54,7 @@ export default defineConfig(({ mode }) => {
           find: '@glimmer/validator',
           replacement: nodePath('@glimmer/validator/dist/modules/es2017'),
         },
-        addonExport('ember-ref-bucket'),
-        addonExport('@ember-decorators/object'),
-        addonExport('@ember-decorators/component'),
-        addonExport('@ember-decorators/utils'),
-        addonExport('ember-concurrency'),
-        addonExport('tracked-toolbox'),
-        addonExport('ember-concurrency-decorators'),
-        addonExport('ember-bootstrap'),
+       
         {
           find: 'ember-testing',
           replacement: 'ember-source/dist/packages/ember-testing',
@@ -163,13 +136,13 @@ export default defineConfig(({ mode }) => {
           find: 'backburner',
           replacement: 'backburner.js/dist/es6/backburner.js',
         },
-        ...localScopes.map((scope) => ({
+        ...localScopes().map((scope) => ({
           find: `@/${scope}`,
           replacement: fileURLToPath(
             new URL(`./src/${scope}`, import.meta.url)
           ),
         })),
-        ...emberPackages.map((pkg) => ({
+        ...emberPackages().map((pkg) => ({
           find: `@ember/${pkg}`,
           replacement: nodePath(`ember-source/dist/packages/@ember/${pkg}`),
         })),
@@ -217,129 +190,14 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter: /^.*src\/.*\.(ts|js|hbs)$/,
-        babelConfig: {
-          babelrc: false,
-          configFile: false,
-          plugins: [
-            [
-              '@babel/plugin-proposal-decorators',
-              {
-                legacy: true,
-              },
-            ],
-            ['@babel/plugin-proposal-class-properties', { loose: false }],
-            [
-              'babel-plugin-ember-template-compilation/node',
-              {
-                compilerPath: 'ember-source/dist/ember-template-compiler.js',
-                targetFormat: 'wire',
-                outputModuleOverrides: {
-                  '@ember/template-factory': {
-                    createTemplateFactory: [
-                      'createTemplateFactory',
-                      'ember-source/dist/packages/@ember/template-factory/index.js',
-                    ],
-                  },
-                },
-              },
-            ],
-          ],
-          presets: ['@babel/preset-typescript'],
-        },
-      }),
-      // ember-bootstrap [js]
-      babel({
-        // regexp to match files in src folder
-        filter: /^.*ember-bootstrap\/.*\.(js)$/,
-        babelConfig: {
-          babelrc: false,
-          configFile: false,
-          plugins: [
-            [
-              '@babel/plugin-proposal-decorators',
-              {
-                legacy: true,
-              },
-            ],
-            ['@babel/plugin-proposal-class-properties', { loose: false }],
-            [
-              'babel-plugin-ember-template-compilation/node',
-              {
-                compilerPath: 'ember-source/dist/ember-template-compiler.js',
-                targetFormat: 'wire',
-                outputModuleOverrides: {
-                  '@ember/template-factory': {
-                    createTemplateFactory: [
-                      'createTemplateFactory',
-                      'ember-source/dist/packages/@ember/template-factory/index.js',
-                    ],
-                  },
-                },
-              },
-            ],
-          ],
-        },
-      }),
-      // ember-bootstrap [hbs]
-      babel({
-        // regexp to match files in src folder
-        filter: /^.*ember-bootstrap\/.*\.(hbs)$/,
-        babelConfig: {
-          babelrc: false,
-          configFile: false,
-          plugins: [
-            [
-              'babel-plugin-ember-template-compilation/node',
-              {
-                compilerPath: 'ember-source/dist/ember-template-compiler.js',
-                targetFormat: 'wire',
-                outputModuleOverrides: {
-                  '@ember/template-factory': {
-                    createTemplateFactory: [
-                      'createTemplateFactory',
-                      'ember-source/dist/packages/@ember/template-factory/index.js',
-                    ],
-                  },
-                },
-              },
-            ],
-          ],
-        },
-      }),
-      // babel config for addons ??
+        babelConfig: defaultBabelConfig(),
+      }), 
+      // babel config for addons
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
-        babelConfig: {
-          babelrc: false,
-          configFile: false,
-          plugins: [
-            [
-              '@babel/plugin-proposal-decorators',
-              {
-                legacy: true,
-              },
-            ],
-            ['@babel/plugin-proposal-class-properties', { loose: false }],
-            [
-              'babel-plugin-ember-template-compilation/node',
-              {
-                compilerPath: 'ember-source/dist/ember-template-compiler.js',
-                targetFormat: 'wire',
-                outputModuleOverrides: {
-                  '@ember/template-factory': {
-                    createTemplateFactory: [
-                      'createTemplateFactory',
-                      'ember-source/dist/packages/@ember/template-factory/index.js',
-                    ],
-                  },
-                },
-              },
-            ],
-          ],
-          presets: ['@babel/preset-typescript'],
-        },
+          /^.*(ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
+        babelConfig: defaultBabelConfig(),
       }),
       // ...
     ].filter((el) => el !== null),
@@ -347,3 +205,75 @@ export default defineConfig(({ mode }) => {
     // ...
   };
 });
+
+
+function emberPackages() {
+  return fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
+}
+
+function localScopes() {
+  return [
+    'config',
+    'addons',
+    'controllers',
+    'components',
+    'helpers',
+    'services',
+    'templates',
+    'modifiers',
+  ];
+}
+
+function addonExport(name: string) {
+  return {
+    find: name,
+    replacement: nodePath(`${name}/addon`),
+  };
+}
+
+function nodePath(name) {
+  return fileURLToPath(new URL(`./node_modules/${name}`, import.meta.url));
+}
+function compatPath(name) {
+  return fileURLToPath(new URL(`./compat/${name}`, import.meta.url));
+}
+
+function templateCompilationPlugin() {
+  return [
+    'babel-plugin-ember-template-compilation/node',
+    {
+      compilerPath: 'ember-source/dist/ember-template-compiler.js',
+      targetFormat: 'wire',
+      outputModuleOverrides: {
+        '@ember/template-factory': {
+          createTemplateFactory: [
+            'createTemplateFactory',
+            'ember-source/dist/packages/@ember/template-factory/index.js',
+          ],
+        },
+      },
+    },
+  ];
+}
+
+function defaultBabelPlugins() {
+  return [
+    [
+      '@babel/plugin-proposal-decorators',
+      {
+        legacy: true,
+      },
+    ],
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
+    templateCompilationPlugin(),
+  ];
+}
+
+function defaultBabelConfig() {
+  return {
+    babelrc: false,
+    configFile: false,
+    plugins: defaultBabelPlugins(),
+    presets: ['@babel/preset-typescript'],
+  };
+}
