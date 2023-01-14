@@ -9,7 +9,6 @@ import i18nLoader from './plugins/i18n-loader';
 
 import transformImports from 'ember-template-imports/src/babel-plugin';
 
-
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -57,7 +56,7 @@ export default defineConfig(({ mode }) => {
           find: '@glimmer/validator',
           replacement: nodePath('@glimmer/validator/dist/modules/es2017'),
         },
-       
+
         {
           find: 'ember-testing',
           replacement: 'ember-source/dist/packages/ember-testing',
@@ -108,7 +107,7 @@ export default defineConfig(({ mode }) => {
           replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
         },
         {
-          find: /@glimmer\/tracking[^/]$/,
+          find: /@glimmer\/tracking$/,
           replacement: fileURLToPath(
             new URL('./src/config/ember.ts', import.meta.url)
           ),
@@ -149,6 +148,14 @@ export default defineConfig(({ mode }) => {
           find: `@ember/${pkg}`,
           replacement: nodePath(`ember-source/dist/packages/@ember/${pkg}`),
         })),
+        ...eDataPackages().map((pkg) => ({
+          find: `@ember-data/${pkg}`,
+          replacement: `@ember-data/${pkg}/addon`,
+        })),
+        {
+          find: 'ember-data',
+          replacement: 'ember-data/addon',
+        },
       ],
     },
     plugins: [
@@ -181,27 +188,40 @@ export default defineConfig(({ mode }) => {
                 [
                   '@babel/plugin-proposal-decorators',
                   {
-                    legacy: true,
+                    version: 'legacy',
                   },
                 ],
-                ['@babel/plugin-proposal-class-properties', { loose: false }],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
               ],
               presets: ['@babel/preset-typescript'],
             },
           })
         : null,
-      // babel config for app code
+      // babel config for app.js code
       babel({
         // regexp to match files in src folder
-        filter: /^.*src\/.*\.(ts|js|hbs|gts|gjs)$/,
-        babelConfig: defaultBabelConfig([transformImports]),
-      }), 
+        filter: /^.*\/src\/.*\.(js|hbs|gjs)$/,
+        babelConfig: defaultBabelConfig([transformImports], 'js'),
+      }),
+       // babel config for app.ts code
+       babel({
+        // regexp to match files in src folder
+        filter: /^.*\/src\/.*\.(ts|gts)$/,
+        babelConfig: defaultBabelConfig([transformImports], 'ts'),
+      }),
       // babel config for addons
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
-        babelConfig: defaultBabelConfig(),
+          /^.*(@ember-data|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(js|hbs)$/,
+        babelConfig: defaultBabelConfig([], 'js'),
+      }),
+       // babel config for addons
+       babel({
+        // regexp to match files in src folder
+        filter:
+          /^.*(@ember-data|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts)$/,
+        babelConfig: defaultBabelConfig([], 'ts'),
       }),
       // ...
     ].filter((el) => el !== null),
@@ -210,9 +230,12 @@ export default defineConfig(({ mode }) => {
   };
 });
 
-
 function emberPackages() {
   return fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
+}
+
+function eDataPackages() {
+  return fs.readdirSync('node_modules/@ember-data');
 }
 
 function localScopes() {
@@ -260,24 +283,72 @@ function templateCompilationPlugin() {
   ];
 }
 
-function defaultBabelPlugins() {
+function defaultJSBabelPlugins() {
   return [
+    // [
+    //   '@babel/plugin-proposal-private-methods',
+    //   {
+    //     loose: true,
+    //   },
+    // ],
     [
       '@babel/plugin-proposal-decorators',
       {
-        legacy: true,
+        version: 'legacy',
       },
     ],
-    ['@babel/plugin-proposal-class-properties', { loose: false }],
+    [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true,
+      },
+    ],
     templateCompilationPlugin(),
   ];
 }
 
-function defaultBabelConfig(plugins = []) {
+function defaultTSBabelPlugins() {
+  return [
+    [
+      '@babel/plugin-transform-typescript',
+      {
+        allowDeclareFields: true,
+      },
+    ],
+    
+    [
+      '@babel/plugin-proposal-decorators',
+      {
+        version: 'legacy',
+      },
+    ],
+    [
+      '@babel/plugin-proposal-private-methods',
+      {
+        loose: true,
+      },
+    ],
+    [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true,
+      },
+    ],
+    
+    templateCompilationPlugin(),
+  ];
+}
+
+function defaultBabelConfig(plugins = [], type: 'js' | 'ts') {
+  let fn = type === 'js' ? defaultJSBabelPlugins : defaultTSBabelPlugins;
   return {
     babelrc: false,
     configFile: false,
-    plugins: [...plugins, ...defaultBabelPlugins()],
-    presets: ['@babel/preset-typescript'],
+    plugins: [...plugins, ...fn()],
+    presets: type === 'js' ? [] : ['@babel/preset-typescript'],
+    // "assumptions": {
+      // "privateFieldsAsProperties": true,
+      // "setPublicClassFields": true
+    // }
   };
 }

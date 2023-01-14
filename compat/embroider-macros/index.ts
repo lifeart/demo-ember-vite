@@ -8,11 +8,6 @@ export function isDevelopingApp() {
     return true;
 }
 
-export function getOwnConfig() {
-    console.log('getOwnConfig',...arguments);
-    return {};
-}
-
 export function dependencySatisfies() {
     console.log('dependencySatisfies',...arguments);
     return true;
