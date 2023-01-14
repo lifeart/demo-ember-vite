@@ -19,6 +19,7 @@ Main difference with classic Ember application, is that we don't trying to autom
 1. Lazy-loading for routes
 1. Template-only components
 1. Style imports from components
+1. Ember Inspector
 
 ### Unsupported
 
