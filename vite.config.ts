@@ -21,6 +21,18 @@ const localScopes = [
   'modifiers',
 ];
 
+function addonExport(name: string) {
+  return {
+    find: name,
+    replacement: fileURLToPath(
+      new URL(
+        `./node_modules/${name}/addon`,
+        import.meta.url
+      )
+    ),
+  }
+}
+
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -55,7 +67,6 @@ export default defineConfig(({ mode }) => {
             new URL('./node_modules/ember-modifier/dist', import.meta.url)
           ),
         },
-        // { find: '@glimmer/manager', replacement: '@glimmer/manager/dist/modules/es2017' },
         {
           find: '@glimmer/validator',
           replacement: fileURLToPath(
@@ -65,36 +76,17 @@ export default defineConfig(({ mode }) => {
             )
           ),
         },
-        {
-          find: '@ember-decorators/component',
-          replacement: '@ember-decorators/component/addon',
-        },
-        { find: 'ember-ref-bucket', replacement: 'ember-ref-bucket/addon' },
-        {
-          find: '@ember-decorators/object',
-          replacement: '@ember-decorators/object/addon',
-        },
-        {
-          find: '@ember-decorators/utils',
-          replacement: '@ember-decorators/utils/addon',
-        },
-        { find: 'ember-concurrency', replacement: 'ember-concurrency/addon' },
-        { find: 'tracked-toolbox', replacement: 'tracked-toolbox/addon' },
-        {
-          find: 'ember-concurrency-decorators',
-          replacement: 'ember-concurrency-decorators/addon',
-        },
-        {
-          find: 'ember-bootstrap',
-          replacement: 'ember-bootstrap/addon',
-        },
+        addonExport('ember-ref-bucket'),
+        addonExport('@ember-decorators/object'),
+        addonExport('@ember-decorators/component'),
+        addonExport('@ember-decorators/utils'),
+        addonExport('ember-concurrency'),
+        addonExport('tracked-toolbox'),
+        addonExport('ember-concurrency-decorators'),
+        addonExport('ember-bootstrap'),
         {
           find: 'ember-testing',
           replacement: 'ember-source/dist/packages/ember-testing',
-        },
-        {
-          find: '@ember-decorators/utils',
-          replacement: '@ember-decorators/utils/addon',
         },
         {
           find: 'ember-cli-version-checker',
