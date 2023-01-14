@@ -4,7 +4,10 @@ import fs from 'node:fs';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve } from 'node:path';
 import hbsResolver from './plugins/hbs-resolver';
+import gtsResolver from './plugins/gts-resolver';
 import i18nLoader from './plugins/i18n-loader';
+
+import transformImports from 'ember-template-imports/src/babel-plugin';
 
 
 export default defineConfig(({ mode }) => {
@@ -150,6 +153,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       hbsResolver(),
+      gtsResolver(),
       i18nLoader(),
       !isDev
         ? babel({
@@ -189,8 +193,8 @@ export default defineConfig(({ mode }) => {
       // babel config for app code
       babel({
         // regexp to match files in src folder
-        filter: /^.*src\/.*\.(ts|js|hbs)$/,
-        babelConfig: defaultBabelConfig(),
+        filter: /^.*src\/.*\.(ts|js|hbs|gts|gjs)$/,
+        babelConfig: defaultBabelConfig([transformImports]),
       }), 
       // babel config for addons
       babel({
@@ -269,11 +273,11 @@ function defaultBabelPlugins() {
   ];
 }
 
-function defaultBabelConfig() {
+function defaultBabelConfig(plugins = []) {
   return {
     babelrc: false,
     configFile: false,
-    plugins: defaultBabelPlugins(),
+    plugins: [...plugins, ...defaultBabelPlugins()],
     presets: ['@babel/preset-typescript'],
   };
 }

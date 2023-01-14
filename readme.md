@@ -20,12 +20,11 @@ Main difference with classic Ember application, is that we don't trying to autom
 1. Template-only components
 1. Style imports from components
 1. Ember Inspector
-
+1. Template imports support (`.gts` & `.gjs`)
 
 ### Unsupported
 
 1. `ember-data` not supported yet
-1. `.gts` and `.gjs` not supported yet
 1. no component testing yet
 
 

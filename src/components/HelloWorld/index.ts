@@ -6,6 +6,7 @@ import type DateService from '@/services/date';
 import TemplateOnlyComponent from '@/components/OnlyTemplate/component.hbs';
 import './style.css';
 import Select from '@/components/Select';
+import Sample from './sample.gts';
 import type IntlService from 'ember-intl/addon/services/intl';
 const calculateSummary = (a: number, b: number) => `${a}+${b}=${a + b}`;
 export default class HelloWorld extends Component {
@@ -36,12 +37,15 @@ export default class HelloWorld extends Component {
       <Button {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
 
       <Select />
+
+      <Sample />
     `,
     {
       isStrictMode: true,
       scope: () => ({
         Local,
         Select,
+        Sample,
         calculateSummary,
         TemplateOnlyComponent
       }),
