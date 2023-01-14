@@ -1,6 +1,7 @@
 import GlimmerComponentManager from 'ember-component-manager';
 import Component from '@glimmer/component';
 import Ember from 'ember';
+import './inspector';
 class CustomComponentManager extends GlimmerComponentManager {
     createComponent(factory, args) {
         const component = super.createComponent(factory, args);
@@ -15,4 +16,5 @@ export function setupApplicationGlobals(Ember) {
         return new CustomComponentManager(owner);
     }, Component);
     window._Ember = Ember;
+    window.Ember = Ember;
 }
