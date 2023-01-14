@@ -39,6 +39,17 @@ function registry(): IRegistry {
     'helper:ensure-safe-component': function(a) {
       return a;
     },
+    'helper:macroCondition': function(a) {
+      if (a === 'isNotBS5') {
+        return false;
+      }
+      console.log('macroCondition', a);
+      return a;
+    },
+    'helper:macroGetOwnConfig': function(a) {
+      console.log('macroGetOwnConfig', a);
+      return a;
+    },
     'helper:memory-usage': MemoryUsage,
     'modifier:click-tracker': ClickTracker,
   };

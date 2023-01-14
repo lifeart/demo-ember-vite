@@ -46,11 +46,20 @@ export default defineConfig(({ mode }) => {
             )
           ),
         },
+        { find: '@ember-decorators/component', replacement: '@ember-decorators/component/addon' },
+        { find: 'ember-ref-bucket', replacement: 'ember-ref-bucket/addon' },
+        { find: '@ember-decorators/object', replacement: '@ember-decorators/object/addon' },
+        { find: '@ember-decorators/utils', replacement: '@ember-decorators/utils/addon' },
         { find: 'ember-concurrency', replacement: 'ember-concurrency/addon' },
+        { find: 'tracked-toolbox', replacement: 'tracked-toolbox/addon' },
         {
           find: 'ember-concurrency-decorators',
           replacement: 'ember-concurrency-decorators/addon',
         },
+        {
+            find: 'ember-bootstrap',
+            replacement: 'ember-bootstrap/addon',
+          },
         {
           find: 'ember-testing',
           replacement: 'ember-source/dist/packages/ember-testing',
@@ -67,6 +76,15 @@ export default defineConfig(({ mode }) => {
               import.meta.url
             )
           ),
+        },
+        {
+            find: 'require',
+            replacement: fileURLToPath(
+                new URL(
+                  './compat/require/index.ts',
+                  import.meta.url
+                )
+              ),
         },
         {
           find: 'ember-compatibility-helpers',
@@ -120,7 +138,11 @@ export default defineConfig(({ mode }) => {
           replacement: 'qunit-dom/dist/addon-test-support/index.js',
         },
         {
-          find: '@glimmer/tracking',
+            find: '@glimmer/tracking/primitives/cache',
+            replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
+        },
+        {
+          find: /@glimmer\/tracking[^/]$/,
           replacement: fileURLToPath(
             new URL('./src/config/ember.ts', import.meta.url)
           ),
@@ -159,7 +181,9 @@ export default defineConfig(({ mode }) => {
         },
         ...emberPackages.map((pkg) => ({
           find: `@ember/${pkg}`,
-          replacement: `ember-source/dist/packages/@ember/${pkg}`,
+          replacement: fileURLToPath(
+            new URL(`./node_modules/ember-source/dist/packages/@ember/${pkg}`, import.meta.url)
+          ),
         })),
       ],
     },
@@ -235,11 +259,70 @@ export default defineConfig(({ mode }) => {
           presets: ['@babel/preset-typescript'],
         },
       }),
+      // ember-bootstrap [js]
+      babel({
+        // regexp to match files in src folder
+        filter: /^.*ember-bootstrap\/.*\.(js)$/,
+        babelConfig: {
+          babelrc: false,
+          configFile: false,
+          plugins: [
+            [
+              '@babel/plugin-proposal-decorators',
+              {
+                legacy: true,
+              },
+            ],
+            ['@babel/plugin-proposal-class-properties', { loose: false }],
+            [
+              'babel-plugin-ember-template-compilation/node',
+              {
+                compilerPath: 'ember-source/dist/ember-template-compiler.js',
+                targetFormat: 'wire',
+                outputModuleOverrides: {
+                  '@ember/template-factory': {
+                    createTemplateFactory: [
+                      'createTemplateFactory',
+                      'ember-source/dist/packages/@ember/template-factory/index.js',
+                    ],
+                  },
+                },
+              },
+            ],
+          ],
+        },
+      }),
+      // ember-bootstrap [hbs]
+      babel({
+        // regexp to match files in src folder
+        filter: /^.*ember-bootstrap\/.*\.(hbs)$/,
+        babelConfig: {
+          babelrc: false,
+          configFile: false,
+          plugins: [
+            [
+              'babel-plugin-ember-template-compilation/node',
+              {
+                compilerPath: 'ember-source/dist/ember-template-compiler.js',
+                targetFormat: 'wire',
+                outputModuleOverrides: {
+                  '@ember/template-factory': {
+                    createTemplateFactory: [
+                      'createTemplateFactory',
+                      'ember-source/dist/packages/@ember/template-factory/index.js',
+                    ],
+                  },
+                },
+              },
+            ],
+          ],
+        },
+      }),
       // babel config for addons ??
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
+          /^.*(ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
         babelConfig: {
           babelrc: false,
           configFile: false,

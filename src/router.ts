@@ -5,6 +5,7 @@ export enum Routes {
   Main = 'main',
   About = 'about',
   NotFound = 'not-found',
+  Bootstrap = 'bootstrap',
 }
 
 Router.lazyRoutes = {
@@ -18,11 +19,16 @@ Router.lazyRoutes = {
       // sample of lazy-loaded route, and dynamically resolved template
       template: import('./templates/not-found').then((m) => m.default),
   }),
+  [Routes.Bootstrap]: (): HashReturnType => ({
+    // sample of lazy-loaded route, and dynamically resolved template
+    template: import('./templates/bootstrap').then((m) => m.default),
+}),
 }
 
 Router.map(function () {
     this.route(Routes.Main, { path: '/' })
     this.route(Routes.About, { path: '/about' });
+    this.route(Routes.Bootstrap, { path: '/bootstrap' });
     this.route(Routes.NotFound, { path: '*wildcard_path' });
 });
 

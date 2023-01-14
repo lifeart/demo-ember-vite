@@ -10,7 +10,10 @@ setupApplicationGlobals(Ember);
 
 const MyApp = init(App, Router);
 
+window.MyApp = MyApp; // for debugging and experiments
+
 MyApp.visit(window.location.pathname);
+
 
 console.log(MyApp);
 

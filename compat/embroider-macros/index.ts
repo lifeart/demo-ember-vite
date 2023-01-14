@@ -1,6 +1,11 @@
 import * as renderer from '@ember/renderer';
 import * as validator from '@glimmer/validator';
 
+export function getOwnConfig() {
+    console.log('getOwnConfig',...arguments);
+    return {};
+}
+
 export function dependencySatisfies() {
     console.log('dependencySatisfies',...arguments);
     return true;
