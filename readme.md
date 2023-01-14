@@ -32,6 +32,7 @@ Main difference with classic Ember application, is that we don't trying to autom
 ### In scope of this app we able to run this addons
 
 1. `ember-simple-auth`
+1. `ember-bootstrap`
 1. `ember-concurrency`
 1. `ember-intl`
 1. `ember-concurrency-decorators`
