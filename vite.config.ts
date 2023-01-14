@@ -31,6 +31,9 @@ function addonExport(name: string) {
 function nodePath(name) {
   return fileURLToPath(new URL(`./node_modules/${name}`, import.meta.url));
 }
+function compatPath(name) {
+  return fileURLToPath(new URL(`./compat/${name}`, import.meta.url));
+}
 
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
@@ -85,33 +88,23 @@ export default defineConfig(({ mode }) => {
         },
         {
           find: 'ember-cli-version-checker',
-          replacement: fileURLToPath(
-            new URL(
-              './compat/ember-cli-version-checker/index.ts',
-              import.meta.url
-            )
-          ),
+          replacement: compatPath('ember-cli-version-checker/index.ts'),
         },
         {
           find: 'require',
-          replacement: fileURLToPath(
-            new URL('./compat/require/index.ts', import.meta.url)
-          ),
+          replacement: compatPath('require/index.ts'),
         },
         {
           find: 'ember-compatibility-helpers',
-          replacement: fileURLToPath(
-            new URL(
-              './compat/ember-compatibility-helpers/index.ts',
-              import.meta.url
-            )
-          ),
+          replacement: compatPath('ember-compatibility-helpers/index.ts'),
         },
         {
           find: 'ember-cli-htmlbars',
-          replacement: fileURLToPath(
-            new URL('./compat/ember-cli-htmlbars/index.ts', import.meta.url)
-          ),
+          replacement: compatPath('ember-cli-htmlbars/index.ts'),
+        },
+        {
+          find: 'ember-cli-test-loader/test-support/index',
+          replacement: compatPath('ember-cli-test-loader/index.ts'),
         },
         {
           find: 'ember-qunit-styles/container.css',
@@ -120,12 +113,6 @@ export default defineConfig(({ mode }) => {
           ),
         },
 
-        {
-          find: 'ember-cli-test-loader/test-support/index',
-          replacement: fileURLToPath(
-            new URL('./compat/ember-cli-test-loader/index.ts', import.meta.url)
-          ),
-        },
         {
           find: '@ember/test-helpers',
           replacement:
@@ -152,15 +139,11 @@ export default defineConfig(({ mode }) => {
         },
         {
           find: '@embroider/macros',
-          replacement: fileURLToPath(
-            new URL('./compat/embroider-macros/index.ts', import.meta.url)
-          ),
+          replacement: compatPath('embroider-macros/index.ts'),
         },
         {
           find: '@embroider/util',
-          replacement: fileURLToPath(
-            new URL('./compat/embroider-util/index.ts', import.meta.url)
-          ),
+          replacement: compatPath('embroider-util/index.ts'),
         },
         { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
         {
@@ -174,9 +157,7 @@ export default defineConfig(({ mode }) => {
         },
         {
           find: '@glimmer/env',
-          replacement: fileURLToPath(
-            new URL('./compat/glimmer-env', import.meta.url)
-          ),
+          replacement: compatPath('glimmer-env'),
         },
         {
           find: 'backburner',
