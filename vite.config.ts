@@ -24,13 +24,12 @@ const localScopes = [
 function addonExport(name: string) {
   return {
     find: name,
-    replacement: fileURLToPath(
-      new URL(
-        `./node_modules/${name}/addon`,
-        import.meta.url
-      )
-    ),
-  }
+    replacement: nodePath(`${name}/addon`),
+  };
+}
+
+function nodePath(name) {
+  return fileURLToPath(new URL(`./node_modules/${name}`, import.meta.url));
 }
 
 export default defineConfig(({ mode }) => {
@@ -60,21 +59,17 @@ export default defineConfig(({ mode }) => {
           find: /ember-simple-auth\/(?!(app|addon)\/)(.+)/,
           replacement: 'ember-simple-auth/addon/$2',
         },
-        { find: 'ember-intl/-private', replacement: fileURLToPath(new URL("./node_modules/ember-intl/addon/-private", import.meta.url)) },
+        {
+          find: 'ember-intl/-private',
+          replacement: nodePath('ember-intl/addon/-private'),
+        },
         {
           find: 'ember-modifier',
-          replacement: fileURLToPath(
-            new URL('./node_modules/ember-modifier/dist', import.meta.url)
-          ),
+          replacement: nodePath('ember-modifier/dist'),
         },
         {
           find: '@glimmer/validator',
-          replacement: fileURLToPath(
-            new URL(
-              './node_modules/@glimmer/validator/dist/modules/es2017',
-              import.meta.url
-            )
-          ),
+          replacement: nodePath('@glimmer/validator/dist/modules/es2017'),
         },
         addonExport('ember-ref-bucket'),
         addonExport('@ember-decorators/object'),
@@ -120,11 +115,8 @@ export default defineConfig(({ mode }) => {
         },
         {
           find: 'ember-qunit-styles/container.css',
-          replacement: fileURLToPath(
-            new URL(
-              './node_modules/ember-qunit/vendor/ember-qunit/test-container-styles.css',
-              import.meta.url
-            )
+          replacement: nodePath(
+            'ember-qunit/vendor/ember-qunit/test-container-styles.css'
           ),
         },
 
@@ -198,12 +190,7 @@ export default defineConfig(({ mode }) => {
         })),
         ...emberPackages.map((pkg) => ({
           find: `@ember/${pkg}`,
-          replacement: fileURLToPath(
-            new URL(
-              `./node_modules/ember-source/dist/packages/@ember/${pkg}`,
-              import.meta.url
-            )
-          ),
+          replacement: nodePath(`ember-source/dist/packages/@ember/${pkg}`),
         })),
       ],
     },
