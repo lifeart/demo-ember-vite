@@ -120,6 +120,13 @@ import BsSizeClassHelper from "ember-bootstrap/helpers/bs-size-class";
 import BsTypeClassHelper from "ember-bootstrap/helpers/bs-type-class";
 import { setComponentTemplate} from "@glimmer/manager";
 
+import CreateRefModifier from "ember-ref-bucket/modifiers/create-ref";
+import OnDocumentHelper from "ember-on-helper/addon/helpers/on-document";
+import OnWindowHelper from "ember-on-helper/addon/helpers/on-window";
+import OnHelper from "ember-on-helper/addon/helpers/on";
+
+import PopperTooltipModifier from "ember-popper-modifier/addon/modifiers/popper-tooltip"
+
 const registry = {
     'component:bs-accordion': setComponentTemplate(BsAccordionComponentTemplate, BsAccordionComponent),
     'component:bs-accordion/item': setComponentTemplate(BsAccordionItemComponentTemplate, BsAccordionItemComponent),
@@ -191,6 +198,11 @@ const registry = {
     'helper:bs-noop': BsNoopHelper,
     'helper:bs-size-class': BsSizeClassHelper,
     'helper:bs-type-class': BsTypeClassHelper,
+    'modifier:create-ref': CreateRefModifier,
+    'helper:on': OnHelper,
+    'helper:on-document': OnDocumentHelper,
+    'helper:on-window': OnWindowHelper,
+    'modifier:popper-tooltip': PopperTooltipModifier,
 }
 
 export default registry;
