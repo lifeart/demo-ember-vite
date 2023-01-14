@@ -18,6 +18,16 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "paths": {
+      "@/config/*": ["./src/config/*"],
+      "@/addons/*": ["./src/addons/*"],
+      "@/addons": ["./src/addons"],
+      "@/components/*": ["./src/components/*"],
+      "@/controllers/*": ["./src/controllers/*"],
+      "@/templates/*": ["./src/templates/*"],
+      "@/helpers/*": ["./src/helpers/*"],
+      "@/modifiers/*": ["./src/modifiers/*"],
+      "@/services/*": ["./src/services/*"],
+
       "@ember/*": ["./node_modules/ember-source/dist/packages/@ember/*"],
       "ember/version": ["./node_modules/ember-source/dist/packages/ember/version.js"],
       "backburner": ["./node_modules/backburner.js/dist/es6/backburner.js"],

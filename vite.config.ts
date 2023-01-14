@@ -10,6 +10,17 @@ const emberPackages = fs.readdirSync(
   'node_modules/ember-source/dist/packages/@ember'
 );
 
+const localScopes = [
+  'config',
+  'addons',
+  'controllers',
+  'components',
+  'helpers',
+  'services',
+  'templates',
+  'modifiers',
+];
+
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -29,8 +40,14 @@ export default defineConfig(({ mode }) => {
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
       alias: [
-        { find: 'ember-simple-auth/use-session-setup-method', replacement: './compat/ember-simple-auth/use-session-setup-method.ts' },
-        { find: /ember-simple-auth\/(?!(app|addon)\/)(.+)/, replacement: 'ember-simple-auth/addon/$2' },
+        {
+          find: 'ember-simple-auth/use-session-setup-method',
+          replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
+        },
+        {
+          find: /ember-simple-auth\/(?!(app|addon)\/)(.+)/,
+          replacement: 'ember-simple-auth/addon/$2',
+        },
         // { find: 'ember-intl/translations', replacement: fileURLToPath(new URL("./compat/empty-array", import.meta.url)) },
         {
           find: 'ember-modifier',
@@ -48,10 +65,19 @@ export default defineConfig(({ mode }) => {
             )
           ),
         },
-        { find: '@ember-decorators/component', replacement: '@ember-decorators/component/addon' },
+        {
+          find: '@ember-decorators/component',
+          replacement: '@ember-decorators/component/addon',
+        },
         { find: 'ember-ref-bucket', replacement: 'ember-ref-bucket/addon' },
-        { find: '@ember-decorators/object', replacement: '@ember-decorators/object/addon' },
-        { find: '@ember-decorators/utils', replacement: '@ember-decorators/utils/addon' },
+        {
+          find: '@ember-decorators/object',
+          replacement: '@ember-decorators/object/addon',
+        },
+        {
+          find: '@ember-decorators/utils',
+          replacement: '@ember-decorators/utils/addon',
+        },
         { find: 'ember-concurrency', replacement: 'ember-concurrency/addon' },
         { find: 'tracked-toolbox', replacement: 'tracked-toolbox/addon' },
         {
@@ -59,9 +85,9 @@ export default defineConfig(({ mode }) => {
           replacement: 'ember-concurrency-decorators/addon',
         },
         {
-            find: 'ember-bootstrap',
-            replacement: 'ember-bootstrap/addon',
-          },
+          find: 'ember-bootstrap',
+          replacement: 'ember-bootstrap/addon',
+        },
         {
           find: 'ember-testing',
           replacement: 'ember-source/dist/packages/ember-testing',
@@ -80,13 +106,10 @@ export default defineConfig(({ mode }) => {
           ),
         },
         {
-            find: 'require',
-            replacement: fileURLToPath(
-                new URL(
-                  './compat/require/index.ts',
-                  import.meta.url
-                )
-              ),
+          find: 'require',
+          replacement: fileURLToPath(
+            new URL('./compat/require/index.ts', import.meta.url)
+          ),
         },
         {
           find: 'ember-compatibility-helpers',
@@ -112,13 +135,7 @@ export default defineConfig(({ mode }) => {
             )
           ),
         },
-        { find: '@/config', replacement: './src/config' },
-        {
-          find: '@/components',
-          replacement: fileURLToPath(
-            new URL('./src/components', import.meta.url)
-          ),
-        },
+
         {
           find: 'ember-cli-test-loader/test-support/index',
           replacement: fileURLToPath(
@@ -140,8 +157,8 @@ export default defineConfig(({ mode }) => {
           replacement: 'qunit-dom/dist/addon-test-support/index.js',
         },
         {
-            find: '@glimmer/tracking/primitives/cache',
-            replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
+          find: '@glimmer/tracking/primitives/cache',
+          replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
         },
         {
           find: /@glimmer\/tracking[^/]$/,
@@ -181,10 +198,19 @@ export default defineConfig(({ mode }) => {
           find: 'backburner',
           replacement: 'backburner.js/dist/es6/backburner.js',
         },
+        ...localScopes.map((scope) => ({
+          find: `@/${scope}`,
+          replacement: fileURLToPath(
+            new URL(`./src/${scope}`, import.meta.url)
+          ),
+        })),
         ...emberPackages.map((pkg) => ({
           find: `@ember/${pkg}`,
           replacement: fileURLToPath(
-            new URL(`./node_modules/ember-source/dist/packages/@ember/${pkg}`, import.meta.url)
+            new URL(
+              `./node_modules/ember-source/dist/packages/@ember/${pkg}`,
+              import.meta.url
+            )
           ),
         })),
       ],

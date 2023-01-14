@@ -1,3 +1,7 @@
+import type { IRegistry } from './utils';
+import addonsRegistry from '@/addons';
+
+
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
 import LoginRoute from '../routes/login';
@@ -8,30 +12,27 @@ import LogoutRoute from '../routes/logout';
 import CustomAuthenticator from '../authenticators/custom';
 
 /* imported controllers */
-import { ApplicationController } from '../controllers/application';
-import { LoginController } from '../controllers/login';
+import { ApplicationController } from '@/controllers/application';
+import { LoginController } from '@/controllers/login';
 
 /* imported templates */
-import ApplicationTemplate from '../templates/application';
-import AboutTemplate from '../templates/about';
-import LoginTemplate from '../templates/login';
+import ApplicationTemplate from '@/templates/application.hbs';
+import AboutTemplate from '@/templates/about.hbs';
+import LoginTemplate from '@/templates/login.hbs';
 
 /* imported services */
-import DateService from '../services/date';
+import DateService from '@/services/date';
 
 /* imported components */
-import HelloWorld from '../components/HelloWorld';
-import Button from '../components/Button';
+import HelloWorld from '@/components/HelloWorld';
+import Button from '@/components/Button';
 
 /* imported helpers */
-import MemoryUsage from '../helpers/memory-usage';
+import MemoryUsage from '@/helpers/memory-usage';
 
 /* imported modifiers */
-import ClickTracker from '../modifiers/click-tracker';
+import ClickTracker from '@/modifiers/click-tracker';
 
-import { IRegistry } from './utils';
-
-import addonsRegistry from './../addons';
 
 function registry(): IRegistry {
   return {
@@ -39,31 +40,39 @@ function registry(): IRegistry {
     'authenticator:custom': CustomAuthenticator,
     'service:date': DateService,
     'controller:application': ApplicationController,
+    
     'controller:login': LoginController,
     'route:application': ApplicationRoute,
+
     'route:login': LoginRoute,
     'route:logout': LogoutRoute,
+
     'template:application': ApplicationTemplate,
     'template:about': AboutTemplate,
     'template:login': LoginTemplate,
+
     'component:hello-world': HelloWorld,
     'component:button': Button,
-    'helper:ensure-safe-component': function(a) {
+
+    'helper:memory-usage': MemoryUsage,
+    'modifier:click-tracker': ClickTracker,
+
+    /* embroider compatibility */
+
+    'helper:ensure-safe-component': function(a: string) {
       return a;
     },
-    'helper:macroCondition': function(a) {
+    'helper:macroCondition': function(a: string) {
       if (a === 'isNotBS5') {
         return false;
       }
       console.log('macroCondition', a);
       return a;
     },
-    'helper:macroGetOwnConfig': function(a) {
+    'helper:macroGetOwnConfig': function(a: string) {
       console.log('macroGetOwnConfig', a);
       return a;
-    },
-    'helper:memory-usage': MemoryUsage,
-    'modifier:click-tracker': ClickTracker,
+    }
   };
 }
 

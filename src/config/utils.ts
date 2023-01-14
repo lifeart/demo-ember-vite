@@ -25,7 +25,8 @@ export interface IRegistry {
     | typeof Helper
     | Modifier
     | RegisteredComponent
-    | PrecompiledTemplate;
+    | PrecompiledTemplate
+    | Function;
 }
 
 export function registerComponent<T>(
