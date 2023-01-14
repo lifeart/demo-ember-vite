@@ -1,5 +1,7 @@
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
+import LoginRoute from '../routes/login';
+import LogoutRoute from '../routes/logout';
 // import { MainRoute } from '../routes/main';
 
 /* imported authenticators */
@@ -39,6 +41,8 @@ function registry(): IRegistry {
     'controller:application': ApplicationController,
     'controller:login': LoginController,
     'route:application': ApplicationRoute,
+    'route:login': LoginRoute,
+    'route:logout': LogoutRoute,
     'template:application': ApplicationTemplate,
     'template:about': AboutTemplate,
     'template:login': LoginTemplate,

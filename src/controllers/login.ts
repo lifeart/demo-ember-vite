@@ -7,7 +7,9 @@ export class LoginController extends Controller {
   @service router;
 
   @action
-  async authenticate() {
+  async authenticate(e) {
+    e.preventDefault();
+
     await this.session.authenticate('authenticator:custom');
 
     if (this.session.isAuthenticated) {
