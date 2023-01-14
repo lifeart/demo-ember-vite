@@ -59,6 +59,7 @@ PR's are welcome.
 To check app, run:
 
 ```bash
+yarn install
 yarn dev
 ```
 
