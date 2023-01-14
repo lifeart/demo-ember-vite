@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
             extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
             alias: [
                 { find: 'ember-simple-auth/use-session-setup-method', replacement: './compat/ember-simple-auth/use-session-setup-method.ts' },
+                { find: /ember-simple-auth\/(?!(app|addon)\/)(.+)/, replacement: 'ember-simple-auth/addon/$2' },
                 // { find: 'ember-intl/translations', replacement: fileURLToPath(new URL("./compat/empty-array", import.meta.url)) },
                 { find: 'ember-modifier', replacement: fileURLToPath(new URL("./node_modules/ember-modifier/dist", import.meta.url)) },
                 // { find: '@glimmer/manager', replacement: '@glimmer/manager/dist/modules/es2017' },
