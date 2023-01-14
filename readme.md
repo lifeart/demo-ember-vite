@@ -1,7 +1,7 @@
 ## Ember + Vite
 
 ---
-    
+
 This is sample Ember application running only on `Vite`, without `ember-cli` and `embroider`.
 
 * It's `TypeScript`'ed by default.
@@ -39,13 +39,12 @@ Main difference with classic Ember application, is that we don't trying to autom
 1. `ember-style-modifier`
 1. `ember-assign-helper`
 1. `ember-element-helper`
-1. `ember-style-modifier`
 1. `ember-page-title`
 
 [(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons)
 
 
-*This is not complete list, and you could add `any` ember addon you want (if it don't have `ember-cli` logic)* 
+*This is not complete list, and you could add `any` ember addon you want (if it don't have `ember-cli` logic)*
 
 ---
 
