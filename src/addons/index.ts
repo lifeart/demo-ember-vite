@@ -1,3 +1,4 @@
+import EmberSimpleAuthRegistry from "./ember-simple-auth";
 import EmberTruthHelpers from './ember-truth-helpers';
 import EmberPowerSelect from './ember-power-select';
 import EmberBasicDropdown from './ember-basic-dropdown';
@@ -9,6 +10,7 @@ import EmberIntl from './ember-intl';
 import EmberPageTitle from './ember-page-title';
 
 const registry = {
+    ...EmberSimpleAuthRegistry,
     ...EmberTruthHelpers,
     ...EmberBasicDropdown,
     ...EmberAssignHelper,
