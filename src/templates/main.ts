@@ -11,6 +11,8 @@ export default precompileTemplate(`
     |
     <LinkTo @route="not-found" @model="404">404</LinkTo>
     |
+    <LinkTo @route="bootstrap">Ember Bootstrap (lazy-loaded)</LinkTo>
+    |
     <a href="/tests/">Tests (QUnit)</a>
 
     <ul>

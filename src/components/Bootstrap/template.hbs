@@ -1,0 +1,90 @@
+<BsNavbar
+  @type="light"
+  @backgroundColor="light"
+  as |navbar|
+>
+  <LinkTo @route="main" class="navbar-brand">Brand</LinkTo>
+  <navbar.toggle/>
+  <navbar.content>
+    <navbar.nav as |nav|>
+      <nav.item>
+        <nav.link-to @route="bootstrap">Home</nav.link-to>
+      </nav.item>
+      <nav.item>
+        <nav.link-to @route="about">About</nav.link-to>
+      </nav.item>
+      <nav.dropdown as |dd|>
+        <dd.toggle>Dropdown <span class="caret"></span></dd.toggle>
+        <dd.menu as |ddm|>
+          <ddm.item>
+            <ddm.link-to @route="main">Main</ddm.link-to>
+          </ddm.item>
+          <ddm.item>
+            <ddm.link-to @route="not-found" @model="42">Navbars</ddm.link-to>
+          </ddm.item>
+        </dd.menu>
+      </nav.dropdown>
+    </navbar.nav>
+  </navbar.content>
+</BsNavbar>
+
+<p>Solid buttons</p>
+<p>
+  <BsButton @type="primary" @onClick={{this.submit}}>Primary</BsButton>
+  <BsButton @type="secondary" @onClick={{this.submit}}>Secondary</BsButton>
+  <BsButton @type="success" @onClick={{this.submit}}>Success</BsButton>
+  <BsButton @type="danger" @onClick={{this.submit}}>Danger</BsButton>
+  <BsButton @type="warning" @onClick={{this.submit}}>Warning</BsButton>
+  <BsButton @type="info" @onClick={{this.submit}}>Info</BsButton>
+  <BsButton @type="light" @onClick={{this.submit}}>Light</BsButton>
+  <BsButton @type="dark" @onClick={{this.submit}}>Dark</BsButton>
+  <BsButton disabled={{true}} @onClick={{this.submit}}>Disabled</BsButton>
+</p>
+<p>Outlined buttons</p>
+<p>
+  <BsButton @type="primary" @outline={{true}} @onClick={{this.submit}}>Primary</BsButton>
+  <BsButton @type="secondary" @outline={{true}} @onClick={{this.submit}}>Secondary</BsButton>
+  <BsButton @type="success" @outline={{true}} @onClick={{this.submit}}>Success</BsButton>
+  <BsButton @type="danger" @outline={{true}} @onClick={{this.submit}}>Danger</BsButton>
+  <BsButton @type="warning" @outline={{true}} @onClick={{this.submit}}>Warning</BsButton>
+  <BsButton @type="info" @outline={{true}} @onClick={{this.submit}}>Info</BsButton>
+  <BsButton @type="light" @outline={{true}} @onClick={{this.submit}}>Light</BsButton>
+  <BsButton @type="dark" @outline={{true}} @onClick={{this.submit}}>Dark</BsButton>
+  <BsButton disabled={{true}} @outline={{true}} @onClick={{this.submit}}>Disabled</BsButton>
+</p>
+
+<p>Progress bar</p>
+<p>
+    <BsProgress as |pg|>
+  <pg.bar
+    @value={{50}}
+    @minValue={{0}}
+    @maxValue={{100}}
+    @showLabel={{false}}
+    @roundDigits={{0}}
+    @type="default"
+    @striped={{false}}
+    @animate={{false}}
+  />
+  <pg.bar
+    @value={{20}}
+    @minValue={{0}}
+    @maxValue={{100}}
+    @showLabel={{false}}
+    @roundDigits={{0}}
+    @type="warning"
+    @striped={{false}}
+    @animate={{false}}
+  />
+  <pg.bar
+    @value={{5}}
+    @minValue={{0}}
+    @maxValue={{100}}
+    @showLabel={{false}}
+    @roundDigits={{0}}
+    @type="danger"
+    @striped={{false}}
+    @animate={{false}}
+  />
+</BsProgress>
+</p>

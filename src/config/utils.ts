@@ -38,3 +38,10 @@ export function registerComponent<T>(
     return component as unknown as RegisteredComponent;
   }
 }
+
+
+export function extendRegistry(registry) {
+  Object.keys(registry).forEach((key) => {
+    window.MyApp.register(key, registry[key]);
+  });
+}

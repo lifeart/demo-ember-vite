@@ -11,6 +11,22 @@ index f1ed636..ee96189 100644
 +
 +
 +export { capabilities, setInternalHelperManager, setInternalModifierManager, setInternalComponentManager, getInternalHelperManager, getInternalModifierManager, getInternalComponentManager, hasInternalHelperManager, hasInternalModifierManager, hasInternalComponentManager, setHelperManager, setModifierManager, setComponentManager, componentCapabilities, CustomComponentManager, modifierCapabilities, CustomModifierManager, helperCapabilities, hasDestroyable, hasValue, CustomHelperManager, getComponentTemplate, setComponentTemplate, capabilityFlagsFrom, hasCapability, managerHasCapability, getCustomTagFor, setCustomTagFor };
+diff --git a/node_modules/ember-source/dist/packages/@ember/debug/index.js b/node_modules/ember-source/dist/packages/@ember/debug/index.js
+index 681b1a6..ce8bcdd 100644
+--- a/node_modules/ember-source/dist/packages/@ember/debug/index.js
++++ b/node_modules/ember-source/dist/packages/@ember/debug/index.js
+@@ -275,4 +275,10 @@ if (DEBUG && !isTesting()) {
+   }
+ }
+ 
++if (typeof deprecate !== 'function') {
++  deprecate = function (message, test, options) {
++   console.log('deprecate', message, test, options);
++  };
++}
++
+ export { assert, info, warn, debug, deprecate, debugSeal, debugFreeze, runInDebug, deprecateFunc, setDebugFunction, getDebugFunction, _warnIfUsingStrippedFeatureFlags };
+\ No newline at end of file
 diff --git a/node_modules/ember-source/dist/packages/@ember/test/index.js b/node_modules/ember-source/dist/packages/@ember/test/index.js
 index 8d78b05..90567d1 100644
 --- a/node_modules/ember-source/dist/packages/@ember/test/index.js

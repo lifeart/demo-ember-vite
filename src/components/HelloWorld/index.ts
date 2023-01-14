@@ -43,7 +43,7 @@ export default class HelloWorld extends Component {
         Local,
         Select,
         calculateSummary,
-        TemplateOnlyComponent,
+        TemplateOnlyComponent
       }),
     }
   );

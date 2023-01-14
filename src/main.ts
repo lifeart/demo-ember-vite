@@ -10,7 +10,12 @@ setupApplicationGlobals(Ember);
 
 const MyApp = init(App, Router);
 
-MyApp.visit(window.location.pathname);
+window.MyApp = MyApp; // for debugging and experiments
+
+MyApp.visit(window.location.pathname).then(() => {
+    document.querySelector('.lds-ripple')?.remove();
+});
+
 
 console.log(MyApp);
 

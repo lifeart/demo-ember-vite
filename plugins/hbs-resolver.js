@@ -1,8 +1,10 @@
 const fileRegex = /\.(hbs)$/
 
 
-function tpl(code, isComponent) {
+function tpl(raw, id, isComponent) {
 
+    const code = raw.split('`').join('\\`');
+    
     if (isComponent) {
         return `
         import { precompileTemplate } from '@ember/template-compilation';
@@ -25,7 +27,7 @@ export default function hbsResolver() {
     transform(src, id) {
       if (fileRegex.test(id, id)) {
         return {
-          code: tpl(src, id.includes('/components/')),
+          code: tpl(src, id, id.includes('/components/')),
           map: null, // provide source map if available
         }
       }
