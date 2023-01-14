@@ -7,4 +7,8 @@ export default class ProfileRoute extends Route {
   beforeModel(transition) {
     this.session.requireAuthentication(transition, 'login');
   }
+
+  model() {
+    return this.session.data.authenticated;
+  }
 }

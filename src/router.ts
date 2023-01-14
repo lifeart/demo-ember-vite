@@ -21,14 +21,6 @@ Router.lazyRoutes = {
     route: import('./routes/profile').then((m) => m.default),
     template: import('./templates/profile.hbs').then((m) => m.default),
   }),
-  [Routes.Login]: (): HashReturnType => ({
-    route: import('./routes/login').then((m) => m.default),
-    template: import('./templates/login.hbs').then((m) => m.default),
-  }),
-  [Routes.Logout]: (): HashReturnType => ({
-    route: import('./routes/logout').then((m) => m.default),
-    template: import('./templates/logout.hbs').then((m) => m.default),
-  }),
   [Routes.NotFound]: (): HashReturnType => ({
     // sample of lazy-loaded route, and dynamically resolved template
     template: import('./templates/not-found').then((m) => m.default),

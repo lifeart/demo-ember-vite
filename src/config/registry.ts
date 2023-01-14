@@ -2,12 +2,17 @@
 import { ApplicationRoute } from '../routes/application';
 // import { MainRoute } from '../routes/main';
 
+/* imported authenticators */
+import CustomAuthenticator from '../authenticators/custom';
+
 /* imported controllers */
 import { ApplicationController } from '../controllers/application';
+import { LoginController } from '../controllers/login';
 
 /* imported templates */
 import ApplicationTemplate from '../templates/application';
 import AboutTemplate from '../templates/about';
+import LoginTemplate from '../templates/login';
 
 /* imported services */
 import DateService from '../services/date';
@@ -29,11 +34,14 @@ import addonsRegistry from './../addons';
 function registry(): IRegistry {
   return {
     ...addonsRegistry,
+    'authenticator:custom': CustomAuthenticator,
     'service:date': DateService,
     'controller:application': ApplicationController,
+    'controller:login': LoginController,
     'route:application': ApplicationRoute,
     'template:application': ApplicationTemplate,
     'template:about': AboutTemplate,
+    'template:login': LoginTemplate,
     'component:hello-world': HelloWorld,
     'component:button': Button,
     'helper:ensure-safe-component': function(a) {
