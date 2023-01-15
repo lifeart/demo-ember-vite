@@ -150,10 +150,10 @@ export default defineConfig(({ mode }) => {
         })),
         ...eDataPackages().map((pkg) => ({
           find: `@ember-data/${pkg}`,
-          replacement: `@ember-data/${pkg}/addon`,
+          replacement: nodePath(`@ember-data/${pkg}/addon`),
         })),
         {
-          find: 'ember-data',
+          find: /^ember-data/,
           replacement: 'ember-data/addon',
         },
       ],
@@ -310,6 +310,12 @@ function defaultJSBabelPlugins() {
 function defaultTSBabelPlugins() {
   return [
     [
+      '@babel/plugin-transform-runtime',
+      {
+        loose: true,
+      },
+    ],
+    [
       '@babel/plugin-transform-typescript',
       {
         allowDeclareFields: true,
@@ -323,18 +329,17 @@ function defaultTSBabelPlugins() {
       },
     ],
     [
-      '@babel/plugin-proposal-private-methods',
-      {
-        loose: true,
-      },
-    ],
-    [
       '@babel/plugin-proposal-class-properties',
       {
         loose: true,
       },
     ],
-    
+    [
+      '@babel/plugin-proposal-private-methods',
+      {
+        loose: true,
+      },
+    ],
     templateCompilationPlugin(),
   ];
 }
