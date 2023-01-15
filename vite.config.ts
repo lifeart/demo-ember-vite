@@ -197,10 +197,10 @@ export default defineConfig(({ mode }) => {
         })),
         ...eDataPackages().map((pkg) => ({
           find: `@ember-data/${pkg}`,
-          replacement: `@ember-data/${pkg}/addon`,
+          replacement: nodePath(`@ember-data/${pkg}/addon`),
         })),
         {
-          find: 'ember-data',
+          find: /^ember-data/,
           replacement: 'ember-data/addon',
         },
       ],
