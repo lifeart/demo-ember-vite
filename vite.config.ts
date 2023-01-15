@@ -203,6 +203,18 @@ export default defineConfig(({ mode }) => {
           find: /^ember-data/,
           replacement: 'ember-data/addon',
         },
+        {
+          find: '@ember-data/store/-private',
+          replacement: nodePath('@ember-data/store/addon/-private'),
+        },
+        {
+          find: '@ember-data/store',
+          replacement: nodePath('@ember-data/store/addon'),
+        },
+        {
+          find: '@ember-data/private-build-infra',
+          replacement: compatPath('ember-data-private-build-infra'),
+        }
       ],
     },
     plugins: [
@@ -273,7 +285,8 @@ function emberPackages() {
 }
 
 function eDataPackages() {
-  return fs.readdirSync('node_modules/@ember-data');
+  const els =  fs.readdirSync('node_modules/@ember-data');
+  return els.filter(e => e !== 'store' && e !== 'private-build-infra')
 }
 
 function localScopes() {
