@@ -8,8 +8,8 @@
 # misc
 /coverage/
 !.*
+.*/
 .eslintcache
-.lint-todo/
 
 # custom
 #todo: remove it when the file will be removed
