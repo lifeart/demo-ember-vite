@@ -32,9 +32,7 @@ module.exports = {
     },
     // node files
     {
-      files: [
-        '**/*.cjs', '**/*.cjs',
-      ],
+      files: ['**/*.cjs', '**/*.cjs'],
       parserOptions: {
         sourceType: 'script',
       },
@@ -54,6 +52,13 @@ module.exports = {
       // test files
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
+    },
+    // prettier down in gjs and gts files
+    {
+      files: ['**/*.gjs', '**/*.gts'],
+      rules: {
+        'prettier/prettier': 'off',
+      },
     },
   ],
 };
