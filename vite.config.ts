@@ -120,7 +120,7 @@ export default defineConfig(({ mode }) => {
           find: '@embroider/util',
           replacement: compatPath('embroider-util/index.ts'),
         },
-        { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
+        { find: /^ember$/, replacement: 'ember-source/dist/packages/ember' },
         {
           find: 'ember-component-manager',
           replacement:
