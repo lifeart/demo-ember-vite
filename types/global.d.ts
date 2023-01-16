@@ -1,51 +1,51 @@
 import { InitialRegistry } from '@/config/registry';
+import type {
+  Filter,
+  CamelizeName,
+  ReFilterObject,
+  Mapped,
+  FilterObject,
+  ReverseMap,
+} from './helpers';
+
+type InitialRegistry = typeof InitialRegistry;
+type Services = Filter<keyof InitialRegistry, 'service'>;
+type Components = Filter<keyof InitialRegistry, 'component'>;
+type Controllers = Filter<keyof InitialRegistry, 'controller'>;
+type Helpers = Filter<keyof InitialRegistry, 'helper'>;
+type Modifiers = Filter<keyof InitialRegistry, 'modifier'>;
+type SnakedComponents = CamelizeName<Components>;
+
+declare module '@ember/controller' {
+  type ControllersObject = FilterObject<
+    InitialRegistry,
+    'controller',
+    Controllers
+  >;
+
+  interface Registry extends ControllersObject {
+    '--[sample]--': unknown;
+  }
+}
+
+declare module '@ember/service' {
+  type ServicesObject = FilterObject<InitialRegistry, 'service', Services>;
+
+  interface Registry extends ServicesObject {
+    '--[sample]--': unknown;
+  }
+}
 
 declare module '@glint/environment-ember-loose/registry' {
-  type DashToCamelCase<S extends string> = S extends `${infer T}-${infer U}`
-    ? `${Capitalize<T>}${Capitalize<DashToCamelCase<U>>}`
-    : S;
-  type Spilt<S extends string> = S extends `${infer T}/${infer U}`
-    ? `${T}::${Capitalize<U>}`
-    : S;
-  type Filter<T, P> = T extends `${P}:${infer D extends string}` ? D : never;
-
-  type InitialRegistry = typeof InitialRegistry;
-  // type Services = Filter<keyof InitialRegistry, 'service'>;
-  type Components = Filter<keyof InitialRegistry, 'component'>;
-  type Helpers = Filter<keyof InitialRegistry, 'helper'>;
-  type Modifiers = Filter<keyof InitialRegistry, 'modifier'>;
-  type SnakedComponents = Capitalize<Spilt<DashToCamelCase<Components>>>;
-
-  type Mapped<K> = {
-    [P in K]: Capitalize<Spilt<DashToCamelCase<P>>>;
-  };
-
-  type ValueOf<T> = T[keyof T];
-
-  type ReverseMap<T extends Record<keyof T, keyof any>> = {
-    [P in T[keyof T]]: {
-      [K in keyof T]: T[K] extends P ? K : never;
-    }[keyof T];
-  };
   // need to figure out how to map this keys to registry;
   type MappedComponents = Mapped<Components>;
   type ReMappedComponents = ReverseMap<MappedComponents>;
-
-  type FilterObject<T, P, R> = {
-    [K in R]: T[`${P}:${K}`];
-  };
-
-  type ReFilterObject<T, P, R> = {
-    [K in keyof R]: T[`${P}:${R[K]}`];
-  };
-
   type CamelizedComponentsObject = ReFilterObject<
     InitialRegistry,
     'component',
     ReMappedComponents
   >;
   type HelpersObject = FilterObject<InitialRegistry, 'helper', Helpers>;
-  // type ServicesObject = FilterObject<InitialRegistry, 'service', Services>;
   type ComponentsObject = FilterObject<
     InitialRegistry,
     'component',
