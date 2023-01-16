@@ -12,7 +12,8 @@ class CustomComponentManager extends GlimmerComponentManager {
 }
 
 export function setupApplicationGlobals(Ember) {
-  GlimmerComponentManager.capabilities = Ember._componentManagerCapabilities('3.13');
+  GlimmerComponentManager.capabilities =
+    Ember._componentManagerCapabilities('3.13');
 
   Ember._setComponentManager((owner) => {
     return new CustomComponentManager(owner);

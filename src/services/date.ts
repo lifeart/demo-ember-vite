@@ -2,9 +2,10 @@ import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class DateService extends Service {
-  interval: any;
+  interval: ReturnType<(typeof window)['setInterval']> | null = null;
   @tracked _date = new Date();
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     super.init(...arguments);
 
@@ -15,7 +16,9 @@ export default class DateService extends Service {
 
   willDestroy() {
     super.willDestroy(...arguments);
-    clearInterval(this.interval);
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 
   get date() {
