@@ -33,47 +33,47 @@ import MemoryUsage from '@/helpers/memory-usage';
 /* imported modifiers */
 import ClickTracker from '@/modifiers/click-tracker';
 
+export const InitialRegistry = {
+  ...addonsRegistry,
+  'authenticator:custom': CustomAuthenticator,
+  'service:date': DateService,
+  'controller:application': ApplicationController,
+  'controller:login': LoginController,
+  'route:application': ApplicationRoute,
+
+  'route:login': LoginRoute,
+  'route:logout': LogoutRoute,
+
+  'template:application': ApplicationTemplate,
+  'template:about': AboutTemplate,
+  'template:login': LoginTemplate,
+
+  'component:hello-world': HelloWorld,
+  'component:button': Button,
+
+  'helper:memory-usage': MemoryUsage as unknown as () => string, // glint fix
+  'modifier:click-tracker': ClickTracker,
+
+  /* embroider compatibility */
+
+  'helper:ensure-safe-component': function (a: string) {
+    return a;
+  },
+  'helper:macroCondition': function (a: string) {
+    if (a === 'isNotBS5') {
+      return false;
+    }
+    console.log('macroCondition', a);
+    return a;
+  },
+  'helper:macroGetOwnConfig': function (a: string) {
+    console.log('macroGetOwnConfig', a);
+    return a;
+  },
+};
 
 function registry(): IRegistry {
-  return {
-    ...addonsRegistry,
-    'authenticator:custom': CustomAuthenticator,
-    'service:date': DateService,
-    'controller:application': ApplicationController,
-    
-    'controller:login': LoginController,
-    'route:application': ApplicationRoute,
-
-    'route:login': LoginRoute,
-    'route:logout': LogoutRoute,
-
-    'template:application': ApplicationTemplate,
-    'template:about': AboutTemplate,
-    'template:login': LoginTemplate,
-
-    'component:hello-world': HelloWorld,
-    'component:button': Button,
-
-    'helper:memory-usage': MemoryUsage,
-    'modifier:click-tracker': ClickTracker,
-
-    /* embroider compatibility */
-
-    'helper:ensure-safe-component': function(a: string) {
-      return a;
-    },
-    'helper:macroCondition': function(a: string) {
-      if (a === 'isNotBS5') {
-        return false;
-      }
-      console.log('macroCondition', a);
-      return a;
-    },
-    'helper:macroGetOwnConfig': function(a: string) {
-      console.log('macroGetOwnConfig', a);
-      return a;
-    }
-  };
+  return InitialRegistry;
 }
 
 export default registry;

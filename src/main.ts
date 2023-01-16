@@ -1,3 +1,4 @@
+import '@glint/environment-ember-loose';
 import './style.css'
 
 import Ember from './config/ember';

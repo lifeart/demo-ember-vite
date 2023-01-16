@@ -21,6 +21,7 @@ Main difference with classic Ember application, is that we don't trying to autom
 1. Style imports from components
 1. Ember Inspector
 1. Template imports support (`.gts` & `.gjs`)
+1. Glint support
 
 ### Unsupported
 
