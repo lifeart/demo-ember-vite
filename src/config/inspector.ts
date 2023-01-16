@@ -1,4 +1,4 @@
-import * as computed from '@ember/object/computed'
+import * as computed from '@ember/object/computed';
 import * as runloop from '@ember/runloop';
 import * as metal from '@ember/-internals/metal';
 import * as inst from '@ember/instrumentation';
@@ -11,13 +11,12 @@ let define = window.define,
   requireModule = window.requireModule;
 if (typeof define !== 'function' || typeof requireModule !== 'function') {
   (function () {
-    let registry = {
-        'ember': window.Ember,
-    },
+    const registry = {
+        ember: window.Ember,
+      },
       seen = {};
 
     define = function (name, deps, callback) {
-
       if (arguments.length < 3) {
         callback = deps;
         deps = [];
@@ -26,55 +25,53 @@ if (typeof define !== 'function' || typeof requireModule !== 'function') {
     };
 
     requireModule = function (name) {
-        if (name === '@ember/object/computed') {
-            return computed;
-        }
-        if (name === '@ember/runloop') {
-            return runloop;
-        }
-        if (name === '@ember/-internals/metal') {
-            return metal;
-        }
-        if (name === '@ember/instrumentation') {
-            return inst;
-        }
-        if (name === '@ember/-internals/views') {
-            return view;
-        }
+      if (name === '@ember/object/computed') {
+        return computed;
+      }
+      if (name === '@ember/runloop') {
+        return runloop;
+      }
+      if (name === '@ember/-internals/metal') {
+        return metal;
+      }
+      if (name === '@ember/instrumentation') {
+        return inst;
+      }
+      if (name === '@ember/-internals/views') {
+        return view;
+      }
 
-        if (name === '@glimmer/reference') {
-            return ref;
+      if (name === '@glimmer/reference') {
+        return ref;
+      }
+      if (name === '@glimmer/validator') {
+        return val;
+      }
 
-        }
-        if (name === '@glimmer/validator') {
-            return val;
-        }
-
-
-        if (name === 'ember') {
-            window.Ember.ENV = {
-                _DEBUG_RENDER_TREE: true,
-                ...env
-            }
-            return {
-                default: window.Ember,
-            };
-        }
+      if (name === 'ember') {
+        window.Ember.ENV = {
+          _DEBUG_RENDER_TREE: true,
+          ...env,
+        };
+        return {
+          default: window.Ember,
+        };
+      }
 
       if (seen[name]) {
         return seen[name];
       }
 
-      let mod = registry[name];
+      const mod = registry[name];
       if (!mod) {
         throw new Error(`Module: '${name}' not found.`);
       }
 
       seen[name] = {};
 
-      let deps = mod.deps;
-      let callback = mod.callback;
-      let reified = [];
+      const deps = mod.deps;
+      const callback = mod.callback;
+      const reified = [];
       let exports;
 
       for (let i = 0, l = deps.length; i < l; i++) {
@@ -85,7 +82,7 @@ if (typeof define !== 'function' || typeof requireModule !== 'function') {
         }
       }
 
-      let value = callback.apply(this, reified);
+      const value = callback.apply(this, reified);
       seen[name] = exports || value;
       return seen[name];
     };

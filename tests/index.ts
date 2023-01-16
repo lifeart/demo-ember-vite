@@ -24,14 +24,12 @@ import { setup } from 'qunit-dom';
 
 setupApplicationGlobals(Ember);
 
-
 const app = Application.create(config.APP);
 setApplication(app);
 
 setup(QUnit.assert);
 
-import.meta.glob('./unit/utils/*.ts', { eager: true })
-import.meta.glob('./integration/components/**/*.ts', { eager: true })
-
+import.meta.glob('./unit/utils/*.ts', { eager: true });
+import.meta.glob('./integration/components/**/*.ts', { eager: true });
 
 // start();

@@ -5,11 +5,11 @@ import not from 'ember-truth-helpers/addon/helpers/not.js';
 import notEq from 'ember-truth-helpers/addon/helpers/not-equal.js';
 
 const registry = {
-    'helper:and': and,
-    'helper:eq': eq,
-    'helper:or': or,
-    'helper:not': not,
-    'helper:not-eq': notEq,
-}
+  'helper:and': and,
+  'helper:eq': eq,
+  'helper:or': or,
+  'helper:not': not,
+  'helper:not-eq': notEq,
+};
 
 export default registry;

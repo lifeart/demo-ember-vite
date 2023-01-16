@@ -1,10 +1,13 @@
 import { precompileTemplate } from '@ember/template-compilation';
 import Bootstrap from '../components/Bootstrap';
-import EmberBootstrapRegistry from "./../addons/ember-bootstrap";
+import EmberBootstrapRegistry from './../addons/ember-bootstrap';
 import { extendRegistry } from '@/config/utils';
 extendRegistry(EmberBootstrapRegistry);
 
-export default precompileTemplate(`
+export default precompileTemplate(
+  `
     <LinkTo @route='main'>Home</LinkTo>
    <Bootstrap />
-`, { isStrictMode: true, scope: () => ({Bootstrap})});
+`,
+  { isStrictMode: true, scope: () => ({ Bootstrap }) }
+);

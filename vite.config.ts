@@ -9,7 +9,6 @@ import i18nLoader from './plugins/i18n-loader';
 
 import transformImports from 'ember-template-imports/src/babel-plugin';
 
-
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -57,7 +56,7 @@ export default defineConfig(({ mode }) => {
           find: '@glimmer/validator',
           replacement: nodePath('@glimmer/validator/dist/modules/es2017'),
         },
-       
+
         {
           find: 'ember-testing',
           replacement: 'ember-source/dist/packages/ember-testing',
@@ -195,7 +194,7 @@ export default defineConfig(({ mode }) => {
         // regexp to match files in src folder
         filter: /^.*src\/.*\.(ts|js|hbs|gts|gjs)$/,
         babelConfig: defaultBabelConfig([transformImports]),
-      }), 
+      }),
       // babel config for addons
       babel({
         // regexp to match files in src folder
@@ -209,7 +208,6 @@ export default defineConfig(({ mode }) => {
     // ...
   };
 });
-
 
 function emberPackages() {
   return fs.readdirSync('node_modules/ember-source/dist/packages/@ember');

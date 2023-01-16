@@ -13,16 +13,28 @@ import EmberPowerSelectOptionsTemplate from 'ember-power-select/addon/components
 import EmberPowerSelectIsGroupHelper from 'ember-power-select/addon/helpers/ember-power-select-is-group';
 import EmberPowerSelectIsSelectedHelper from 'ember-power-select/addon/helpers/ember-power-select-is-selected';
 
-import { setComponentTemplate} from '@glimmer/manager';
+import { setComponentTemplate } from '@glimmer/manager';
 
 const registry = {
-    'component:power-select': setComponentTemplate(EmberPowerSelectTemplate, EmberPowerSelectComponent),
-    'component:power-select/trigger': setComponentTemplate(EmberPowerSelectTriggerTemplate, EmberPowerSelectTriggerComponent),
-    'component:power-select/placeholder': EmberPowerSelectPlaceholderComponent,
-    'component:power-select/before-options': setComponentTemplate(EmberPowerSelectBeforeOptionsTemplate, EmberPowerSelectBeforeOptionsComponent),
-    'component:power-select/options': setComponentTemplate(EmberPowerSelectOptionsTemplate, EmberPowerSelectOptionsComponent),
-    'helper:ember-power-select-is-group': EmberPowerSelectIsGroupHelper,
-    'helper:ember-power-select-is-selected': EmberPowerSelectIsSelectedHelper,
-}
+  'component:power-select': setComponentTemplate(
+    EmberPowerSelectTemplate,
+    EmberPowerSelectComponent
+  ),
+  'component:power-select/trigger': setComponentTemplate(
+    EmberPowerSelectTriggerTemplate,
+    EmberPowerSelectTriggerComponent
+  ),
+  'component:power-select/placeholder': EmberPowerSelectPlaceholderComponent,
+  'component:power-select/before-options': setComponentTemplate(
+    EmberPowerSelectBeforeOptionsTemplate,
+    EmberPowerSelectBeforeOptionsComponent
+  ),
+  'component:power-select/options': setComponentTemplate(
+    EmberPowerSelectOptionsTemplate,
+    EmberPowerSelectOptionsComponent
+  ),
+  'helper:ember-power-select-is-group': EmberPowerSelectIsGroupHelper,
+  'helper:ember-power-select-is-selected': EmberPowerSelectIsSelectedHelper,
+};
 
 export default registry;

@@ -15,7 +15,7 @@ export default class HelloWorld extends Component {
 
   setLanguage = (language: string) => {
     this.intl.setLocale([language]);
-  }
+  };
 
   static template = precompileTemplate(
     `
@@ -47,7 +47,7 @@ export default class HelloWorld extends Component {
         Select,
         Sample,
         calculateSummary,
-        TemplateOnlyComponent
+        TemplateOnlyComponent,
       }),
     }
   );

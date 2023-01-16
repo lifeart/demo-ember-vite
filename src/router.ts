@@ -29,17 +29,17 @@ Router.lazyRoutes = {
   [Routes.Bootstrap]: (): HashReturnType => ({
     // sample of lazy-loaded route, and dynamically resolved template
     template: import('./templates/bootstrap').then((m) => m.default),
-}),
-}
+  }),
+};
 
 Router.map(function () {
-    this.route(Routes.Main, { path: '/' })
-    this.route(Routes.Profile, { path: '/profile' });
-    this.route(Routes.Login, { path: '/login' });
-    this.route(Routes.Logout, { path: '/logout' });
-    this.route(Routes.About, { path: '/about' });
-    this.route(Routes.Bootstrap, { path: '/bootstrap' });
-    this.route(Routes.NotFound, { path: '*wildcard_path' });
+  this.route(Routes.Main, { path: '/' });
+  this.route(Routes.Profile, { path: '/profile' });
+  this.route(Routes.Login, { path: '/login' });
+  this.route(Routes.Logout, { path: '/logout' });
+  this.route(Routes.About, { path: '/about' });
+  this.route(Routes.Bootstrap, { path: '/bootstrap' });
+  this.route(Routes.NotFound, { path: '*wildcard_path' });
 });
 
 export default Router;

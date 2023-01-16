@@ -40,7 +40,6 @@ export function registerComponent<T>(
   }
 }
 
-
 export function extendRegistry(registry) {
   Object.keys(registry).forEach((key) => {
     window.MyApp.register(key, registry[key]);

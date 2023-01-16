@@ -10,37 +10,42 @@ import { PrecompiledTemplate } from '@ember/template-compilation';
 */
 
 export type HashReturnType = {
-    route?: typeof Route | Promise<typeof Route>;
-    controller?: typeof Controller | Promise<typeof Controller>;
-    template?: PrecompiledTemplate | Promise<PrecompiledTemplate>;
-}
+  route?: typeof Route | Promise<typeof Route>;
+  controller?: typeof Controller | Promise<typeof Controller>;
+  template?: PrecompiledTemplate | Promise<PrecompiledTemplate>;
+};
 
 class Router extends EmberRouter {
-  static lazyRoutes: Record<string, ()=> HashReturnType> = {};
+  static lazyRoutes: Record<string, () => HashReturnType> = {};
   location = config.locationType as 'history';
   rootURL = config.rootURL;
   loadedRoutes = new Set();
-
 
   // This is necessary in order to prevent the premature loading of lazy routes
   // when we are merely trying to render a link-to that points at them.
   // Unfortunately the stock query parameter behavior pulls on routes just to
   // check what their previous QP values were.
   _getQPMeta(handlerInfo: { name: string }, ...rest: unknown[]) {
-    if (handlerInfo.name in Router.lazyRoutes && !this.loadedRoutes.has(handlerInfo.name)) {
+    if (
+      handlerInfo.name in Router.lazyRoutes &&
+      !this.loadedRoutes.has(handlerInfo.name)
+    ) {
       return undefined;
     }
     // @ts-expect-error extending private method
     return super._getQPMeta(handlerInfo, ...rest);
   }
 
-
   // This is the framework method that we're overriding to provide our own
   // handlerResolver.
   setupRouter(...args: unknown[]) {
     // @ts-expect-error extending private method
-    let isSetup = super.setupRouter(...args);
-    let microLib = (this as unknown as { _routerMicrolib: { getRoute: (name: string) => unknown } })._routerMicrolib;
+    const isSetup = super.setupRouter(...args);
+    const microLib = (
+      this as unknown as {
+        _routerMicrolib: { getRoute: (name: string) => unknown };
+      }
+    )._routerMicrolib;
     microLib.getRoute = this._handlerResolver(microLib.getRoute.bind(microLib));
     return isSetup;
   }
@@ -61,7 +66,7 @@ class Router extends EmberRouter {
             // owner.unregister(`${key}:${name}`);
             try {
               owner.register(`${key}:${name}`, values[index]);
-            } catch(e) {
+            } catch (e) {
               // ignore
             }
           });

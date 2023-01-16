@@ -1,4 +1,4 @@
-export function gte() {
-    console.log('gte', ...arguments);
-    return true;
+export function gte(...args) {
+  console.log('gte', ...args);
+  return true;
 }
