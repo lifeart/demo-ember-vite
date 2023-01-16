@@ -1,4 +1,32 @@
+import { InitialRegistry } from '@/config/registry';
 
+declare module '@glint/environment-ember-loose/registry' {
+  type Filter<T, P> = T extends `${P}:${infer D extends string}` ? D : never;
+
+  type InitialRegistry = typeof InitialRegistry;
+  // type Services = Filter<keyof InitialRegistry, 'service'>;
+  type Components = Filter<keyof InitialRegistry, 'component'>;
+  type Helpers = Filter<keyof InitialRegistry, 'helper'>;
+  type Modifiers = Filter<keyof InitialRegistry, 'modifier'>;
+
+  type FilterObject<T, P, R> = {
+    [K in R]: T[`${P}:${K}`];
+  };
+
+  type HelpersObject = FilterObject<InitialRegistry, 'helper', Helpers>;
+  // type ServicesObject = FilterObject<InitialRegistry, 'service', Services>;
+  type ComponentsObject = FilterObject<
+    InitialRegistry,
+    'component',
+    Components
+  >;
+  type ModifiersObject = FilterObject<InitialRegistry, 'modifier', Modifiers>;
+
+  type _Registry = HelpersObject & ComponentsObject & ModifiersObject;
+  export default interface Registry extends _Registry {
+    '--[sample]--': unknown;
+  }
+}
 
 declare module '@ember/template-compilation' {
   export default function <T>(component: T): T;

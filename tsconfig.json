@@ -10,7 +10,7 @@
     "moduleResolution": "Node",
     "strict": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "esModuleInterop": true,
     "noEmit": true,
     "noUnusedLocals": true,
@@ -41,6 +41,9 @@
   "include": ["src", "types"],
   "glint": {
     "environment": {
+      "ember-template-imports": {
+        "allowPlainFunctionInvocation": true
+      },
       "ember-loose": {
         "allowPlainFunctionInvocation": true
       }

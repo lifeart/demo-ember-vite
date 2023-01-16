@@ -58,6 +58,7 @@
     "@glimmer/runtime": "0.84.2",
     "@glimmer/tracking": "^1.1.2",
     "@glimmer/validator": "0.84.2",
+    "@glint/environment-ember-template-imports": "^0.9.7",
     "@types/ember": "^4.0.3",
     "autoprefixer": "^10.4.13",
     "babel-plugin-ember-template-compilation": "^2.0.0",
