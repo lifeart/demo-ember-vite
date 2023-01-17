@@ -14,7 +14,7 @@ export type Mapped<K> = {
 
 type ValueOf<T> = T[keyof T];
 
-type ReverseMap<T extends Record<keyof T, keyof any>> = {
+type ReverseMap<T extends Record<keyof T, keyof unknown>> = {
   [P in T[keyof T]]: {
     [K in keyof T]: T[K] extends P ? K : never;
   }[keyof T];

@@ -79,16 +79,19 @@ declare module '*.hbs' {
 }
 
 declare module '@ember/template-compilation' {
-  export type PrecompiledTemplate = Function & { id: string };
+  export type PrecompiledTemplate = () => unknown & { id: string };
   export function precompileTemplate(
     template: string,
-    options?: any
+    options?: {
+      isStrictMode?: boolean;
+      scope: () => Record<string, unknown>;
+    }
   ): PrecompiledTemplate;
 }
 
 declare module 'ember-component-manager' {
   export default class extends ComponentManager {
-    capabilities: any;
+    capabilities: unknown;
   }
 }
 

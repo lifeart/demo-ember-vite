@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember;
 
-const tracked = Ember._tracked;
+// @ts-expect-error - Ember._tracked is not exported
+const tracked = Ember['_tracked'];
 
 export { tracked };

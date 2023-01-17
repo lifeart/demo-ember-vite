@@ -4,10 +4,12 @@ import type Route from '@ember/routing/route';
 import type GlimmerComponent from '@glimmer/component';
 import type Helper from '@ember/component/helper';
 import type Modifier from 'ember-modifier';
-import { PrecompiledTemplate } from '@ember/template-compilation';
+import type { PrecompiledTemplate } from '@ember/template-compilation';
 import { setComponentTemplate } from '@ember/component';
 
-export type RegisteredComponent = typeof GlimmerComponent & { template: any };
+export type RegisteredComponent = typeof GlimmerComponent & {
+  template: PrecompiledTemplate;
+};
 export type RegistryType =
   | 'service'
   | 'controller'
@@ -25,15 +27,17 @@ export interface IRegistry {
     | typeof Helper
     | Modifier
     | RegisteredComponent
-    | PrecompiledTemplate
-    | Function;
+    | PrecompiledTemplate;
 }
 
 export function registerComponent<T>(
-  component: T & { template: any }
+  component: T & { template: PrecompiledTemplate }
 ): RegisteredComponent {
   try {
-    return setComponentTemplate(component.template, component);
+    return setComponentTemplate(
+      component.template,
+      component as unknown as object
+    ) as RegisteredComponent;
   } catch (e) {
     console.error(e);
     return component as unknown as RegisteredComponent;
