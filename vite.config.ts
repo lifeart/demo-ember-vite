@@ -107,6 +107,12 @@ export default defineConfig(({ mode }) => {
           replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
         },
         {
+          find: /@glimmer\/tracking[^/]$/,
+          replacement: fileURLToPath(
+            new URL('./src/config/ember.ts', import.meta.url)
+          ),
+        },
+        {
           find: '@embroider/macros',
           replacement: compatPath('embroider-macros/index.ts'),
         },
