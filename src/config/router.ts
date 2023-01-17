@@ -1,6 +1,5 @@
 import EmberRouter from '@ember/routing/router';
 import config from './env';
-import Ember from 'ember';
 import type Controller from '@ember/controller';
 import Route from '@ember/routing/route';
 import { PrecompiledTemplate } from '@ember/template-compilation';

@@ -1,4 +1,4 @@
-function require(id: string): any {
+function require(id: string): void {
   console.log('require', id);
   return;
 }

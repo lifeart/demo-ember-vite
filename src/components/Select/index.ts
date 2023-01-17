@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { precompileTemplate } from '@ember/template-compilation';
 
 export default class Select extends Component {
-  onChange = (e: any) => {
+  onChange = (e: unknown) => {
     console.log(e);
   };
   options = [1, 2, 3];

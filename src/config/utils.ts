@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import type Service from '@ember/service';
 import type Controller from '@ember/controller';
 import type Route from '@ember/routing/route';
