@@ -5,17 +5,16 @@ export default class DateService extends Service {
   interval: ReturnType<(typeof window)['setInterval']> | null = null;
   @tracked _date = new Date();
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
-    super.init(...arguments);
+  constructor(...args) {
+    super(...args);
 
     this.interval = setInterval(() => {
       this._date = new Date();
     }, 1000);
   }
 
-  willDestroy() {
-    super.willDestroy(...arguments);
+  willDestroy(...args) {
+    super.willDestroy(...args);
     if (this.interval) {
       clearInterval(this.interval);
     }
