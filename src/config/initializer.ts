@@ -2,11 +2,13 @@ import ENV from './env';
 import registry from './registry';
 import type Application from '@ember/application';
 import { default as initializer } from '../initializer/logger';
+import { default as emberDataInitializer } from '../initializer/ember-data';
 import { default as instanceInitializer } from '../instance-initializers/logger';
 
 export function init(application: Application, router: any) {
   // Init initializers
   application.initializer(initializer);
+  application.initializer(emberDataInitializer);
 
   // Init instance initializers
   application.instanceInitializer(instanceInitializer);

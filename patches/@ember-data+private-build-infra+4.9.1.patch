@@ -1,0 +1,16 @@
+diff --git a/node_modules/@ember-data/private-build-infra/addon/index.ts b/node_modules/@ember-data/private-build-infra/addon/index.ts
+index 6cd64d9..14249f9 100644
+--- a/node_modules/@ember-data/private-build-infra/addon/index.ts
++++ b/node_modules/@ember-data/private-build-infra/addon/index.ts
+@@ -1,10 +1,8 @@
+-import { has } from 'require';
+-
+ import AVAILABLE_PACKAGES from './available-packages';
+ 
+ function flagState(flag: keyof typeof AVAILABLE_PACKAGES): boolean {
+   const packageName = AVAILABLE_PACKAGES[flag];
+-  return has(packageName) || false;
++  return true;
+ }
+ 
+ export const HAS_EMBER_DATA_PACKAGE = flagState('HAS_EMBER_DATA_PACKAGE');

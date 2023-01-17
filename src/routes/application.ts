@@ -1,10 +1,13 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import translations from 'ember-intl/translations';
-
+import type Store from '@ember-data/store';
+import type IntlService from 'ember-intl/addon/services/intl';
+import type SessionService from 'ember-simple-auth/services/session';
 export class ApplicationRoute extends Route {
-  @service session;
-  @service intl;
+  @service session!: SessionService;
+  @service store!: Store;
+  @service intl!: IntlService
 
   async beforeModel() {
     await this.session.setup();
@@ -20,6 +23,8 @@ export class ApplicationRoute extends Route {
   }
 
   model() {
+    console.log(this.store);
+
     return ['red', 'yellow', 'blue'];
   }
 }

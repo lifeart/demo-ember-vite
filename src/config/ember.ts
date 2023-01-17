@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { cached } from 'tracked-toolbox';
 
-export default Ember;
 
 const tracked = Ember._tracked;
 
-export { tracked };
+export default Ember;
+export { tracked, cached };
