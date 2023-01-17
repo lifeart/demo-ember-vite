@@ -1,17 +1,21 @@
 import ENV from './env';
 import registry from './registry';
-import type Application from '@ember/application';
+import type ApplicationClass from '@ember/application';
+import type RouteClass from './router';
 import { default as initializer } from '../initializer/logger';
 import { default as instanceInitializer } from '../instance-initializers/logger';
 
-export function init(application: Application, router: any) {
+export function init(
+  Application: typeof ApplicationClass,
+  Router: typeof RouteClass
+) {
   // Init initializers
-  application.initializer(initializer);
+  Application.initializer(initializer);
 
   // Init instance initializers
-  application.instanceInitializer(instanceInitializer);
+  Application.instanceInitializer(instanceInitializer);
 
-  const MyApp = application.create({
+  const MyApp = Application.create({
     name: ENV.modulePrefix,
     version: '0.0.0+33d058ab',
   });
@@ -25,7 +29,7 @@ export function init(application: Application, router: any) {
   });
 
   MyApp.register('config:environment', ENV);
-  MyApp.register('router:main', router);
+  MyApp.register('router:main', Router);
 
   return MyApp;
 }
