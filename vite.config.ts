@@ -58,7 +58,7 @@ export default defineConfig(({ mode }) => {
         },
 
         {
-          find: 'ember-testing',
+          find: /^ember-testing$/,
           replacement: 'ember-source/dist/packages/ember-testing',
         },
         {
@@ -120,7 +120,7 @@ export default defineConfig(({ mode }) => {
           find: '@embroider/util',
           replacement: compatPath('embroider-util/index.ts'),
         },
-        { find: 'ember', replacement: 'ember-source/dist/packages/ember' },
+        { find: /^ember$/, replacement: 'ember-source/dist/packages/ember' },
         {
           find: 'ember-component-manager',
           replacement:
@@ -135,8 +135,8 @@ export default defineConfig(({ mode }) => {
           replacement: compatPath('glimmer-env'),
         },
         {
-          find: 'backburner',
-          replacement: 'backburner.js/dist/es6/backburner.js',
+          find: /^backburner$/,
+          replacement: nodePath('backburner.js/dist/es6/backburner.js'),
         },
         ...localScopes().map((scope) => ({
           find: `@/${scope}`,
@@ -233,10 +233,10 @@ function addonExport(name: string) {
   };
 }
 
-function nodePath(name) {
+function nodePath(name: string) {
   return fileURLToPath(new URL(`./node_modules/${name}`, import.meta.url));
 }
-function compatPath(name) {
+function compatPath(name: string) {
   return fileURLToPath(new URL(`./compat/${name}`, import.meta.url));
 }
 
