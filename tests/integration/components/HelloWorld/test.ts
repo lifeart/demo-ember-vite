@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+// import { setupRenderingTest } from 'ember-qunit';
+// import { render } from '@ember/test-helpers';
+// import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | HelloWorld', function (hooks) {
-//   setupRenderingTest(hooks);
+module('Integration | Component | HelloWorld', function (/* hooks */) {
+  //   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
     // await render(hbs`{{hello-world}}`);

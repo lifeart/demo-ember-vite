@@ -1,5 +1,5 @@
 import '@glint/environment-ember-loose';
-import './style.css'
+import './style.css';
 
 import Ember from './config/ember';
 import App from './config/application';
@@ -14,9 +14,7 @@ const MyApp = init(App, Router);
 window.MyApp = MyApp; // for debugging and experiments
 
 MyApp.visit(window.location.pathname).then(() => {
-    document.querySelector('.lds-ripple')?.remove();
+  document.querySelector('.lds-ripple')?.remove();
 });
 
-
 console.log(MyApp);
-

@@ -4,8 +4,8 @@ import { service } from '@ember/service';
 export class ApplicationController extends Controller {
   @service session;
 
-  init() {
-    super.init(...arguments);
+  constructor(...args) {
+    super(...args);
     console.log('ApplicationController init');
   }
 }

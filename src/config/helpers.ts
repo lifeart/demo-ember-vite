@@ -1,20 +1,26 @@
 import GlimmerComponentManager from 'ember-component-manager';
 import Component from '@glimmer/component';
-import Ember from 'ember';
+import { setOwner, getOwner } from '@ember/application';
 import './inspector';
+import { capabilities } from '@ember/component';
+import { setComponentManager } from '@ember/component';
+import { Ember } from '../../types/global';
+
 class CustomComponentManager extends GlimmerComponentManager {
-    createComponent(factory, args) {
-        const component = super.createComponent(factory, args);
-        Ember.setOwner(component, Ember.getOwner(this));
-        return component;
-    }
+  createComponent(factory, args) {
+    const component = super.createComponent(factory, args);
+    setOwner(component, getOwner(this));
+    return component;
+  }
 }
 
-export function setupApplicationGlobals(Ember) {
-    GlimmerComponentManager.capabilities = Ember._componentManagerCapabilities('3.13');
-    Ember._setComponentManager((owner) => {
-        return new CustomComponentManager(owner);
-    }, Component);
-    window._Ember = Ember;
-    window.Ember = Ember;
+export function setupApplicationGlobals(EmberNamespace: Ember) {
+  GlimmerComponentManager.capabilities = capabilities('3.13');
+
+  setComponentManager((owner) => {
+    return new CustomComponentManager(owner);
+  }, Component);
+
+  window._Ember = EmberNamespace;
+  window.Ember = EmberNamespace;
 }

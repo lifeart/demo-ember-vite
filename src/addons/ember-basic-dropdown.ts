@@ -8,14 +8,22 @@ import BasicDropdownTriggerModifier from 'ember-basic-dropdown/addon/modifiers/b
 import EmberBasicDropdownContentComponent from 'ember-basic-dropdown/addon/components/basic-dropdown-content';
 import EmberBasicDropdownContentTemplate from 'ember-basic-dropdown/addon/components/basic-dropdown-content.hbs';
 
-import { setComponentTemplate} from '@glimmer/manager';
+import { setComponentTemplate } from '@glimmer/manager';
 
 const registry = {
-    'modifier:basic-dropdown-trigger': BasicDropdownTriggerModifier,
-    'component:basic-dropdown': setComponentTemplate(EmberBasicDropdownTemplate, EmberBasicDropdownComponent),
-    'component:basic-dropdown-trigger': setComponentTemplate(EmberBasicDropdownTriggerTemplate, EmberBasicDropdownTriggerComponent),
-    'component:basic-dropdown-content': setComponentTemplate(EmberBasicDropdownContentTemplate, EmberBasicDropdownContentComponent),
-
-}
+  'modifier:basic-dropdown-trigger': BasicDropdownTriggerModifier,
+  'component:basic-dropdown': setComponentTemplate(
+    EmberBasicDropdownTemplate,
+    EmberBasicDropdownComponent
+  ),
+  'component:basic-dropdown-trigger': setComponentTemplate(
+    EmberBasicDropdownTriggerTemplate,
+    EmberBasicDropdownTriggerComponent
+  ),
+  'component:basic-dropdown-content': setComponentTemplate(
+    EmberBasicDropdownContentTemplate,
+    EmberBasicDropdownContentComponent
+  ),
+};
 
 export default registry;

@@ -2,20 +2,22 @@ import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class DateService extends Service {
-  interval: any;
+  interval: ReturnType<(typeof window)['setInterval']> | null = null;
   @tracked _date = new Date();
 
-  init() {
-    super.init(...arguments);
+  constructor(...args) {
+    super(...args);
 
     this.interval = setInterval(() => {
       this._date = new Date();
     }, 1000);
   }
 
-  willDestroy() {
-    super.willDestroy(...arguments);
-    clearInterval(this.interval);
+  willDestroy(...args) {
+    super.willDestroy(...args);
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 
   get date() {

@@ -1,13 +1,12 @@
-import Helper from "@ember/component/helper";
+import Helper from '@ember/component/helper';
 
 export default class MemoryUsage extends Helper {
-  interval: any;
+  interval: number | undefined;
   heapSize: number | undefined;
 
   constructor() {
     super();
 
-    // @ts-ignore
     if (!performance.memory) {
       return;
     }
@@ -16,7 +15,10 @@ export default class MemoryUsage extends Helper {
   }
 
   async measureMemory() {
-    // @ts-ignore
+    if (!performance.memory) {
+      return;
+    }
+
     const dirtyValue = performance.memory.usedJSHeapSize / 1048576;
 
     this.heapSize = Math.round(dirtyValue * 100) / 100;

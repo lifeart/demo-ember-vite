@@ -1,7 +1,6 @@
 import type { IRegistry } from './utils';
 import addonsRegistry from '@/addons';
 
-
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
 import LoginRoute from '../routes/login';

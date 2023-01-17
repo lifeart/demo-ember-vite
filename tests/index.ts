@@ -3,7 +3,6 @@ import 'ember-qunit-styles/container.css';
 import 'qunit/qunit/qunit.css';
 
 import Ember from 'ember';
-import * as testing from 'ember-testing';
 import Application from '@/config/application';
 import { setupApplicationGlobals } from '@/config/helpers';
 
@@ -11,6 +10,7 @@ import config from '@/config/env';
 import * as QUnit from 'qunit';
 import { setApplication } from '@ember/test-helpers';
 import { setup } from 'qunit-dom';
+// import * as testing from 'ember-testing';
 // import { start } from 'ember-qunit';
 
 // delete Ember.Test;
@@ -24,14 +24,12 @@ import { setup } from 'qunit-dom';
 
 setupApplicationGlobals(Ember);
 
-
 const app = Application.create(config.APP);
 setApplication(app);
 
 setup(QUnit.assert);
 
-import.meta.glob('./unit/utils/*.ts', { eager: true })
-import.meta.glob('./integration/components/**/*.ts', { eager: true })
-
+import.meta.glob('./unit/utils/*.ts', { eager: true });
+import.meta.glob('./integration/components/**/*.ts', { eager: true });
 
 // start();

@@ -50,6 +50,6 @@ export default function i18nLoader() {
       }
 
       return `export default ${JSON.stringify(translations)}`;
-    }
-  }
+    },
+  };
 }

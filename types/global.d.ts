@@ -1,3 +1,5 @@
+import 'ember-source/types';
+import 'ember-source/types/preview';
 import { InitialRegistry } from '@/config/registry';
 import type {
   Filter,
@@ -7,7 +9,10 @@ import type {
   FilterObject,
   ReverseMap,
 } from './helpers';
+import type Ember from 'ember';
+import type Application from '@ember/application';
 
+type Ember = typeof Ember;
 type InitialRegistry = typeof InitialRegistry;
 type Services = Filter<keyof InitialRegistry, 'service'>;
 type Components = Filter<keyof InitialRegistry, 'component'>;
@@ -100,5 +105,24 @@ declare module '@ember/destroyable' {
     destructor: (destroyable: T) => void
   ): void {
     return _unregisterDestructor(destroyable, destructor);
+  }
+}
+
+declare global {
+  interface Window {
+    _Ember: Ember;
+    Ember: Ember;
+    MyApp: Application;
+  }
+
+  interface Performance {
+    memory?: {
+      /** The maximum size of the heap, in bytes, that is available to the context. */
+      jsHeapSizeLimit: number;
+      /** The total allocated heap size, in bytes. */
+      totalJSHeapSize: number;
+      /** The currently active segment of JS heap, in bytes. */
+      usedJSHeapSize: number;
+    };
   }
 }
