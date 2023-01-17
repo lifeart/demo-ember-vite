@@ -4,6 +4,7 @@ import Ember from 'ember';
 import type Controller from '@ember/controller';
 import Route from '@ember/routing/route';
 import { PrecompiledTemplate } from '@ember/template-compilation';
+import { getOwner } from '@ember/application';
 
 /*
   Here we use part of lazy-loading logic from https://github.com/embroider-build/embroider/blob/main/packages/router/src/index.ts
@@ -55,7 +56,7 @@ class Router extends EmberRouter {
       return null;
     }
     const routeResolver = Router.lazyRoutes[name];
-    const owner = Ember.getOwner(this);
+    const owner = getOwner(this);
     if (routeResolver) {
       return {
         load: async () => {

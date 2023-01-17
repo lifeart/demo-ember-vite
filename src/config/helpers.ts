@@ -1,12 +1,12 @@
 import GlimmerComponentManager from 'ember-component-manager';
 import Component from '@glimmer/component';
-import Ember from 'ember';
+import { setOwner, getOwner } from '@ember/application';
 import './inspector';
 
 class CustomComponentManager extends GlimmerComponentManager {
   createComponent(factory, args) {
     const component = super.createComponent(factory, args);
-    Ember.setOwner(component, Ember.getOwner(this));
+    setOwner(component, getOwner(this));
     return component;
   }
 }
