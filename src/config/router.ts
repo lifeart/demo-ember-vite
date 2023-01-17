@@ -44,6 +44,8 @@ class Router extends EmberRouter {
     const isSetup = super.setupRouter(...args);
     const microLib = (
       this as unknown as {
+        // TODO: is there a way don't use the private route?
+        /* eslint-disable ember/no-private-routing-service */
         _routerMicrolib: { getRoute: (name: string) => unknown };
       }
     )._routerMicrolib;
