@@ -1,7 +1,7 @@
 import '@glint/environment-ember-loose';
 import './style.css';
 
-import Ember from './config/ember';
+import Ember from 'ember';
 import App from './config/application';
 import Router from './router';
 import { init } from './config/initializer';
