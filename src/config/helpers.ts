@@ -2,6 +2,8 @@ import GlimmerComponentManager from 'ember-component-manager';
 import Component from '@glimmer/component';
 import { setOwner, getOwner } from '@ember/application';
 import './inspector';
+import { capabilities } from '@ember/component';
+import { setComponentManager } from '@ember/component';
 
 class CustomComponentManager extends GlimmerComponentManager {
   createComponent(factory, args) {
@@ -12,10 +14,9 @@ class CustomComponentManager extends GlimmerComponentManager {
 }
 
 export function setupApplicationGlobals(Ember) {
-  GlimmerComponentManager.capabilities =
-    Ember._componentManagerCapabilities('3.13');
+  GlimmerComponentManager.capabilities = capabilities('3.13');
 
-  Ember._setComponentManager((owner) => {
+  setComponentManager((owner) => {
     return new CustomComponentManager(owner);
   }, Component);
 
