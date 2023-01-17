@@ -1,3 +1,5 @@
+import 'ember-source/types';
+import 'ember-source/types/preview';
 import { InitialRegistry } from '@/config/registry';
 import type {
   Filter,
