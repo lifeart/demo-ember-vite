@@ -4,6 +4,7 @@ import { setOwner, getOwner } from '@ember/application';
 import './inspector';
 import { capabilities } from '@ember/component';
 import { setComponentManager } from '@ember/component';
+import { Ember } from '../../types/global';
 
 class CustomComponentManager extends GlimmerComponentManager {
   createComponent(factory, args) {
@@ -13,13 +14,13 @@ class CustomComponentManager extends GlimmerComponentManager {
   }
 }
 
-export function setupApplicationGlobals(Ember) {
+export function setupApplicationGlobals(EmberNamespace: Ember) {
   GlimmerComponentManager.capabilities = capabilities('3.13');
 
   setComponentManager((owner) => {
     return new CustomComponentManager(owner);
   }, Component);
 
-  window._Ember = Ember;
-  window.Ember = Ember;
+  window._Ember = EmberNamespace;
+  window.Ember = EmberNamespace;
 }
