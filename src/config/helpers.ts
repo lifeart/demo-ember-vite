@@ -5,6 +5,7 @@ import './inspector';
 import { capabilities } from '@ember/component';
 import { setComponentManager } from '@ember/component';
 import { Ember } from '../../types/global';
+import config from './env';
 
 class CustomComponentManager extends GlimmerComponentManager {
   createComponent(factory, args) {
@@ -21,6 +22,7 @@ export function setupApplicationGlobals(EmberNamespace: Ember) {
     return new CustomComponentManager(owner);
   }, Component);
 
+  window.EmberENV = config.EmberENV;
   window._Ember = EmberNamespace;
   window.Ember = EmberNamespace;
 }

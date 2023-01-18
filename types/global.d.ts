@@ -116,6 +116,7 @@ declare global {
     _Ember: Ember;
     Ember: Ember;
     MyApp: Application;
+    EmberENV: Record<string, boolean>;
   }
 
   interface Performance {
