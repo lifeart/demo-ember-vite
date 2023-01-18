@@ -1,4 +1,4 @@
-import 'ember-power-select/vendor/ember-power-select.css';
+// import 'ember-power-select/vendor/ember-power-select.css';
 
 import EmberPowerSelectComponent from 'ember-power-select/addon/components/power-select';
 import EmberPowerSelectTemplate from 'ember-power-select/addon/components/power-select.hbs';

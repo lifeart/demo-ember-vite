@@ -58,10 +58,9 @@ export function importSync(name: string) {
   return true;
 }
 
-export function isTesting(...args: unknown[]) {
+export function isTesting() {
   if (window.location.pathname.includes('/tests/')) {
     return true;
   }
-  console.info('isTesting', ...args);
   return false;
 }

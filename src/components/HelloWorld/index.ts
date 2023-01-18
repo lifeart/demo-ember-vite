@@ -26,7 +26,7 @@ export default class HelloWorld extends Component {
       <div class="mt-2">
         {{t 'hello.world'}}
       </div>
-      <div>
+      <div class="mt-4">
       <Button {{on "click" (fn this.setLanguage "en-us")}}>en-us</Button>
       <Button {{on "click" (fn this.setLanguage "fr-fr")}}>fr-fr</Button>
       <Button {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
