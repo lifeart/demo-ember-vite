@@ -11,6 +11,7 @@ import type {
 } from './helpers';
 import type Ember from 'ember';
 import type Application from '@ember/application';
+import { ComponentManager, ComponentCapabilities } from '@glimmer/core';
 
 type Ember = typeof Ember;
 type InitialRegistry = typeof InitialRegistry;
@@ -91,7 +92,7 @@ declare module '@ember/template-compilation' {
 
 declare module 'ember-component-manager' {
   export default class extends ComponentManager {
-    capabilities: unknown;
+    capabilities: ComponentCapabilities;
   }
 }
 
