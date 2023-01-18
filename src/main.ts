@@ -17,11 +17,16 @@ const app = init(App, Router);
 
 window[env.APP.globalName] = app; // for debugging and experiments
 
-import('@/addons').then(({ default: addons}) => {
-  extendRegistry(addons);
-}).then(() => {
-  app.visit(window.location.pathname).then(() => {
-    document.querySelector('.lds-ripple')?.remove();
+import('@/addons')
+  .then(({ default: addons }) => {
+    // here we importing static addons registry
+    // and extend app registry with it
+    // we need to not grow main bundle
+    extendRegistry(addons);
+  })
+  .then(() => {
+    app.visit(window.location.pathname).then(() => {
+      document.querySelector('.lds-ripple')?.remove();
+    });
+    console.log(app);
   });
-  console.log(app);
-})
