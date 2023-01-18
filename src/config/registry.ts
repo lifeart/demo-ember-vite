@@ -24,6 +24,8 @@ import DateService from '@/services/date';
 /* imported components */
 import HelloWorld from '@/components/HelloWorld';
 import Button from '@/components/Button';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 /* imported helpers */
 import MemoryUsage from '@/helpers/memory-usage';
@@ -47,6 +49,8 @@ export const InitialRegistry = {
 
   'component:hello-world': HelloWorld,
   'component:button': Button,
+  'component:header': Header,
+  'component:footer': Footer,
 
   'helper:memory-usage': MemoryUsage as unknown as () => string, // glint fix
   'modifier:click-tracker': ClickTracker,

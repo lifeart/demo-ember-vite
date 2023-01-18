@@ -19,26 +19,90 @@ export default class HelloWorld extends Component {
 
   static template = precompileTemplate(
     `
-      <h1 class="hello-world">{{t 'hello.world'}}</h1>
-      <pre class="font-mono">{{format-date this.dateService._date}} {{this.dateService.date}}</pre>
 
-      {{if (eq "a" "a") "equal" "not equal"}}
-      {{if (and (eq "a" "a") (eq "b" "b")) "equal" "not equal"}}
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900"><code>t</code> helper test:</h3>
 
-      <TemplateOnlyComponent />
-
-      <Local />
-      <br>
-      {{calculateSummary 3 2}}
-      <br>
-
+      <div class="mt-2">
+        {{t 'hello.world'}}
+      </div>
+      <div>
       <Button {{on "click" (fn this.setLanguage "en-us")}}>en-us</Button>
       <Button {{on "click" (fn this.setLanguage "fr-fr")}}>fr-fr</Button>
       <Button {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
+      </div>
+    </div>
+      
 
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">
+      Reactivity test:
+      </h3>
+
+      <div class="mt-2">
+      <pre class="font-mono">{{format-date this.dateService._date}} {{this.dateService.date}}</pre>
+
+      </div>
+    </div>
+
+
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">
+        
+        <code>eq</code>, <code>and</code> helpers test:
+      </h3>
+
+      <div class="mt-2">
+      {{if (eq "a" "a") "equal" "not equal"}}
+        {{if (and (eq "a" "a") (eq "b" "b")) "equal" "not equal"}}
+      </div>
+    </div>
+
+      
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Template only component test:</h3>
+
+      <div class="mt-2">
+        <TemplateOnlyComponent />
+      </div>
+    </div>
+
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Local imported component:</h3>
+
+      <div class="mt-2">
+      <Local />
+      </div>
+    </div>
+      
+
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Summary calculation helper test:</h3>
+
+      <div class="mt-2">
+      {{calculateSummary 3 2}}
+      </div>
+    </div>
+      
+ 
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">Ember Power Select test:</h3>
+
+      <div class="mt-2">
       <Select />
+      </div>
+    </div>
+     
 
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">.gts component test:</h3>
+
+      <div class="mt-2">
       <Sample />
+      </div>
+    </div>
+
+      
     `,
     {
       isStrictMode: true,

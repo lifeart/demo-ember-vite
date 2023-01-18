@@ -7,6 +7,6 @@ function multiply(a: number, b: number) {
 module('Unit | Utility | multiply', function () {
   test('it works', function (assert) {
     const result = multiply(3, 2);
-    assert.equal(result, 6);
+    assert.strictEqual(result, 6);
   });
 });

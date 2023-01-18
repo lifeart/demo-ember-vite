@@ -1,0 +1,73 @@
+{{! @glint-nocheck: glint acting strange here }}
+
+<header class='bg-indigo-600'>
+  <nav class='mx-auto max-w-7xl px-6 lg:px-8' aria-label='Top'>
+    <div
+      class='flex w-full items-center justify-between border-b border-indigo-500 py-6 lg:border-none'
+    >
+      <div class='flex items-center'>
+        <a href='/'>
+          <span class='sr-only'>Ember Vite</span>
+          <img class='h-10 w-auto' src='/vite.svg' alt='vite' />
+        </a>
+        <div class='ml-10 hidden space-x-8 lg:block'>
+
+          {{#let
+            'text-base font-medium text-white hover:text-indigo-50'
+            as |class|
+          }}
+            <LinkTo @route='main' class={{class}}>Home</LinkTo>
+            <LinkTo @route='about' class={{class}}>About</LinkTo>
+            <LinkTo @route='profile' class={{class}}>Profile</LinkTo>
+            <LinkTo @route='not-found' @model='42' class={{class}}>404</LinkTo>
+
+            <LinkTo @route='bootstrap' class={{class}}>Ember Bootstrap
+              (lazy-loaded)</LinkTo>
+            <a href='/tests/' class={{class}}>Tests (QUnit)</a>
+            <a
+              rel='noopener noreferrer'
+              target='_blank'
+              href='https://github.com/lifeart/demo-ember-vite'
+              class={{class}}
+            >Repo</a>
+
+          {{/let}}
+        </div>
+      </div>
+      <div class='ml-10 space-x-4'>
+        {{#if @session.isAuthenticated}}
+          <LinkTo
+            @route='logout'
+            class='inline-block rounded-md border border-transparent bg-white py-2 px-4 text-base font-medium text-indigo-600 hover:bg-indigo-50'
+          >Logout</LinkTo>
+        {{else}}
+          <LinkTo
+            @route='login'
+            class='inline-block rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75'
+          >Login</LinkTo>
+        {{/if}}
+
+      </div>
+    </div>
+    <div class='flex flex-wrap justify-center gap-x-6 py-4 lg:hidden'>
+      {{#let
+        'text-base font-medium text-white hover:text-indigo-50'
+        as |class|
+      }}
+        <LinkTo @route='main' class={{class}}>Home</LinkTo>
+        <LinkTo @route='about' class={{class}}>About</LinkTo>
+        <LinkTo @route='profile' class={{class}}>Profile</LinkTo>
+        <LinkTo @route='not-found' @model='42' class={{class}}>404</LinkTo>
+
+        <LinkTo @route='bootstrap' class={{class}}>Ember Bootstrap (lazy-loaded)</LinkTo>
+        <a href='/tests/' class={{class}}>Tests (QUnit)</a>
+        <a
+          rel='noopener noreferrer'
+          href='https://github.com/lifeart/demo-ember-vite'
+          class={{class}}
+        >Repo</a>
+
+      {{/let}}
+    </div>
+  </nav>
+</header>

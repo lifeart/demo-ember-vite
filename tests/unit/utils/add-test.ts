@@ -7,6 +7,6 @@ function add(a: number, b: number) {
 module('Unit | Utility | add', function () {
   test('it works', function (assert) {
     const result = add(3, 2);
-    assert.equal(result, 5);
+    assert.strictEqual(result, 5);
   });
 });

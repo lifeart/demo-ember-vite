@@ -1,11 +1,13 @@
 import Component from '@glimmer/component';
 import { precompileTemplate } from '@ember/template-compilation';
+import { tracked } from '@glimmer/tracking';
 
 export default class Select extends Component {
-  onChange = (e: unknown) => {
-    console.log(e);
+  onChange = (el: number) => {
+    this.selectedOption = el;
   };
   options = [1, 2, 3];
+  @tracked
   selectedOption = 1;
   static template = precompileTemplate(
     `
