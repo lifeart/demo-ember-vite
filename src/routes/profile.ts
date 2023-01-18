@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
+import type Transition from '@ember/routing/transition';
 import { service } from '@ember/service';
+import SessionService from 'ember-simple-auth/addon/services/session';
 
 export default class ProfileRoute extends Route {
-  @service session;
+  @service session: SessionService;
 
-  beforeModel(transition) {
+  beforeModel(transition: Transition) {
     this.session.requireAuthentication(transition, 'login');
   }
 
