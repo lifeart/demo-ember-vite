@@ -2,13 +2,14 @@ import 'vite/modulepreload-polyfill';
 import '@glint/environment-ember-loose';
 import './style.css';
 
-import Ember from './config/ember';
-import App from './config/application';
+import Ember from '@/config/ember';
+import App from '@/config/application';
+import { init } from '@/config/initializer';
+import { setupApplicationGlobals } from '@/config/helpers';
+import { extendRegistry } from '@/config/utils';
+import env from '@/config/env';
 import Router from './router';
-import { init } from './config/initializer';
-import { setupApplicationGlobals } from './config/helpers';
-import { extendRegistry } from './config/utils';
-import env from './config/env';
+
 import '@/config/inspector';
 
 setupApplicationGlobals(Ember);
