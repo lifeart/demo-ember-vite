@@ -122,6 +122,10 @@ export default defineConfig(({ mode }) => {
         },
         { find: /^ember$/, replacement: 'ember-source/dist/packages/ember' },
         {
+          find: /^ember\/version$/,
+          replacement: 'ember-source/dist/packages/ember/version',
+        },
+        {
           find: 'ember-component-manager',
           replacement:
             '@glimmer/component/addon/-private/ember-component-manager',
