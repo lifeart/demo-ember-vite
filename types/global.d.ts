@@ -10,6 +10,7 @@ import type {
   ReverseMap,
 } from './helpers';
 import type Ember from 'ember';
+import type env from '@/config/env';
 import type Application from '@ember/application';
 
 type Ember = typeof Ember;
@@ -115,7 +116,7 @@ declare global {
   interface Window {
     _Ember: Ember;
     Ember: Ember;
-    MyApp: Application;
+    [env.APP.globalName]: Application;
     EmberENV: Record<string, boolean | Record<string, unknown>>;
   }
 

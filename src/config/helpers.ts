@@ -10,7 +10,7 @@ import config from './env';
 class CustomComponentManager extends GlimmerComponentManager {
   createComponent(factory, args) {
     const component = super.createComponent(factory, args);
-    setOwner(component, getOwner(this));
+    setOwner(component, getOwner(this)!);
     return component;
   }
 }

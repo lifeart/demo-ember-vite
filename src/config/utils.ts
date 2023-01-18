@@ -6,7 +6,7 @@ import type Helper from '@ember/component/helper';
 import type Modifier from 'ember-modifier';
 import type { PrecompiledTemplate } from '@ember/template-compilation';
 import { setComponentTemplate } from '@ember/component';
-
+import env from '@/config/env';
 export type RegisteredComponent = typeof GlimmerComponent & {
   template: PrecompiledTemplate;
 };
@@ -46,6 +46,6 @@ export function registerComponent<T>(
 
 export function extendRegistry(registry) {
   Object.keys(registry).forEach((key) => {
-    window.MyApp.register(key, registry[key]);
+    window[env.APP.globalName].register(key, registry[key]);
   });
 }

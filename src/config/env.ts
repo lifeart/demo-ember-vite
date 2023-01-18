@@ -18,6 +18,7 @@ function config(environment: 'production' | 'development') {
     },
     APP: {
       version: packageJSON.version,
+      globalName: 'MyApp',
     },
   };
 

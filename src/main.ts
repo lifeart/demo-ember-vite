@@ -6,15 +6,16 @@ import App from './config/application';
 import Router from './router';
 import { init } from './config/initializer';
 import { setupApplicationGlobals } from './config/helpers';
+import env from './config/env';
 
 setupApplicationGlobals(Ember);
 
-const MyApp = init(App, Router);
+const app = init(App, Router);
 
-window.MyApp = MyApp; // for debugging and experiments
-
-MyApp.visit(window.location.pathname).then(() => {
+app.visit(window.location.pathname).then(() => {
   document.querySelector('.lds-ripple')?.remove();
 });
 
-console.log(MyApp);
+window[env.APP.globalName] = app; // for debugging and experiments
+
+console.log(app);
