@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import translations from 'ember-intl/translations';
+import SessionService from 'ember-simple-auth/addon/services/session';
+import type IntlService from 'ember-intl/addon/services/intl';
 
 export class ApplicationRoute extends Route {
-  @service session;
-  @service intl;
+  @service session: SessionService;
+  @service intl!: IntlService;
 
   async beforeModel() {
     await this.session.setup();

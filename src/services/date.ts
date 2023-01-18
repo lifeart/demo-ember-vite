@@ -5,7 +5,7 @@ export default class DateService extends Service {
   interval: ReturnType<(typeof window)['setInterval']> | null = null;
   @tracked _date = new Date();
 
-  constructor(...args) {
+  constructor(...args: ConstructorParameters<typeof Service>) {
     super(...args);
 
     this.interval = setInterval(() => {
@@ -13,7 +13,7 @@ export default class DateService extends Service {
     }, 1000);
   }
 
-  willDestroy(...args) {
+  willDestroy(...args: Parameters<Service['willDestroy']>) {
     super.willDestroy(...args);
     if (this.interval) {
       clearInterval(this.interval);

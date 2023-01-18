@@ -36,6 +36,7 @@
       "@glimmer/component": ["./node_modules/@glimmer/component"],
       "@glimmer/tracking": ["./node_modules/ember-source/dist/packages/@glimmer/tracking"],
       "ember-component-manager": ["./node_modules/@glimmer/component/addon/-private/ember-component-manager"],
+      "ember-simple-auth/*": ["./node_modules/ember-simple-auth/addon/*"],
     }
   },
   "include": ["src", "types"],
