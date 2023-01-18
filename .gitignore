@@ -23,8 +23,6 @@ dist-ssr
 
 # misc
 /coverage/
-!.*
-.*/
 .eslintcache
-
+!.*
 .DS_Store
