@@ -57,13 +57,24 @@ export const InitialRegistry = {
     return a;
   },
   'helper:macroCondition': function (a: string) {
-    if (a === 'isNotBS5') {
-      return false;
+    // ember-bootstrap compat
+    if (typeof a === 'boolean') {
+      return a;
     }
     console.log('macroCondition', a);
     return a;
   },
   'helper:macroGetOwnConfig': function (a: string) {
+    // ember-bootstrap compat
+    if (a === 'isNotBS5') {
+      return false;
+    }
+    if (a === 'isBS5') {
+      return true;
+    }
+    if (a === 'isBS4') {
+      return false;
+    }
     console.log('macroGetOwnConfig', a);
     return a;
   },

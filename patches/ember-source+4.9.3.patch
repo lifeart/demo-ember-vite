@@ -73,7 +73,7 @@ index 8d78b05..9d15054 100644
    registerAsyncHelper = Test.registerAsyncHelper;
    registerHelper = Test.registerHelper;
 diff --git a/node_modules/ember-source/dist/packages/ember/index.js b/node_modules/ember-source/dist/packages/ember/index.js
-index 9382f12..4ca1dbf 100644
+index 9382f12..a0dfc65 100644
 --- a/node_modules/ember-source/dist/packages/ember/index.js
 +++ b/node_modules/ember-source/dist/packages/ember/index.js
 @@ -1,4 +1,3 @@
@@ -142,6 +142,18 @@ index 9382f12..4ca1dbf 100644
    w,
    dasherize,
    decamelize,
+@@ -442,9 +474,9 @@ function defineEmberTemplateCompilerLazyLoad(key) {
+     enumerable: true,
+ 
+     get() {
+-      if (has('ember-template-compiler')) {
++      if (false) {
+         let templateCompiler = require('ember-template-compiler');
+-
++        console.log(templateCompiler);
+         EmberHTMLBars.precompile = EmberHandlebars.precompile = templateCompiler.precompile;
+         EmberHTMLBars.compile = EmberHandlebars.compile = templateCompiler.compile;
+         Object.defineProperty(Ember, 'HTMLBars', {
 @@ -477,9 +509,7 @@ function defineEmberTestingLazyLoad(key) {
      enumerable: true,
  
