@@ -1,6 +1,6 @@
-// import './../src/style.css';
 import 'ember-qunit-styles/container.css';
 import 'qunit/qunit/qunit.css';
+import './../src/style.css';
 
 import * as QUnit from 'qunit';
 import { setApplication } from '@ember/test-helpers';
