@@ -1,0 +1,16 @@
+diff --git a/node_modules/ember-cookies/addon/services/cookies.js b/node_modules/ember-cookies/addon/services/cookies.js
+index daad91b..95612b0 100644
+--- a/node_modules/ember-cookies/addon/services/cookies.js
++++ b/node_modules/ember-cookies/addon/services/cookies.js
+@@ -3,10 +3,9 @@ import { get } from '@ember/object';
+ import { assert } from '@ember/debug';
+ import { getOwner } from '@ember/application';
+ import Service from '@ember/service';
+-import { merge, assign as emberAssign } from '@ember/polyfills';
+ import { serializeCookie } from '../utils/serialize-cookie';
+ const { keys } = Object;
+-const assign = Object.assign || emberAssign || merge;
++const assign = Object.assign;
+ const DEFAULTS = { raw: false };
+ const MAX_COOKIE_BYTE_LENGTH = 4096;
+ 

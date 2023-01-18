@@ -20,6 +20,9 @@ function config(environment: 'production' | 'development') {
       version: packageJSON.version,
       globalName: 'MyApp',
     },
+    'ember-simple-auth': {
+      routeAfterAuthentication: 'profile',
+    },
   };
 
   return ENV;

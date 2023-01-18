@@ -13,9 +13,5 @@ export class LoginController extends Controller {
     e.preventDefault();
 
     await this.session.authenticate('authenticator:custom');
-
-    if (this.session.isAuthenticated) {
-      this.router.transitionTo('main');
-    }
   }
 }
