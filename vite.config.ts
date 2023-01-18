@@ -200,7 +200,7 @@ export default defineConfig(({ mode }) => {
       // babel config for app code
       babel({
         // regexp to match files in src folder
-        filter: /^.*src\/.*\.(ts|js|hbs|gts|gjs)$/,
+        filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
         babelConfig: defaultBabelConfig([transformImports]),
       }),
       // babel config for addons

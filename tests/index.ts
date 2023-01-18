@@ -13,7 +13,7 @@ setApplication(create());
 setup(QUnit.assert);
 
 import.meta.glob('./unit/utils/*.ts', { eager: true });
-import.meta.glob('./integration/components/**/*.ts', { eager: true });
+import.meta.glob('./integration/components/**/*-test.{gts,ts,js,gjs}', { eager: true });
 
 start({
   loadTests: false, // we could hook this to load our tests
