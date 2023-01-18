@@ -1,19 +1,47 @@
-## Ember + Vite
+# Ember Vite
 
----
+<img align="right" width="24" height="24"
+     alt="Vite logo"
+     src="./public/vite.svg">
+<img align="right" width="95" height="95"
+     alt="Ember.js logo"
+     src="./public/ember.svg">
 
-This is sample Ember application running only on `Vite`, without `ember-cli` and `embroider`.
+This is Ember application running only on `Vite`, without `ember-cli` and `embroider`.
 
 * It's `TypeScript`'ed by default.
 * It uses `vite` to build the app.
 * `tailwind` used for styling.
 
+## Table of Contents
+
+* [Description](#description)
+* [Motivation](#motivation)
+* [Features](#features)
+* [Unsupported](#unsupported)
+* [Installation](#installation)
+* [Addons](#in-scope-of-this-app-we-able-to-run-this-addons)
+* [Why?](#why)
+* [Disclaimer](#disclaimer)
+
+
+## Description
 
 Main difference with classic Ember application, is that we don't trying to automatically resolve addons and it's dependencies - we just import them directly, only once needed.
 
----
 
-### Key supported features
+## Motivation
+
+Why this library/application exists, main bullets
+
+- ⚡️ Lightning Fast Build process
+- 💡 Instant Server Start
+- 🛠️ Rich Features
+- 📦 Optimized Build
+- 🔩 A lot of supported addons
+- 🔑 TypeScripted by default
+
+## Features
 
 1. Strict mode
 1. Lazy-loading for routes
@@ -24,11 +52,20 @@ Main difference with classic Ember application, is that we don't trying to autom
 1. Glint support
 1. Testing support (QUnit)
 
-### Unsupported
+## Unsupported
 
 1. `ember-data` not supported yet
 
-### In scope of this app we able to run this addons
+
+## Installation
+
+```bash
+yarn install
+yarn dev
+# open http://localhost:4200
+```
+
+## In scope of this app we able to run this addons
 
 1. `ember-simple-auth`
 1. `ember-bootstrap`
@@ -49,22 +86,6 @@ Main difference with classic Ember application, is that we don't trying to autom
 
 *This is not complete list, and you could add `any` ember addon you want (if it don't have `ember-cli` logic)*
 
----
-
-PR's are welcome.
-
----
-
-To check app, run:
-
-```bash
-yarn install
-yarn dev
-```
-
----
-
-
 ## Why?
 
 I would like to bulletproof opinion, that modern ember application could be statically resolvable by default, and I would like to use `Vite` for that. It give as ability to use `TypeScript` and `ESM` by default, and it's very fast.
@@ -72,3 +93,15 @@ I would like to bulletproof opinion, that modern ember application could be stat
 ## Disclaimer
 
 I'm not planning to actively maintain this repo, but if you have any questions, feel free to ask.
+
+In addition, if you looking for options to improve speed of your ember project and you open for contracts - don't shy to contact me.
+
+---
+
+PR's are welcome.
+
+---
+
+
+## Licence
+[MIT](./LICENCE.md)
