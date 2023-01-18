@@ -5,7 +5,6 @@ import * as inst from '@ember/instrumentation';
 import * as view from '@ember/-internals/views';
 import * as ref from '@glimmer/reference';
 import * as val from '@glimmer/validator';
-import env from './env';
 
 let define = window.define,
   requireModule = window.requireModule;

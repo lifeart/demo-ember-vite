@@ -10,25 +10,7 @@ env:
   NODE_VERSION: '16.x'
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
-
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '${{ env.NODE_VERSION }}'
-
-    - name: Install Dependencies
-      run: yarn install --frozen-lockfile
-
-    - name: Lint
-      run: yarn lint
-
-
+ 
   test:
     name: Build test
     runs-on: ${{ matrix.os }}
@@ -53,3 +35,22 @@ jobs:
 
     - name: Test
       run: yarn build
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '${{ env.NODE_VERSION }}'
+
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Lint
+      run: yarn lint
+
