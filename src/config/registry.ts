@@ -1,5 +1,4 @@
 import type { IRegistry } from './utils';
-import addonsRegistry from '@/addons';
 
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
@@ -33,7 +32,6 @@ import MemoryUsage from '@/helpers/memory-usage';
 import ClickTracker from '@/modifiers/click-tracker';
 
 export const InitialRegistry = {
-  ...addonsRegistry,
   'authenticator:custom': CustomAuthenticator,
   'service:date': DateService,
   'controller:application': ApplicationController,
