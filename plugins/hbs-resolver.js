@@ -1,6 +1,6 @@
 const fileRegex = /\.(hbs)$/;
 
-function tpl(raw, id) {
+function tpl(raw, id, isProd) {
   const code = raw.split('`').join('\\`');
 
   const moduleName = id.includes('node_modules')
@@ -15,9 +15,9 @@ function tpl(raw, id) {
     import { precompileTemplate } from '@ember/template-compilation';
     import { templateOnlyComponent } from '@glimmer/runtime';
     import { setComponentTemplate} from '@glimmer/manager';
-    export default setComponentTemplate(precompileTemplate(${
-      '`' + code + '`'
-    }), templateOnlyComponent("${moduleName}", "${name}"));
+    export default setComponentTemplate(precompileTemplate(${'`' + code + '`'}${
+    isProd ? ', {isProduction: true}' : ''
+  }), templateOnlyComponent("${moduleName}", "${name}"));
     `.trim();
 
   // return `
@@ -26,14 +26,14 @@ function tpl(raw, id) {
   // `.trim();
 }
 
-export default function hbsResolver() {
+export default function hbsResolver(isProd) {
   return {
     name: 'hbs-resolver',
     enforce: 'pre',
     transform(src, id) {
       if (fileRegex.test(id, id)) {
         return {
-          code: tpl(src, id),
+          code: tpl(src, id, isProd),
           map: null, // provide source map if available
         };
       }

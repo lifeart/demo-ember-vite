@@ -167,7 +167,7 @@ export default defineConfig(({ mode }) => {
       ],
     },
     plugins: [
-      hbsResolver(),
+      hbsResolver(isProd),
       gtsResolver(),
       i18nLoader(),
       !isDev
@@ -209,14 +209,14 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
-        babelConfig: defaultBabelConfig([transformImports]),
+        babelConfig: defaultBabelConfig([transformImports], isProd),
       }),
       // babel config for addons
       babel({
         // regexp to match files in src folder
         filter:
           /^.*(ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
-        babelConfig: defaultBabelConfig(),
+        babelConfig: defaultBabelConfig([], isProd),
       }),
       // ...
     ].filter((el) => el !== null),
@@ -256,7 +256,7 @@ function compatPath(name: string) {
   return fileURLToPath(new URL(`./compat/${name}`, import.meta.url));
 }
 
-function templateCompilationPlugin() {
+function templateCompilationPlugin(isProd: boolean) {
   return [
     'babel-plugin-ember-template-compilation/node',
     {
@@ -270,11 +270,28 @@ function templateCompilationPlugin() {
           ],
         },
       },
+      transforms: [
+        isProd
+          ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            function sampleTransform(env) {
+              return {
+                name: 'skip-prod-test-selectors',
+                visitor: {
+                  ElementNode(node) {
+                    node.attributes = node.attributes.filter(
+                      (el) => !el.name.startsWith('data-test-')
+                    );
+                  },
+                },
+              };
+            }
+          : null,
+      ].filter((el) => el !== null),
     },
   ];
 }
 
-function defaultBabelPlugins() {
+function defaultBabelPlugins(isProd: boolean) {
   return [
     [
       '@babel/plugin-proposal-decorators',
@@ -283,15 +300,15 @@ function defaultBabelPlugins() {
       },
     ],
     ['@babel/plugin-proposal-class-properties', { loose: false }],
-    templateCompilationPlugin(),
+    templateCompilationPlugin(isProd),
   ];
 }
 
-function defaultBabelConfig(plugins = []) {
+function defaultBabelConfig(plugins = [], isProd: boolean) {
   return {
     babelrc: false,
     configFile: false,
-    plugins: [...plugins, ...defaultBabelPlugins()],
+    plugins: [...plugins, ...defaultBabelPlugins(isProd)],
     presets: ['@babel/preset-typescript'],
   };
 }
