@@ -8,8 +8,8 @@ import Router from './router';
 import { init } from './config/initializer';
 import { setupApplicationGlobals } from './config/helpers';
 import { extendRegistry } from './config/utils';
-
 import env from './config/env';
+import '@/config/inspector';
 
 setupApplicationGlobals(Ember);
 

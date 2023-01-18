@@ -1,7 +1,6 @@
 import GlimmerComponentManager from 'ember-component-manager';
 import Component from '@glimmer/component';
 import { setOwner, getOwner } from '@ember/application';
-import './inspector';
 import { capabilities } from '@ember/component';
 import { setComponentManager } from '@ember/component';
 import { Ember } from '../../types/global';
