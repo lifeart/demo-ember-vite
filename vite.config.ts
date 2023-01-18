@@ -21,6 +21,12 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    server: {
+      port: 4200,
+    },
+    preview: {
+      port: 4200,
+    },
     define: {
       ENV_DEBUG: isProd ? false : true,
       ENV_CI: false,
@@ -60,6 +66,10 @@ export default defineConfig(({ mode }) => {
         {
           find: /^ember-testing$/,
           replacement: 'ember-source/dist/packages/ember-testing',
+        },
+        {
+          find: /^ember-testing\//,
+          replacement: 'ember-source/dist/packages/ember-testing/',
         },
         {
           find: 'ember-cli-version-checker',
@@ -121,6 +131,10 @@ export default defineConfig(({ mode }) => {
           replacement: compatPath('embroider-util/index.ts'),
         },
         { find: /^ember$/, replacement: 'ember-source/dist/packages/ember' },
+        {
+          find: /^ember\/version$/,
+          replacement: 'ember-source/dist/packages/ember/version',
+        },
         {
           find: 'ember-component-manager',
           replacement:
@@ -192,7 +206,7 @@ export default defineConfig(({ mode }) => {
       // babel config for app code
       babel({
         // regexp to match files in src folder
-        filter: /^.*src\/.*\.(ts|js|hbs|gts|gjs)$/,
+        filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
         babelConfig: defaultBabelConfig([transformImports]),
       }),
       // babel config for addons

@@ -27,8 +27,6 @@ Main difference with classic Ember application, is that we don't trying to autom
 ### Unsupported
 
 1. `ember-data` not supported yet
-1. no waiters support in tests (yet)
-
 
 ### In scope of this app we able to run this addons
 

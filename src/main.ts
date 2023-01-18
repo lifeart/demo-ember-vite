@@ -1,3 +1,4 @@
+import 'vite/modulepreload-polyfill';
 import '@glint/environment-ember-loose';
 import './style.css';
 
@@ -6,15 +7,26 @@ import App from './config/application';
 import Router from './router';
 import { init } from './config/initializer';
 import { setupApplicationGlobals } from './config/helpers';
+import { extendRegistry } from './config/utils';
+import env from './config/env';
+import '@/config/inspector';
 
 setupApplicationGlobals(Ember);
 
-const MyApp = init(App, Router);
+const app = init(App, Router);
 
-window.MyApp = MyApp; // for debugging and experiments
+window[env.APP.globalName] = app; // for debugging and experiments
 
-MyApp.visit(window.location.pathname).then(() => {
-  document.querySelector('.lds-ripple')?.remove();
-});
-
-console.log(MyApp);
+import('@/addons')
+  .then(({ default: addons }) => {
+    // here we importing static addons registry
+    // and extend app registry with it
+    // we need to not grow main bundle
+    extendRegistry(addons);
+  })
+  .then(() => {
+    app.visit(window.location.pathname).then(() => {
+      document.querySelector('.lds-ripple')?.remove();
+    });
+    console.log(app);
+  });

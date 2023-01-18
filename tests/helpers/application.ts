@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { setupApplicationGlobals } from '@/config/helpers';
 import registry from '@/config/registry';
+import addonRegistry from '@/addons';
 import config from '@/config/env';
 import Application from '@/config/application';
 
@@ -20,6 +21,11 @@ export function create() {
 
   Object.keys(registryObjects).forEach((key) => {
     const value = registryObjects[key];
+    app.register(key, value);
+  });
+
+  Object.keys(addonRegistry).forEach((key) => {
+    const value = addonRegistry[key];
     app.register(key, value);
   });
 

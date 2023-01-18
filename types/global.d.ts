@@ -1,6 +1,8 @@
 import 'ember-source/types';
 import 'ember-source/types/preview';
-import { InitialRegistry } from '@/config/registry';
+import { InitialRegistry as AppRegistry } from '@/config/registry';
+import AddonsRegistry from '@/addons';
+import EmberBootstrapRegistry from '@/addons/ember-bootstrap';
 import type {
   Filter,
   CamelizeName,
@@ -10,11 +12,14 @@ import type {
   ReverseMap,
 } from './helpers';
 import type Ember from 'ember';
+import type env from '@/config/env';
 import type Application from '@ember/application';
 import { ComponentManager, ComponentCapabilities } from '@glimmer/core';
 
 type Ember = typeof Ember;
-type InitialRegistry = typeof InitialRegistry;
+type InitialRegistry = typeof AppRegistry &
+  typeof AddonsRegistry &
+  typeof EmberBootstrapRegistry;
 type Services = Filter<keyof InitialRegistry, 'service'>;
 type Components = Filter<keyof InitialRegistry, 'component'>;
 type Controllers = Filter<keyof InitialRegistry, 'controller'>;
@@ -116,7 +121,8 @@ declare global {
   interface Window {
     _Ember: Ember;
     Ember: Ember;
-    MyApp: Application;
+    [env.APP.globalName]: Application;
+    EmberENV: Record<string, boolean | Record<string, unknown>>;
   }
 
   interface Performance {

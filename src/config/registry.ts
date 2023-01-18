@@ -1,5 +1,4 @@
 import type { IRegistry } from './utils';
-import addonsRegistry from '@/addons';
 
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
@@ -33,7 +32,6 @@ import MemoryUsage from '@/helpers/memory-usage';
 import ClickTracker from '@/modifiers/click-tracker';
 
 export const InitialRegistry = {
-  ...addonsRegistry,
   'authenticator:custom': CustomAuthenticator,
   'service:date': DateService,
   'controller:application': ApplicationController,
@@ -59,13 +57,24 @@ export const InitialRegistry = {
     return a;
   },
   'helper:macroCondition': function (a: string) {
-    if (a === 'isNotBS5') {
-      return false;
+    // ember-bootstrap compat
+    if (typeof a === 'boolean') {
+      return a;
     }
     console.log('macroCondition', a);
     return a;
   },
   'helper:macroGetOwnConfig': function (a: string) {
+    // ember-bootstrap compat
+    if (a === 'isNotBS5') {
+      return false;
+    }
+    if (a === 'isBS5') {
+      return true;
+    }
+    if (a === 'isBS4') {
+      return false;
+    }
     console.log('macroGetOwnConfig', a);
     return a;
   },

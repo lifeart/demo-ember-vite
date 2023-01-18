@@ -8,7 +8,17 @@
     <script src="/ember-template-compiler.js"></script>
   </head>
   <body>
-
+    <script>
+      // fix better way of doing this?
+      window.EmberENV = {
+        FEATURES: {},
+        EXTEND_PROTOTYPES: false,
+        _JQUERY_INTEGRATION: false,
+        _APPLICATION_TEMPLATE_WRAPPER: false,
+        _DEFAULT_ASYNC_OBSERVERS: true,
+        _TEMPLATE_ONLY_GLIMMER_COMPONENTS: true,
+      };
+    </script>
     <script type="module" src="./index.ts"></script>
 
     <div id="qunit"></div>
@@ -18,6 +28,5 @@
       </div>
     </div>
 
-    <script src="/testem.js" integrity="" data-embroider-ignore></script>
   </body>
 </html>

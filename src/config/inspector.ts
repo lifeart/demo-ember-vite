@@ -49,10 +49,6 @@ if (typeof define !== 'function' || typeof requireModule !== 'function') {
       }
 
       if (name === 'ember') {
-        window.Ember.ENV = {
-          _DEBUG_RENDER_TREE: true,
-          ...env,
-        };
         return {
           default: window.Ember,
         };

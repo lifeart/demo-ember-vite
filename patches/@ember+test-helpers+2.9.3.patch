@@ -26,15 +26,3 @@ index 3d33ddc..544598c 100644
    return {
      registry,
      container,
-diff --git a/node_modules/@ember/test-helpers/addon-test-support/@ember/test-helpers/settled.js b/node_modules/@ember/test-helpers/addon-test-support/@ember/test-helpers/settled.js
-index 02c8c65..9858066 100644
---- a/node_modules/@ember/test-helpers/addon-test-support/@ember/test-helpers/settled.js
-+++ b/node_modules/@ember/test-helpers/addon-test-support/@ember/test-helpers/settled.js
-@@ -143,6 +143,7 @@ if (loader.registry['ember-testing/test/waiters']) {
-   @returns {boolean} true if waiters are still pending
- */
- function checkWaiters() {
-+  return false;
-   let EmberTest = Ember.Test;
-   if (_internalCheckWaiters) {
-     return _internalCheckWaiters();

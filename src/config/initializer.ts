@@ -15,9 +15,9 @@ export function init(
   // Init instance initializers
   Application.instanceInitializer(instanceInitializer);
 
-  const MyApp = Application.create({
+  const app = Application.create({
     name: ENV.modulePrefix,
-    version: '0.0.0+33d058ab',
+    version: ENV.APP.version,
   });
 
   const registryObjects = registry();
@@ -25,11 +25,11 @@ export function init(
 
   Object.keys(registryObjects).forEach((key) => {
     const value = registryObjects[key];
-    MyApp.register(key, value);
+    app.register(key, value);
   });
 
-  MyApp.register('config:environment', ENV);
-  MyApp.register('router:main', Router);
+  app.register('config:environment', ENV);
+  app.register('router:main', Router);
 
-  return MyApp;
+  return app;
 }
