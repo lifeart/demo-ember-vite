@@ -2,6 +2,7 @@ import 'ember-source/types';
 import 'ember-source/types/preview';
 import { InitialRegistry as AppRegistry } from '@/config/registry';
 import AddonsRegistry from '@/addons';
+import EmberBootstrapRegistry from '@/addons/ember-bootstrap';
 import type {
   Filter,
   CamelizeName,
@@ -15,7 +16,9 @@ import type env from '@/config/env';
 import type Application from '@ember/application';
 
 type Ember = typeof Ember;
-type InitialRegistry = typeof AppRegistry & typeof AddonsRegistry;
+type InitialRegistry = typeof AppRegistry &
+  typeof AddonsRegistry &
+  typeof EmberBootstrapRegistry;
 type Services = Filter<keyof InitialRegistry, 'service'>;
 type Components = Filter<keyof InitialRegistry, 'component'>;
 type Controllers = Filter<keyof InitialRegistry, 'controller'>;
