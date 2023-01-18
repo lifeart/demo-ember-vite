@@ -62,6 +62,10 @@ export default defineConfig(({ mode }) => {
           replacement: 'ember-source/dist/packages/ember-testing',
         },
         {
+          find: /^ember-testing\//,
+          replacement: 'ember-source/dist/packages/ember-testing/',
+        },
+        {
           find: 'ember-cli-version-checker',
           replacement: compatPath('ember-cli-version-checker/index.ts'),
         },
