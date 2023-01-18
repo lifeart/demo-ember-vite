@@ -29,6 +29,7 @@ import Footer from '@/components/Footer';
 
 /* imported helpers */
 import MemoryUsage from '@/helpers/memory-usage';
+import IsDev from '@/helpers/is-dev';
 
 /* imported modifiers */
 import ClickTracker from '@/modifiers/click-tracker';
@@ -53,6 +54,8 @@ export const InitialRegistry = {
   'component:footer': Footer,
 
   'helper:memory-usage': MemoryUsage as unknown as () => string, // glint fix
+  'helper:is-dev': IsDev,
+
   'modifier:click-tracker': ClickTracker,
 
   /* embroider compatibility */

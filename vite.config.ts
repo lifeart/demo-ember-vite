@@ -14,12 +14,14 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === 'development';
   return {
     build: {
-      rollupOptions: {
-        input: {
-          main: resolve(__dirname, 'index.html'),
-          nested: resolve(__dirname, 'tests/index.html'),
-        },
-      },
+      rollupOptions: isDev
+        ? {
+            input: {
+              main: resolve(__dirname, 'index.html'),
+              nested: resolve(__dirname, 'tests/index.html'),
+            },
+          }
+        : {},
     },
     server: {
       port: 4200,

@@ -23,7 +23,10 @@
 
             <LinkTo @route='bootstrap' class={{class}}>Ember Bootstrap
               (lazy-loaded)</LinkTo>
-            <a href='/tests/' class={{class}}>Tests (QUnit)</a>
+
+            {{#if (is-dev)}}
+              <a href='/tests/' class={{class}}>Tests (QUnit)</a>
+            {{/if}}
             <a
               rel='noopener noreferrer'
               target='_blank'
@@ -60,7 +63,9 @@
         <LinkTo @route='not-found' @model='42' class={{class}}>404</LinkTo>
 
         <LinkTo @route='bootstrap' class={{class}}>Ember Bootstrap (lazy-loaded)</LinkTo>
-        <a href='/tests/' class={{class}}>Tests (QUnit)</a>
+        {{#if (is-dev)}}
+          <a href='/tests/' class={{class}}>Tests (QUnit)</a>
+        {{/if}}
         <a
           rel='noopener noreferrer'
           href='https://github.com/lifeart/demo-ember-vite'
