@@ -17,5 +17,4 @@ import.meta.glob('./integration/components/**/*.ts', { eager: true });
 
 start({
   loadTests: false, // we could hook this to load our tests
-  setupTestAdapter: false, // we could remove it once deal with Ember.Test.Adapter
 });
