@@ -1,17 +1,18 @@
 # Ember Vite
 
-<img align="right" width="24" height="24"
+<img align="right" width="32" height="32"
      alt="Vite logo"
      src="./public/vite.svg">
-<img align="right" width="95" height="95"
+<img align="right" width="100" height="100"
      alt="Ember.js logo"
      src="./public/ember.svg">
 
-This is Ember application running only on `Vite`, without `ember-cli` and `embroider`.
+This is [Ember](https://emberjs.com/) application running only on [Vite](https://vitejs.dev/).
 
 * It's `TypeScript`'ed by default.
 * It uses `vite` to build the app.
 * `tailwind` used for styling.
+
 
 ## Table of Contents
 
@@ -27,16 +28,15 @@ This is Ember application running only on `Vite`, without `ember-cli` and `embro
 
 ## Description
 
-Main difference with classic Ember application, is that we don't trying to automatically resolve addons and it's dependencies - we just import them directly, only once needed.
+Main `difference` with classic Ember application is that we don't trying to `automatically` resolve addons and it's dependencies - we just `import` them directly, `only` once needed.
 
+This application does not use `ember-cli` or `embroider` at all.
 
 ## Motivation
 
-Why this library/application exists, main bullets
-
-- ⚡️ Lightning Fast Build process
+- ⚡️ No complex build process
 - 💡 Instant Server Start
-- 🛠️ Rich Features
+- 🛠️ Rich customization features
 - 📦 Optimized Build
 - 🔩 A lot of supported addons
 - 🔑 TypeScripted by default
@@ -51,6 +51,7 @@ Why this library/application exists, main bullets
 1. Template imports support (`.gts` & `.gjs`)
 1. Glint support
 1. Testing support (QUnit)
+1. Template linting
 
 ## Unsupported
 
