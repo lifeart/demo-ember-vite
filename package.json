@@ -6,9 +6,10 @@
   "scripts": {
     "build": "vite build",
     "clear:cache": "rm -rf node_modules/.vite",
-    "cli": "plop",
     "compile": "tsc",
     "dev": "vite",
+    "g": "plop",
+    "generate": "plop",
     "gif": "node ./plugins/generate-addon-import.cjs",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
