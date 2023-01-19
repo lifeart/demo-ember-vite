@@ -9,15 +9,18 @@ function registeringAction(blueprint) {
   };
 }
 
+function classAction(blueprint) {
+  return {
+    type: 'add',
+    path: `${srcFolder}/${blueprint}s/{{dashCase name}}.ts`,
+    templateFile: `blueprints/${blueprint}/class.hbs`,
+  };
+}
+
 export default function (plop) {
   plop.setGenerator('component', {
     description: 'Generates a component',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
     actions: [
       {
         type: 'add',
@@ -35,90 +38,36 @@ export default function (plop) {
 
   plop.setGenerator('controller', {
     description: 'Generates a controller',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        path: `${srcFolder}/controllers/{{dashCase name}}.ts`,
-        templateFile: 'blueprints/controller/class.hbs',
-      },
-      registeringAction('controller'),
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
+    actions: [classAction('controller'), registeringAction('controller')],
   });
 
   plop.setGenerator('helper', {
     description: 'Generates a helper',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        path: `${srcFolder}/helpers/{{dashCase name}}.ts`,
-        templateFile: 'blueprints/helper/class.hbs',
-      },
-      registeringAction('helper'),
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
+    actions: [classAction('helper'), registeringAction('helper')],
   });
 
   plop.setGenerator('initializer', {
     description: 'Generates a initializer',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        path: `${srcFolder}/initializers/{{dashCase name}}.ts`,
-        templateFile: 'blueprints/initializer/class.hbs',
-      },
-      registeringAction('initializer'),
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
+    actions: [classAction('initializer'), registeringAction('initializer')],
   });
 
   plop.setGenerator('instance-initializer', {
     description: 'Generates a instance-initializer',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
     actions: [
-      {
-        type: 'add',
-        path: `${srcFolder}/instance-initializers/{{dashCase name}}.ts`,
-        templateFile: 'blueprints/instance-initializer/class.hbs',
-      },
+      classAction('instance-initializer'),
       registeringAction('instance-initializer'),
     ],
   });
 
   plop.setGenerator('route', {
     description: 'Generates a route',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
     actions: [
-      {
-        type: 'add',
-        path: `${srcFolder}/routes/{{dashCase name}}.ts`,
-        templateFile: 'blueprints/route/class.hbs',
-      },
+      classAction('route'),
       {
         type: 'add',
         path: `${srcFolder}/templates/{{dashCase name}}.hbs`,
@@ -130,30 +79,13 @@ export default function (plop) {
 
   plop.setGenerator('service', {
     description: 'Generates a service',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        path: `${srcFolder}/services/{{dashCase name}}.ts`,
-        templateFile: 'blueprints/service/class.hbs',
-      },
-      registeringAction('service'),
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
+    actions: [classAction('service'), registeringAction('service')],
   });
 
   plop.setGenerator('template', {
     description: 'Generates a template',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
     actions: [
       {
         type: 'add',
@@ -166,19 +98,7 @@ export default function (plop) {
 
   plop.setGenerator('util', {
     description: 'Generates a util',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        path: `${srcFolder}/utils/{{dashCase name}}.ts`,
-        templateFile: 'blueprints/util/class.hbs',
-      },
-      registeringAction('util'),
-    ],
+    prompts: [{ type: 'input', name: 'name' }],
+    actions: [classAction('util'), registeringAction('util')],
   });
 }
