@@ -1,3 +1,5 @@
+import slugify from 'slugify';
+
 const srcFolder = 'src';
 
 function registeringAction(blueprint) {
@@ -5,14 +7,14 @@ function registeringAction(blueprint) {
     type: 'modify',
     path: `${srcFolder}/config/registry.ts`,
     pattern: /(export const InitialRegistry = \{\n)/,
-    template: `import {{pascalCase name}}{{pascalCase '${blueprint}'}} from '@/${blueprint}s/{{dashCase name}}';\n\n$1  '${blueprint}:{{dashCase name}}': {{pascalCase name}}{{pascalCase '${blueprint}'}},\n`,
+    template: `import {{pascalCase name}}{{pascalCase '${blueprint}'}} from '@/${blueprint}s/{{slugify name}}';\n\n$1  '${blueprint}:{{slugify name}}': {{pascalCase name}}{{pascalCase '${blueprint}'}},\n`,
   };
 }
 
 function classAction(blueprint) {
   return {
     type: 'add',
-    path: `${srcFolder}/${blueprint}s/{{dashCase name}}.ts`,
+    path: `${srcFolder}/${blueprint}s/{{slugify name}}.ts`,
     templateFile: `blueprints/${blueprint}/class.hbs`,
   };
 }
@@ -24,12 +26,12 @@ export default function (plop) {
     actions: [
       {
         type: 'add',
-        path: `${srcFolder}/components/{{dashCase name}}/index.ts`,
+        path: `${srcFolder}/components/{{slugify name}}/index.ts`,
         templateFile: 'blueprints/component/class.hbs',
       },
       {
         type: 'add',
-        path: `${srcFolder}/components/{{dashCase name}}/template.hbs`,
+        path: `${srcFolder}/components/{{slugify name}}/template.hbs`,
         templateFile: 'blueprints/component/template.hbs',
       },
       registeringAction('component'),
@@ -70,7 +72,7 @@ export default function (plop) {
       classAction('route'),
       {
         type: 'add',
-        path: `${srcFolder}/templates/{{dashCase name}}.hbs`,
+        path: `${srcFolder}/templates/{{slugify name}}.hbs`,
         templateFile: 'blueprints/route/template.hbs',
       },
       registeringAction('route'),
@@ -89,7 +91,7 @@ export default function (plop) {
     actions: [
       {
         type: 'add',
-        path: `${srcFolder}/templates/{{dashCase name}}.hbs`,
+        path: `${srcFolder}/templates/{{slugify name}}.hbs`,
         templateFile: 'blueprints/template/template.hbs',
       },
       registeringAction('template'),
@@ -100,5 +102,13 @@ export default function (plop) {
     description: 'Generates a util',
     prompts: [{ type: 'input', name: 'name' }],
     actions: [classAction('util'), registeringAction('util')],
+  });
+
+  // The `slugify` helper doesn't break subfolder paths
+  plop.addHelper('slugify', function (text) {
+    return text
+      .split('/')
+      .map((item) => slugify(item))
+      .join('/');
   });
 }
