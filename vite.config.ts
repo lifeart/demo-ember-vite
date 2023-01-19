@@ -7,6 +7,7 @@ import hbsResolver from './plugins/hbs-resolver';
 import gtsResolver from './plugins/gts-resolver';
 import i18nLoader from './plugins/i18n-loader';
 
+import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
 import transformImports from 'ember-template-imports/src/babel-plugin';
 
 export default defineConfig(({ mode }) => {
@@ -295,6 +296,7 @@ function templateCompilationPlugin(isProd: boolean) {
         },
       },
       transforms: [
+        refBucketTransform,
         isProd
           ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
             function sampleTransform(env) {
