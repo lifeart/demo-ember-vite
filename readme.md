@@ -7,7 +7,7 @@
      alt="Ember.js logo"
      src="./public/ember.svg">
 
-This is [Ember](https://emberjs.com/) application running only on [Vite](https://vitejs.dev/).
+This is [Ember](https://emberjs.com/) application running only on [Vite](https://vitejs.dev/). [![Netlify Status](https://api.netlify.com/api/v1/badges/ea52e30e-79bc-4f23-9e2f-321abab60b85/deploy-status)](https://ember-vite.netlify.app/)
 
 * It's `TypeScript`'ed by default.
 * It uses `vite` to build the app.
