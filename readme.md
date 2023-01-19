@@ -7,7 +7,7 @@
      alt="Ember.js logo"
      src="./public/ember.svg">
 
-This is [Ember](https://emberjs.com/) application running only on [Vite](https://vitejs.dev/). [![Netlify Status](https://api.netlify.com/api/v1/badges/ea52e30e-79bc-4f23-9e2f-321abab60b85/deploy-status)](https://ember-vite.netlify.app/)
+This is [Ember](https://emberjs.com/) [application](https://ember-vite.netlify.app/) running only on [Vite](https://vitejs.dev/). [![Netlify Status](https://api.netlify.com/api/v1/badges/ea52e30e-79bc-4f23-9e2f-321abab60b85/deploy-status)](https://ember-vite.netlify.app/)
 
 * It's `TypeScript`'ed by default.
 * It uses `vite` to build the app.
@@ -17,6 +17,7 @@ This is [Ember](https://emberjs.com/) application running only on [Vite](https:/
 ## Table of Contents
 
 * [Description](#description)
+* [Demo](#demo)
 * [Motivation](#motivation)
 * [Features](#features)
 * [Unsupported](#unsupported)
@@ -57,6 +58,11 @@ This application does not use `ember-cli` or `embroider` at all.
 
 1. `ember-data` not supported yet
 
+
+## Demo
+
+1. [Production App on Netlify](https://ember-vite.netlify.app/)
+1. [Development environment on Stackblitz](https://stackblitz.com/github/lifeart/demo-ember-vite)
 
 ## Installation
 
