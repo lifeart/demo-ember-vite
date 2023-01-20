@@ -12,8 +12,8 @@ setApplication(create());
 
 setup(QUnit.assert);
 
-import.meta.glob('./unit/utils/*-test.ts', { eager: true });
-import.meta.glob('./integration/components/**/*-test.{gts,ts,js,gjs}', {
+import.meta.glob('./unit/**/*-test.{gts,ts,js,gjs}', { eager: true });
+import.meta.glob('./integration/**/*-test.{gts,ts,js,gjs}', {
   eager: true,
 });
 
