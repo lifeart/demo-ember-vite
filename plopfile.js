@@ -146,6 +146,11 @@ export default function (plop) {
       {
         type: 'add-to-router',
       },
+      {
+        type: 'add',
+        path: `tests/unit/routes/{{pathWithoutTail (dasherize name)}}/{{pathTail (dasherize name)}}-test.ts`,
+        templateFile: 'blueprints/route/test.hbs',
+      },
     ],
   });
 
