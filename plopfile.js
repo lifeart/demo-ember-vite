@@ -1,6 +1,7 @@
 import fs from 'fs';
 import slugify from 'slugify';
 import EmberRouterGenerator from 'ember-router-generator';
+import { pascalCase } from 'change-case';
 
 const srcFolder = 'src';
 
@@ -55,7 +56,7 @@ export default function (plop) {
       },
       {
         type: 'add',
-        path: `${srcFolder}/components/{{dasherize name}}/component-test.ts`,
+        path: `${srcFolder}/components/{{dasherize name}}/{{pathTail (dasherize name)}}-test.ts`,
         templateFile: 'blueprints/component/test.hbs',
       },
       registeringAction('component'),
@@ -159,5 +160,16 @@ export default function (plop) {
 
   plop.addHelper('dasherize', function (text) {
     return dasherize(text);
+  });
+
+  plop.addHelper('pathTail', function (text) {
+    return text.split('/').pop();
+  });
+
+  plop.addHelper('toTemplateComponentName', function (text) {
+    return text
+      .split('/')
+      .map((item) => pascalCase(item))
+      .join('::');
   });
 }
