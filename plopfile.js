@@ -1,4 +1,6 @@
+import fs from 'fs';
 import slugify from 'slugify';
+import EmberRouterGenerator from 'ember-router-generator';
 
 const srcFolder = 'src';
 
@@ -7,16 +9,24 @@ function registeringAction(blueprint) {
     type: 'modify',
     path: `${srcFolder}/config/registry.ts`,
     pattern: /(export const InitialRegistry = \{\n)/,
-    template: `import {{pascalCase name}}{{pascalCase '${blueprint}'}} from '@/${blueprint}s/{{slugify name}}';\n\n$1  '${blueprint}:{{slugify name}}': {{pascalCase name}}{{pascalCase '${blueprint}'}},\n`,
+    template: `import {{pascalCase name}}{{pascalCase '${blueprint}'}} from '../${blueprint}s/{{dasherize name}}';\n\n$1  '${blueprint}:{{dasherize name}}': {{pascalCase name}}{{pascalCase '${blueprint}'}},\n`,
   };
 }
 
 function classAction(blueprint) {
   return {
     type: 'add',
-    path: `${srcFolder}/${blueprint}s/{{slugify name}}.ts`,
+    path: `${srcFolder}/${blueprint}s/{{dasherize name}}.ts`,
     templateFile: `blueprints/${blueprint}/class.hbs`,
   };
+}
+
+// The `dasherize` helper doesn't break subfolder paths
+function dasherize(text) {
+  return text
+    .split('/')
+    .map((item) => slugify(item))
+    .join('/');
 }
 
 export default function (plop) {
@@ -26,12 +36,12 @@ export default function (plop) {
     actions: [
       {
         type: 'add',
-        path: `${srcFolder}/components/{{slugify name}}/index.ts`,
+        path: `${srcFolder}/components/{{dasherize name}}/index.ts`,
         templateFile: 'blueprints/component/class.hbs',
       },
       {
         type: 'add',
-        path: `${srcFolder}/components/{{slugify name}}/template.hbs`,
+        path: `${srcFolder}/components/{{dasherize name}}/template.hbs`,
         templateFile: 'blueprints/component/template.hbs',
       },
       registeringAction('component'),
@@ -72,10 +82,13 @@ export default function (plop) {
       classAction('route'),
       {
         type: 'add',
-        path: `${srcFolder}/templates/{{slugify name}}.hbs`,
+        path: `${srcFolder}/templates/{{dasherize name}}.hbs`,
         templateFile: 'blueprints/route/template.hbs',
       },
       registeringAction('route'),
+      {
+        type: 'add-to-router',
+      },
     ],
   });
 
@@ -91,7 +104,7 @@ export default function (plop) {
     actions: [
       {
         type: 'add',
-        path: `${srcFolder}/templates/{{slugify name}}.hbs`,
+        path: `${srcFolder}/templates/{{dasherize name}}.hbs`,
         templateFile: 'blueprints/template/template.hbs',
       },
       registeringAction('template'),
@@ -104,11 +117,16 @@ export default function (plop) {
     actions: [classAction('util'), registeringAction('util')],
   });
 
-  // The `slugify` helper doesn't break subfolder paths
-  plop.addHelper('slugify', function (text) {
-    return text
-      .split('/')
-      .map((item) => slugify(item))
-      .join('/');
+  plop.setActionType('add-to-router', function (answers) {
+    const routerPath = `${srcFolder}/router.ts`;
+    const source = fs.readFileSync(routerPath, 'utf-8');
+    const routes = new EmberRouterGenerator(source);
+    const newRoutes = routes.add(dasherize(answers.name));
+
+    fs.writeFileSync(routerPath, newRoutes.code());
+  });
+
+  plop.addHelper('dasherize', function (text) {
+    return dasherize(text);
   });
 }
