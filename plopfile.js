@@ -1,7 +1,6 @@
 import fs from 'fs';
-import slugify from 'slugify';
 import EmberRouterGenerator from 'ember-router-generator';
-import { pascalCase } from 'change-case';
+import { pascalCase, paramCase } from 'change-case';
 
 const srcFolder = 'src';
 
@@ -35,7 +34,7 @@ function classAction(blueprint) {
 function dasherize(text) {
   return text
     .split('/')
-    .map((item) => slugify(item))
+    .map((item) => paramCase(item))
     .join('/');
 }
 
@@ -72,7 +71,15 @@ export default function (plop) {
   plop.setGenerator('helper', {
     description: 'Generates a helper',
     prompts: [{ type: 'input', name: 'name' }],
-    actions: [classAction('helper'), registeringAction('helper')],
+    actions: [
+      classAction('helper'),
+      registeringAction('helper'),
+      {
+        type: 'add',
+        path: `tests/integration/helpers/{{dasherize name}}-test.ts`,
+        templateFile: 'blueprints/helper/test.hbs',
+      },
+    ],
   });
 
   plop.setGenerator('initializer', {
