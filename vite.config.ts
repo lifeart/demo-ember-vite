@@ -265,7 +265,7 @@ function localScopes() {
     'config',
     'controllers',
     'helpers',
-    'initializer',
+    'initializers',
     'instance-initializers',
     'modifiers',
     'routes',

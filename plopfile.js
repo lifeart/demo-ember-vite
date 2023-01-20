@@ -103,6 +103,11 @@ export default function (plop) {
         pattern: /([\t ]*)(const app = Application\.create\({\n)/,
         template: `$1Application.initializer({{pascalCase name}}{{pascalCase 'initializer'}});\n\n$1$2`,
       },
+      {
+        type: 'add',
+        path: `tests/unit/initializers/{{dasherize name}}-test.ts`,
+        templateFile: 'blueprints/initializer/test.hbs',
+      },
     ],
   });
 
@@ -118,6 +123,11 @@ export default function (plop) {
         path: `${srcFolder}/config/initializer.ts`,
         pattern: /([\t ]*)(const app = Application\.create\({\n)/,
         template: `$1Application.instanceInitializer({{pascalCase name}}{{pascalCase 'instance-initializer'}});\n\n$1$2`,
+      },
+      {
+        type: 'add',
+        path: `tests/unit/instance-initializers/{{dasherize name}}-test.ts`,
+        templateFile: 'blueprints/instance-initializer/test.hbs',
       },
     ],
   });

@@ -1,0 +1,36 @@
+import Application from '@/config/application';
+import { initialize } from '@/initializers/{{dasherize name}}';
+import { module, test } from 'qunit';
+import { run } from '@ember/runloop';
+import { getTestConfig } from "@/tests/helpers/application";
+
+module('Unit | Initializer | {{dasherize name}}', function (hooks) {
+  hooks.beforeEach(function () {
+    this.TestApplication = class extends Application {};
+
+    this.TestApplication.initializer({
+      name: 'initializer under test',
+      initialize,
+    });
+
+    const config = Object.assign(
+      {
+        autoboot: false,
+      },
+      getTestConfig()
+    );
+
+    this.application = this.TestApplication.create(config);
+  });
+
+  hooks.afterEach(function () {
+    run(this.application, 'destroy');
+  });
+
+  // TODO: Replace this with your real tests.
+  test('it works', async function (assert) {
+    await this.application.boot();
+
+    assert.ok(true);
+  });
+});
