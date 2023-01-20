@@ -55,7 +55,7 @@ export default function (plop) {
       },
       {
         type: 'add',
-        path: `${srcFolder}/components/{{dasherize name}}/{{pathTail (dasherize name)}}-test.ts`,
+        path: `${srcFolder}/components/{{pathWithoutTail (dasherize name)}}/{{pathTail (dasherize name)}}-test.ts`,
         templateFile: 'blueprints/component/test.hbs',
       },
       registeringAction('component'),
@@ -65,7 +65,15 @@ export default function (plop) {
   plop.setGenerator('controller', {
     description: 'Generates a controller',
     prompts: [{ type: 'input', name: 'name' }],
-    actions: [classAction('controller'), registeringAction('controller')],
+    actions: [
+      classAction('controller'),
+      registeringAction('controller'),
+      {
+        type: 'add',
+        path: `tests/unit/controllers/{{pathWithoutTail (dasherize name)}}/{{pathTail (dasherize name)}}-test.ts`,
+        templateFile: 'blueprints/controller/test.hbs',
+      },
+    ],
   });
 
   plop.setGenerator('helper', {
@@ -134,7 +142,15 @@ export default function (plop) {
   plop.setGenerator('service', {
     description: 'Generates a service',
     prompts: [{ type: 'input', name: 'name' }],
-    actions: [classAction('service'), registeringAction('service')],
+    actions: [
+      classAction('service'),
+      registeringAction('service'),
+      {
+        type: 'add',
+        path: `tests/unit/services/{{dasherize name}}-test.ts`,
+        templateFile: 'blueprints/service/test.hbs',
+      },
+    ],
   });
 
   plop.setGenerator('template', {
@@ -153,7 +169,15 @@ export default function (plop) {
   plop.setGenerator('util', {
     description: 'Generates a util',
     prompts: [{ type: 'input', name: 'name' }],
-    actions: [classAction('util'), registeringAction('util')],
+    actions: [
+      classAction('util'),
+      registeringAction('util'),
+      {
+        type: 'add',
+        path: `tests/unit/utils/{{dasherize name}}-test.ts`,
+        templateFile: 'blueprints/util/test.hbs',
+      },
+    ],
   });
 
   plop.setActionType('add-to-router', function (answers) {
@@ -167,6 +191,16 @@ export default function (plop) {
 
   plop.addHelper('dasherize', function (text) {
     return dasherize(text);
+  });
+
+  plop.addHelper('pathWithoutTail', function (text) {
+    let parts = text.split('/');
+
+    if (parts.length > 1) {
+      parts = parts.slice(0, -1);
+    }
+
+    return parts.join('/');
   });
 
   plop.addHelper('pathTail', function (text) {
