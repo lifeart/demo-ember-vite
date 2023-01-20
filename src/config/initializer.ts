@@ -2,7 +2,7 @@ import ENV from './env';
 import registry from './registry';
 import type ApplicationClass from '@ember/application';
 import type RouteClass from './router';
-import { default as initializer } from '../initializer/logger';
+import { default as initializer } from '../initializers/logger';
 import { default as instanceInitializer } from '../instance-initializers/logger';
 
 export function init(
