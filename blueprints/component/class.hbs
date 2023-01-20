@@ -1,6 +1,17 @@
 import Component from '@glimmer/component';
 import template from './template.hbs';
 
-export default class {{pascalCase name}}Component extends Component {
+export interface {{pascalCase name}}Signature {
+  Element: HTMLElement;
+  // Args: {
+  //   Named: {};
+  //   Positional: [];
+  // };
+  // Blocks: {
+  //   default: [];
+  // };
+}
+
+export default class {{pascalCase name}}Component extends Component<{{pascalCase name}}Signature> {
   static template = template;
 }
