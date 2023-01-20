@@ -1,0 +1,13 @@
+diff --git a/node_modules/ember-router-generator/lib/ember-router-generator.js b/node_modules/ember-router-generator/lib/ember-router-generator.js
+index c11d2a0..d1674bb 100644
+--- a/node_modules/ember-router-generator/lib/ember-router-generator.js
++++ b/node_modules/ember-router-generator/lib/ember-router-generator.js
+@@ -1,7 +1,7 @@
+ module.exports = EmberRouterGenerator;
+ 
+ var recast = require('recast');
+-var parser = require('recast/parsers/babel');
++var parser = require('recast/parsers/typescript');
+ 
+ var findFunctionExpression = require('./helpers/find-function-expression');
+ var findRoutes = require('./helpers/find-routes');

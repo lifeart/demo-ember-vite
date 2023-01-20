@@ -27,6 +27,7 @@
       "@/helpers/*": ["./src/helpers/*"],
       "@/modifiers/*": ["./src/modifiers/*"],
       "@/services/*": ["./src/services/*"],
+      "@/tests/*": ["./tests/*"],
 
       "@ember/*": ["./node_modules/ember-source/dist/packages/@ember/*"],
       "ember/version": ["./node_modules/ember-source/dist/packages/ember/version.js"],

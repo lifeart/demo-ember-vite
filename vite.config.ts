@@ -179,6 +179,10 @@ export default defineConfig(({ mode }) => {
           find: /^backburner$/,
           replacement: nodePath('backburner.js/dist/es6/backburner.js'),
         },
+        {
+          find: `@/tests/`,
+          replacement: fileURLToPath(new URL(`./tests/`, import.meta.url)),
+        },
         ...localScopes().map((scope) => ({
           find: `@/${scope}`,
           replacement: fileURLToPath(
@@ -256,14 +260,19 @@ function emberPackages() {
 
 function localScopes() {
   return [
-    'config',
     'addons',
-    'controllers',
+    'authenticators',
     'components',
+    'config',
+    'controllers',
     'helpers',
+    'initializers',
+    'instance-initializers',
+    'modifiers',
+    'routes',
     'services',
     'templates',
-    'modifiers',
+    'utils',
   ];
 }
 
