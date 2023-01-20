@@ -13,6 +13,15 @@ function registeringAction(blueprint) {
   };
 }
 
+function importInitializer(blueprint) {
+  return {
+    type: 'modify',
+    path: `${srcFolder}/config/initializer.ts`,
+    pattern: /^/,
+    template: `import {{pascalCase name}}{{pascalCase '${blueprint}'}} from '../${blueprint}s/{{dasherize name}}';\n`,
+  };
+}
+
 function classAction(blueprint) {
   return {
     type: 'add',
@@ -63,7 +72,17 @@ export default function (plop) {
   plop.setGenerator('initializer', {
     description: 'Generates a initializer',
     prompts: [{ type: 'input', name: 'name' }],
-    actions: [classAction('initializer'), registeringAction('initializer')],
+    actions: [
+      classAction('initializer'),
+      registeringAction('initializer'),
+      importInitializer('initializer'),
+      {
+        type: 'modify',
+        path: `${srcFolder}/config/initializer.ts`,
+        pattern: /([\t ]*)(const app = Application\.create\({\n)/,
+        template: `$1Application.initializer({{pascalCase name}}{{pascalCase 'initializer'}});\n\n$1$2`,
+      },
+    ],
   });
 
   plop.setGenerator('instance-initializer', {
@@ -72,6 +91,13 @@ export default function (plop) {
     actions: [
       classAction('instance-initializer'),
       registeringAction('instance-initializer'),
+      importInitializer('instance-initializer'),
+      {
+        type: 'modify',
+        path: `${srcFolder}/config/initializer.ts`,
+        pattern: /([\t ]*)(const app = Application\.create\({\n)/,
+        template: `$1Application.instanceInitializer({{pascalCase name}}{{pascalCase 'instance-initializer'}});\n\n$1$2`,
+      },
     ],
   });
 
