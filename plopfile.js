@@ -53,6 +53,11 @@ export default function (plop) {
         path: `${srcFolder}/components/{{dasherize name}}/template.hbs`,
         templateFile: 'blueprints/component/template.hbs',
       },
+      {
+        type: 'add',
+        path: `${srcFolder}/components/{{dasherize name}}/component-test.ts`,
+        templateFile: 'blueprints/component/test.hbs',
+      },
       registeringAction('component'),
     ],
   });
