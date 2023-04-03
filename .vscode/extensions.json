@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+        "ms-playwright.playwright",
+        "lifeart.vscode-ember-unstable",
+        "lifeart.vscode-glimmer-syntax",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "ms-vscode.vscode-typescript-next",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "typed-ember.glint-vscode",
+        "bradlc.vscode-tailwindcss"
+    ],
+    "unwantedRecommendations": [
+        "salesforce.salesforcedx-vscode"
+    ]
+
+}
