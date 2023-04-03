@@ -12,6 +12,8 @@ export function captureCoverage(
   const knownPages = new WeakSet();
   const pagesWithEnabledCoverage = new WeakSet();
 
+  // console.log('process.env.CI', process.env.CI);
+
   async function stopCodeCoverage(page: Page) {
     if (!pagesWithEnabledCoverage.has(page)) return;
     console.log('stopCodeCoverage');
