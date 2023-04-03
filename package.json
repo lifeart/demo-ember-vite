@@ -25,6 +25,7 @@
     "@glint/core": "^0.9.7",
     "@glint/environment-ember-loose": "^0.9.7",
     "@glint/template": "^0.9.7",
+    "@playwright/test": "^1.32.1",
     "@tsconfig/ember": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",

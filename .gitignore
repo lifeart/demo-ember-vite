@@ -26,3 +26,6 @@ dist-ssr
 .eslintcache
 !.*
 .DS_Store
+/test-results/
+/playwright-report/
+/playwright/.cache/
