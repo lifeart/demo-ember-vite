@@ -32,5 +32,5 @@ jobs:
     - name: Jest Lcov Reporter v2
       uses: lifeart/jest-lcov-reporter@v0.3.6
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN_DEMO_EMBER_VITE }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coverage/lcov.info
