@@ -24,7 +24,7 @@ dist-ssr
 # misc
 /coverage/
 .eslintcache
-.nyc_output
+.nyc_output/
 !.*
 .DS_Store
 /test-results/
