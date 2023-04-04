@@ -21,6 +21,14 @@ module.exports = {
   },
   rules: {},
   overrides: [
+    {
+      files: ['e2e/**/*.ts'],
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:playwright/playwright-test',
+      ],
+    },
     // ts files
     {
       files: ['**/*.ts'],

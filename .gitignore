@@ -22,11 +22,11 @@ dist-ssr
 *.sw?
 
 # misc
-/coverage/
-.eslintcache
-.nyc_output/
-!.*
 .DS_Store
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+/coverage/
+.eslintcache
+.nyc_output

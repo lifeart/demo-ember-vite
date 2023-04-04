@@ -49,8 +49,6 @@ export function captureCoverage(
     resetOnNavigation: false,
   }
 ) {
-
-
   // console.log('process.env.CI', process.env.CI);
 
   async function stopCodeCoverage(page: Page) {

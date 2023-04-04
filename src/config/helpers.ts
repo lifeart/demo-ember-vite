@@ -14,6 +14,7 @@ class CustomComponentManager extends EmberGlimmerComponentManager {
   ) {
     const component = super.createComponent(...args);
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setOwner(component, getOwner(this)!);
 
     return component;

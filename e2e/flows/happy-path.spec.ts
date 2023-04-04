@@ -73,6 +73,7 @@ test.describe('Happy path', () => {
     await page.goto('http://localhost:4200');
 
     const t1 = await page.locator('pre.font-mono').textContent();
+    // eslint-disable-next-line playwright/no-wait-for-timeout
     await page.waitForTimeout(1000);
     const t2 = await page.locator('pre.font-mono').textContent();
 

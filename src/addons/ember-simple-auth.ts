@@ -13,7 +13,7 @@ const config = ENV['ember-simple-auth'] || {};
 
 Configuration.load({
   ...config,
-  rootURL: ENV.rootURL || ENV.baseURL
+  rootURL: ENV.rootURL || ENV.baseURL,
 });
 
 const registry = {
