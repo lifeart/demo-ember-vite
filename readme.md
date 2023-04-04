@@ -12,6 +12,7 @@ This is [Ember](https://emberjs.com/) [application](https://ember-vite.netlify.a
 * It's `TypeScript`'ed by default.
 * It uses `vite` to build the app.
 * `tailwind` used for styling.
+* `playwright` used for testing.
 
 
 ## Table of Contents
@@ -41,6 +42,7 @@ This application does not use `ember-cli` or `embroider` at all.
 - 📦 Optimized Build
 - 🔩 A lot of supported addons
 - 🔑 TypeScripted by default
+- :four_leaf_clover: Playwright tests
 
 ## Features
 
@@ -53,6 +55,7 @@ This application does not use `ember-cli` or `embroider` at all.
 1. Glint support
 1. Testing support (QUnit)
 1. Template linting
+1. Playwright testing
 
 ## Unsupported
 
