@@ -37,6 +37,11 @@ function saveCoverage(result: string) {
   );
 }
 
+const knownContexts = new WeakSet();
+const knownBrowsers = new WeakSet();
+const knownPages = new WeakSet();
+const pagesWithEnabledCoverage = new WeakSet();
+
 export function captureCoverage(
   testConstructor: typeof test,
   options = {
@@ -44,10 +49,7 @@ export function captureCoverage(
     resetOnNavigation: false,
   }
 ) {
-  const knownContexts = new WeakSet();
-  const knownBrowsers = new WeakSet();
-  const knownPages = new WeakSet();
-  const pagesWithEnabledCoverage = new WeakSet();
+
 
   // console.log('process.env.CI', process.env.CI);
 

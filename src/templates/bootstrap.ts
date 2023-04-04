@@ -6,6 +6,7 @@ extendRegistry(EmberBootstrapRegistry);
 
 export default precompileTemplate(
   `
+    {{page-title "Bootstrap"}}
     <LinkTo @route='main'>Home</LinkTo>
    <Bootstrap />
 `,

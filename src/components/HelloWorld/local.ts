@@ -28,7 +28,7 @@ export default class HelloWorld extends Component {
   onClick = () => alert('Fine');
   static template = precompileTemplate(`
         <div class="m-2" {{click-tracker}}>
-            <Button {{on "click" this.onClick}}>Click Me</Button>
+            <Button data-test-click-me {{on "click" this.onClick}}>Click Me</Button>
         </div>
     `);
 }

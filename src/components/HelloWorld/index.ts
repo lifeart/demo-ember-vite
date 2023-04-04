@@ -23,13 +23,13 @@ export default class HelloWorld extends Component {
     <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
       <h3 class="text-lg font-medium leading-6 text-gray-900"><code>t</code> helper test:</h3>
 
-      <div class="mt-2">
+      <div class="mt-2" data-test-welcome-msg>
         {{t 'hello.world'}}
       </div>
       <div class="mt-4">
-      <Button {{on "click" (fn this.setLanguage "en-us")}}>en-us</Button>
-      <Button {{on "click" (fn this.setLanguage "fr-fr")}}>fr-fr</Button>
-      <Button {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
+      <Button data-test-lang="en-us" {{on "click" (fn this.setLanguage "en-us")}}>en-us</Button>
+      <Button data-test-lang="fr-fr" {{on "click" (fn this.setLanguage "fr-fr")}}>fr-fr</Button>
+      <Button data-test-lang="ru-ru" {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
       </div>
     </div>
       
