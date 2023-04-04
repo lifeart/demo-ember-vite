@@ -19,9 +19,18 @@ jobs:
       run: yarn playwright install --with-deps
     - name: Run Playwright tests
       run: yarn playwright test
+    - name: Merge coverage results
+      run: npm run nyc:merge:playwright
+    - name: Generate coverage report
+      run: npm run nyc:report
     - uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    - name: Jest Lcov Reporter v2
+      uses: lifeart/jest-lcov-reporter@v0.3.6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./coverage/lcov.info
