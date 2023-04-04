@@ -13,8 +13,10 @@ import transformImports from 'ember-template-imports/src/babel-plugin';
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
+  const enableSourceMaps = isDev;
   return {
     build: {
+      sourcemap: enableSourceMaps,
       rollupOptions: isDev
         ? {
             input: {
@@ -238,7 +240,11 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
-        babelConfig: defaultBabelConfig([transformImports], isProd),
+        babelConfig: defaultBabelConfig(
+          [transformImports],
+          isProd,
+          enableSourceMaps
+        ),
       }),
       // babel config for addons
       babel({
@@ -339,10 +345,15 @@ function defaultBabelPlugins(isProd: boolean) {
   ];
 }
 
-function defaultBabelConfig(plugins = [], isProd: boolean) {
+function defaultBabelConfig(
+  plugins = [],
+  isProd: boolean,
+  enableSourceMaps = false
+) {
   return {
     babelrc: false,
     configFile: false,
+    sourceMaps: enableSourceMaps,
     plugins: [...plugins, ...defaultBabelPlugins(isProd)],
     presets: ['@babel/preset-typescript'],
   };

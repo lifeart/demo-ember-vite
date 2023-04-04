@@ -1,4 +1,41 @@
+import v8toIstanbul from 'v8-to-istanbul';
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { test, BrowserContext, Browser, Page } from '@playwright/test';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT = path.join(__dirname, '../..');
+const coverageResultsTempDir = path.join(ROOT, '.nyc_output');
+
+function shouldCaptureCoverageForFile(url: string) {
+  return url.includes('/src/');
+}
+function filePathFromUrl(url: string) {
+  //  handle cases like http://Users/components/HelloWorld/sample.gts?import
+
+  return path.join(
+    ROOT,
+    'src',
+    (url.split('/src/')[1] as string).split('?')[0] as string
+  );
+}
+
+function UUID() {
+  return crypto.randomBytes(16).toString('hex');
+}
+
+function saveCoverage(result: string) {
+  if (!fs.existsSync(coverageResultsTempDir)) {
+    fs.mkdirSync(coverageResultsTempDir);
+  }
+  fs.writeFileSync(
+    path.join(coverageResultsTempDir, `playwright-${UUID()}-coverage.json`),
+    result
+  );
+}
 
 export function captureCoverage(
   testConstructor: typeof test,
@@ -16,27 +53,50 @@ export function captureCoverage(
 
   async function stopCodeCoverage(page: Page) {
     if (!pagesWithEnabledCoverage.has(page)) return;
-    console.log('stopCodeCoverage');
     const jsCoverage = await page.coverage.stopJSCoverage();
-    console.log(jsCoverage.map((entry) => entry.url));
+    for (const entry of jsCoverage) {
+      try {
+        const source = entry.source;
+        if (!source) {
+          continue;
+        }
+        if (!shouldCaptureCoverageForFile(entry.url)) {
+          continue;
+        }
+        const fName = filePathFromUrl(entry.url);
+        // here we need to replace sourceMappingURL with new one if needed
+        // const source = entry.source?.replace('sourceMappingURL=', `sourceMappingURL=${newRef}/`);
+        const converter = v8toIstanbul(fName, 0, {
+          source,
+        });
+        await converter.load();
+        converter.applyCoverage(entry.functions);
+        const result = converter.toIstanbul();
+        const keys = Object.keys(result);
+        if (keys.length) {
+          saveCoverage(JSON.stringify(result));
+        }
+      } catch (e) {
+        console.error(
+          `Unable to process coverage for ${entry.scriptId}:${entry.url}`
+        );
+      }
+    }
+
     pagesWithEnabledCoverage.delete(page);
   }
   async function startCodeCoverage(page: Page) {
     if (pagesWithEnabledCoverage.has(page)) return;
     pagesWithEnabledCoverage.add(page);
-    console.log('startCodeCoverage');
     // https://playwright.dev/docs/api/class-coverage#coverage-start-js-coverage-option-reset-on-navigation
     // we assume that we testing our SPA, and there is no needs to reset coverage between page navigations
     await page.coverage.startJSCoverage(options);
   }
 
   function patchPageClose(page: Page) {
-    console.log('patchPageClose');
-
     if (knownPages.has(page)) return page;
     const originalClose = page.close.bind(page);
     page.close = async function () {
-      console.log('page.close');
       await stopCodeCoverage(page);
       return await originalClose();
     };
@@ -45,17 +105,13 @@ export function captureCoverage(
   }
 
   function patchNewPage(context: BrowserContext) {
-    console.log('patchNewPage');
     if (knownContexts.has(context)) return;
     const originalCreatePage = context.newPage.bind(context);
     context.newPage = async function () {
-      console.log('context.newPage');
-
       const page = await originalCreatePage();
       knownContexts.add(page.context());
       page.on('load', async () => {
         await startCodeCoverage(page);
-        console.log('page.load');
       });
       return patchPageClose(page);
     };
@@ -63,11 +119,9 @@ export function captureCoverage(
   }
 
   function patchNewContext(browser: Browser) {
-    console.log('patchNewContext');
     if (knownBrowsers.has(browser)) return;
     const originalCreateContext = browser.newContext.bind(browser);
     browser.newContext = async function () {
-      console.log('browser.newContext');
       const context = await originalCreateContext();
       patchNewPage(context);
       knownContexts.add(context);
@@ -77,7 +131,6 @@ export function captureCoverage(
   }
 
   testConstructor.beforeEach(async ({ browser }) => {
-    console.log('beforeEach');
     patchNewContext(browser);
     browser.contexts().forEach((context) => {
       patchNewPage(context);

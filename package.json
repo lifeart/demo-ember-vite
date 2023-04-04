@@ -19,7 +19,9 @@
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",
     "postinstall": "patch-package",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "nyc:merge:playwright": "nyc merge .nyc_output ./coverage/playwright-final.json && rm -rf .nyc_output",
+    "nyc:report": "nyc report --reporter=html --reporter=lcov --temp-dir ./coverage"
   },
   "devDependencies": {
     "@glint/core": "^0.9.7",
@@ -84,6 +86,7 @@
     "ember-source": "^4.9.3",
     "ember-template-imports": "^3.4.0",
     "ember-truth-helpers": "^3.1.1",
+    "nyc": "^15.1.0",
     "patch-package": "^6.5.1",
     "postcss": "^8.4.21",
     "postinstall-postinstall": "^2.1.0",
@@ -92,6 +95,7 @@
     "route-recognizer": "^0.3.4",
     "router_js": "^8.0.3",
     "tailwindcss": "^3.2.4",
+    "v8-to-istanbul": "^9.1.0",
     "vite-plugin-babel": "^1.1.3",
     "walk-sync": "^3.0.0",
     "yaml": "^2.2.1"
