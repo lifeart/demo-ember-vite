@@ -14,8 +14,9 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+    - uses: c-hive/gha-yarn-cache@v2
     - name: Install dependencies
-      run: yarn
+      run: yarn install
     - name: Install Playwright Browsers
       run: yarn playwright install --with-deps
     - name: Run Playwright tests

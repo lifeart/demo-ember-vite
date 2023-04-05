@@ -30,6 +30,8 @@ jobs:
       with:
         node-version: '${{ env.NODE_VERSION }}'
 
+    - uses: c-hive/gha-yarn-cache@v2
+
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
