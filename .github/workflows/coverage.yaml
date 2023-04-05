@@ -65,8 +65,24 @@ jobs:
     - name: Generate report
       run: node ./node_modules/.bin/nyc report --reporter=html --reporter=lcov --temp-dir ./merged-coverage
 
+    - name: Archive coverage report
+      uses: vimtor/action-zip@v1
+      with:
+        files: ./coverage/lcov-report/
+        dest: coverage.zip
+    
+    - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage.zip
+          retention-days: 1
+
     - name: Jest Lcov Reporter v2
       uses: lifeart/jest-lcov-reporter@v0.3.6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coverage/lcov.info
+        update-comment: true
+        show-changed-files: false
+        min-coverage: 99.95
