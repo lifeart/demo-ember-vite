@@ -97,9 +97,13 @@ test('QUnit', async ({ page }) => {
 
   testsDoneResults.forEach((tInfo) => {
     test.info().annotations.push({
-      type: 'test',
-      description: `${tInfo.module} >> ${tInfo.name}`,
+      type: `${tInfo.module} >> ${tInfo.name}`,
+      description: tInfo.assertions.map((a) => a.message).join('\n'),
     });
+    // we need this asserts for better reporting
+    expect(tInfo.assertions.length, `${tInfo.module} >> ${tInfo.name}`).toBe(
+      tInfo.assertions.length
+    );
   });
 
   const pdf = await page.pdf({
