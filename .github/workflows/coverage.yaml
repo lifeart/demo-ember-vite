@@ -21,7 +21,7 @@ jobs:
       id: wait-for-playwright-tests
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        checkName: Playwright tests finished
+        checkName: Playwright tests queue
         timeoutSeconds: 600
         intervalSeconds: 30
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -31,7 +31,7 @@ jobs:
       id: wait-for-jest-tests
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        checkName: Jest tests finished
+        checkName: Jest tests queue
         timeoutSeconds: 600
         intervalSeconds: 30
         ref: ${{ github.event.pull_request.head.sha || github.sha }}

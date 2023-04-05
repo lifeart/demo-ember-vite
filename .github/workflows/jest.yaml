@@ -5,7 +5,8 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  test_jest:
+    name: Jest tests queue
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -21,15 +22,6 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: jest-coverage
-        path: ./coverage/jest-coverage.json
+        path: ./coverage/coverage-final.json
         retention-days: 30
 
-  jest-tests-finished:
-    name: Jest tests finished
-    runs-on: [self-hosted]
-    needs:
-      - test
-    steps:
-      - name: Say thank you to Jest
-        run: echo "All jest tests finished, now code coverage results could be collected"
-        id: thanks-to-jest-tests
