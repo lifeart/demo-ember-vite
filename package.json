@@ -22,7 +22,8 @@
     "preview": "vite preview",
     "nyc:merge:playwright": "nyc merge .nyc_output ./coverage/playwright-final.json && rm -rf .nyc_output",
     "nyc:report": "nyc report --reporter=html --reporter=lcov --temp-dir ./coverage",
-    "test": "jest"
+    "test:jest": "jest",
+    "test:playwright": "playwright test"
   },
   "devDependencies": {
     "@glint/core": "^0.9.7",
