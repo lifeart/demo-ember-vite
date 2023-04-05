@@ -72,11 +72,11 @@ jobs:
         dest: coverage.zip
     
     - name: Upload coverage report as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: coverage.zip
-          retention-days: 1
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage
+        path: coverage.zip
+        retention-days: 1
 
     - name: Jest Lcov Reporter v2
       uses: lifeart/jest-lcov-reporter@v0.3.6
