@@ -1,0 +1,27 @@
+name: Jest Tests
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  test_jest:
+    name: Jest tests queue
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install dependencies
+      run: yarn
+    - name: Run Jest tests
+      run: yarn test:jest
+    - name: Upload jest coverage json
+      uses: actions/upload-artifact@v3
+      with:
+        name: jest-coverage
+        path: ./coverage/coverage-final.json
+        retention-days: 30
+

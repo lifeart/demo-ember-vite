@@ -21,7 +21,9 @@
     "postinstall": "patch-package",
     "preview": "vite preview",
     "nyc:merge:playwright": "nyc merge .nyc_output ./coverage/playwright-final.json && rm -rf .nyc_output",
-    "nyc:report": "nyc report --reporter=html --reporter=lcov --temp-dir ./coverage"
+    "nyc:report": "nyc report --reporter=html --reporter=lcov --temp-dir ./coverage",
+    "test:jest": "jest",
+    "test:playwright": "playwright test"
   },
   "devDependencies": {
     "@glint/core": "^0.9.7",
@@ -69,6 +71,7 @@
     "@glimmer/validator": "0.84.2",
     "@glint/environment-ember-template-imports": "^0.9.7",
     "@types/ember": "^4.0.3",
+    "@types/jest": "^29.5.0",
     "@types/qunit": "^2.19.4",
     "autoprefixer": "^10.4.13",
     "babel-plugin-ember-template-compilation": "^2.0.0",
@@ -87,6 +90,7 @@
     "ember-source": "^4.9.3",
     "ember-template-imports": "^3.4.0",
     "ember-truth-helpers": "^3.1.1",
+    "jest": "^29.5.0",
     "nyc": "^15.1.0",
     "patch-package": "^6.5.1",
     "postcss": "^8.4.21",
