@@ -1,9 +1,9 @@
 name: Coverage processing
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ master ]
 jobs:
   wait_for_data:
     timeout-minutes: 60
@@ -41,7 +41,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         path: ./artifacts
-        workflow: playwright.yml
+        workflow: playwright.yaml
         name: playwright-coverage
         pr: ${{github.event.pull_request.number}}
 
@@ -50,7 +50,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         path: ./artifacts
-        workflow: jest.yml
+        workflow: jest.yaml
         name: jest-coverage
         pr: ${{github.event.pull_request.number}}
 
