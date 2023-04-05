@@ -36,12 +36,16 @@ jobs:
         intervalSeconds: 30
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
+    - name: Wait for GH storage sync (sleep 30)
+      run: sleep 30
+
     - name: Download Playwright test coverage artifacts
       uses: dawidd6/action-download-artifact@v2
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         path: ./artifacts
         workflow: playwright.yaml
+        workflow_conclusion: success
         name: playwright-coverage
         pr: ${{github.event.pull_request.number}}
 
@@ -51,6 +55,7 @@ jobs:
         github_token: ${{secrets.GITHUB_TOKEN}}
         path: ./artifacts
         workflow: jest.yaml
+        workflow_conclusion: success
         name: jest-coverage
         pr: ${{github.event.pull_request.number}}
 
