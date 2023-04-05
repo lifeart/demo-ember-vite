@@ -6,6 +6,12 @@ describe('helpers | memory-usage', () => {
     const memoryUsage = new MemoryUsage();
     expect(memoryUsage.compute()).toBeNull();
   });
+  it('should not call recompute if measureMemory called without performance', async () => {
+    const memoryUsage = new MemoryUsage();
+    const recomputeSpy = jest.spyOn(memoryUsage, 'recompute');
+    await memoryUsage.measureMemory();
+    expect(recomputeSpy).not.toHaveBeenCalled();
+  });
   it('will destroy should clear interval', async () => {
     const memoryUsage = new MemoryUsage();
     let a = 1;
