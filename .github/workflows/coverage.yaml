@@ -1,4 +1,4 @@
-name: Jest Tests
+name: Coverage processing
 on:
   push:
     branches: [ main, master ]
