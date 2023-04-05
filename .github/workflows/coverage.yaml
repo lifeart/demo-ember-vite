@@ -42,6 +42,7 @@ jobs:
         github_token: ${{secrets.GITHUB_TOKEN}}
         path: ./artifacts
         workflow: playwright.yml
+        name: playwright-coverage
         pr: ${{github.event.pull_request.number}}
 
     - name: Download Jest test coverage artifacts
@@ -50,6 +51,7 @@ jobs:
         github_token: ${{secrets.GITHUB_TOKEN}}
         path: ./artifacts
         workflow: jest.yml
+        name: jest-coverage
         pr: ${{github.event.pull_request.number}}
 
     - name: Fix paths inside coverage reports
