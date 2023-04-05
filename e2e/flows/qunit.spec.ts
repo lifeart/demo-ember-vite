@@ -26,7 +26,7 @@ type QUnitTestDone = {
   source: string;
 };
 
-test('qUnit tests', async ({ page }) => {
+test('QUnit', async ({ page }) => {
   const maxQunitTestTime = 1000 * 60 * 5;
 
   test.setTimeout(maxQunitTestTime);
@@ -63,7 +63,6 @@ test('qUnit tests', async ({ page }) => {
     page.exposeBinding(
       'onQunitDone',
       (_, values: QUnitTestResults) => {
-        console.log('onQunitDone');
         resolveTestResults(values);
       },
       { handle: false }
@@ -71,7 +70,6 @@ test('qUnit tests', async ({ page }) => {
     page.exposeBinding(
       'onQunitTestDone',
       (_, values: QUnitTestDone) => {
-        console.log('onQunitTestDone');
         testsDoneResults.push(values);
       },
       { handle: false }
@@ -85,7 +83,6 @@ test('qUnit tests', async ({ page }) => {
   const testResults: QUnitTestResults =
     await (testDonePromise as Promise<QUnitTestResults>);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   const failedTests = testsDoneResults.filter((tInfo) => tInfo.failed > 0);
 
   failedTests.forEach((tInfo) => {
@@ -97,6 +94,26 @@ test('qUnit tests', async ({ page }) => {
       throw error;
     }, `${tInfo.module} >> ${tInfo.name}`).not.toThrowError();
   });
+
+  testsDoneResults.forEach((tInfo) => {
+    test.info().annotations.push({
+      type: `${tInfo.module} >> ${tInfo.name}`,
+      description: tInfo.assertions.map((a) => a.message).join('\n'),
+    });
+    // we need this asserts for better reporting
+    expect(tInfo.assertions.length, `${tInfo.module} >> ${tInfo.name}`).toBe(
+      tInfo.assertions.length
+    );
+  });
+
+  const pdf = await page.pdf({
+    format: 'A4',
+    printBackground: true,
+  });
+
+  await test
+    .info()
+    .attach('qUnit report', { body: pdf, contentType: 'application/pdf' });
 
   await expect(testResults.failed, 'No failed tests').toBe(0);
   await expect(testResults.passed, 'All tests passed').toBe(testResults.passed);
