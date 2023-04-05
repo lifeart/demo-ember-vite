@@ -13,8 +13,9 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+    - uses: c-hive/gha-yarn-cache@v2
     - name: Install dependencies
-      run: yarn
+      run: yarn install
     - name: Wait for Playwright tests
       continue-on-error: false
       uses: fountainhead/action-wait-for-check@v1.1.0

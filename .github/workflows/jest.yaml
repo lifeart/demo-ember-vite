@@ -15,7 +15,8 @@ jobs:
       with:
         node-version: 16
     - name: Install dependencies
-      run: yarn
+      run: yarn install
+    - uses: c-hive/gha-yarn-cache@v2
     - name: Run Jest tests
       run: yarn test:jest
     - name: Upload jest coverage json
