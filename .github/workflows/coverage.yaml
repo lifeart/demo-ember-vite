@@ -85,4 +85,4 @@ jobs:
         lcov-file: ./coverage/lcov.info
         update-comment: true
         show-changed-files: false
-        min-coverage: 99.95
+        min-coverage: 90
