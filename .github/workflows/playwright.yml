@@ -23,14 +23,25 @@ jobs:
       run: npm run nyc:merge:playwright
     - name: Generate coverage report
       run: npm run nyc:report
+    - name: Upload Playwright coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: playwright-coverage
+        path: ./coverage/playwright-final.json
+        retention-days: 30
     - uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-    - name: Jest Lcov Reporter v2
-      uses: lifeart/jest-lcov-reporter@v0.3.6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        lcov-file: ./coverage/lcov.info
+
+  playwright-tests-finished:
+    name: Playwright tests finished
+    runs-on: [self-hosted]
+    needs:
+      - test
+    steps:
+      - name: Say thank you to Playwright
+        run: echo "All Playwright tests finished, now code coverage results could be collected"
+        id: thanks-to-playwright-tests

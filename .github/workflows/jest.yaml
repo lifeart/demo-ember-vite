@@ -1,0 +1,35 @@
+name: Jest Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install dependencies
+      run: yarn
+    - name: Run Jest tests
+      run: yarn test:jest
+    - name: Upload jest coverage json
+      uses: actions/upload-artifact@v3
+      with:
+        name: jest-coverage
+        path: ./coverage/jest-coverage.json
+        retention-days: 30
+
+  jest-tests-finished:
+    name: Jest tests finished
+    runs-on: [self-hosted]
+    needs:
+      - test
+    steps:
+      - name: Say thank you to Jest
+        run: echo "All jest tests finished, now code coverage results could be collected"
+        id: thanks-to-jest-tests

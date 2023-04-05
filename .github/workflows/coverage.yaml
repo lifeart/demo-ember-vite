@@ -1,0 +1,68 @@
+name: Jest Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  wait_for_data:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install dependencies
+      run: yarn
+    - name: Wait for Playwright tests
+      continue-on-error: false
+      uses: fountainhead/action-wait-for-check@v1.1.0
+      id: wait-for-playwright-tests
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        checkName: Playwright tests finished
+        timeoutSeconds: 600
+        intervalSeconds: 30
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+    - name: Wait for Jest tests
+      continue-on-error: false
+      uses: fountainhead/action-wait-for-check@v1.1.0
+      id: wait-for-jest-tests
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        checkName: Jest tests finished
+        timeoutSeconds: 600
+        intervalSeconds: 30
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+    - name: Download Playwright test coverage artifacts
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        path: ./artifacts
+        workflow: playwright.yml
+        pr: ${{github.event.pull_request.number}}
+
+    - name: Download Jest test coverage artifacts
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        path: ./artifacts
+        workflow: jest.yml
+        pr: ${{github.event.pull_request.number}}
+
+    - name: Fix paths inside coverage reports
+      run: node ./scripts/fix-paths-in-coverage-reports.cjs
+
+    - name: Merge all reported JSONs into one
+      run: node ./node_modules/.bin/nyc merge ./coverage-artifacts ./merged-coverage/coverage.json
+
+    - name: Generate report
+      run: node ./node_modules/.bin/nyc report --reporter=html --reporter=lcov --temp-dir ./merged-coverage
+
+    - name: Jest Lcov Reporter v2
+      uses: lifeart/jest-lcov-reporter@v0.3.6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./coverage/lcov.info
