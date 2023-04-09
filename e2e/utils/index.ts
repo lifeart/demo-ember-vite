@@ -131,6 +131,11 @@ export function captureCoverage(
   }
 
   testConstructor.beforeEach(async ({ browser }) => {
+    if (browser.browserType().name() !== 'chromium') {
+      // Skipping coverage for non-chromium browsers
+      return;
+    }
+    // check for browser type
     patchNewContext(browser);
     browser.contexts().forEach((context) => {
       patchNewPage(context);
@@ -140,7 +145,10 @@ export function captureCoverage(
     });
   });
 
-  testConstructor.afterEach(async ({ context }) => {
+  testConstructor.afterEach(async ({ context, browser }) => {
+    if (browser.browserType().name() !== 'chromium') {
+      return;
+    }
     for (const page of context.pages()) {
       await stopCodeCoverage(page);
     }
