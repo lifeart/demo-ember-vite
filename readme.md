@@ -47,6 +47,7 @@ This application does not use `ember-cli` or `embroider` at all.
 ## Features
 
 1. Strict mode
+2. Ember-Data support
 1. Lazy-loading for routes
 1. Template-only components
 1. Style imports from components
@@ -56,11 +57,6 @@ This application does not use `ember-cli` or `embroider` at all.
 1. Testing support (QUnit)
 1. Template linting
 1. Playwright testing
-
-## Unsupported
-
-1. `ember-data` not supported yet
-
 
 ## Demo
 
