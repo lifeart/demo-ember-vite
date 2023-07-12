@@ -18,9 +18,9 @@ test.describe('login flow', () => {
   });
   test('user could use login form', async ({ page }) => {
     await page.goto('http://localhost:4200/login');
-    const navigationPromise = page.waitForNavigation();
     await page.click('[data-test-login-button]');
-    await navigationPromise;
+    await page.waitForURL('http://localhost:4200/profile');
+
     await expect(page.url()).toBe('http://localhost:4200/profile');
 
     await expect(page.locator('[data-test-name]')).toContainText('Santa Claus');
@@ -31,9 +31,8 @@ test.describe('login flow', () => {
   });
   test('user could logout', async ({ page }) => {
     await page.goto('http://localhost:4200/profile');
-    const navigationPromise = page.waitForNavigation();
     await page.click('[data-test-login-button]');
-    await navigationPromise;
+    await page.waitForURL('http://localhost:4200/profile');
     await expect(page.url()).toBe('http://localhost:4200/profile');
 
     await page.click('[data-test-logout]');

@@ -8,6 +8,7 @@ import EmberRenderModifiers from './ember-render-modifiers';
 import EmberStyleModifier from './ember-style-modifier';
 import EmberIntl from './ember-intl';
 import EmberPageTitle from './ember-page-title';
+import EmberData from './ember-data';
 
 const registry = {
   ...EmberSimpleAuthRegistry,
@@ -20,6 +21,7 @@ const registry = {
   ...EmberPowerSelect,
   ...EmberIntl,
   ...EmberPageTitle,
+  ...EmberData,
 };
 
 export default registry;

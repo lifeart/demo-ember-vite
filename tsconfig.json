@@ -26,6 +26,7 @@
       "@/templates/*": ["./src/templates/*"],
       "@/helpers/*": ["./src/helpers/*"],
       "@/modifiers/*": ["./src/modifiers/*"],
+      "@/models/*": ["./src/models/*"],
       "@/services/*": ["./src/services/*"],
       "@/tests/*": ["./tests/*"],
 

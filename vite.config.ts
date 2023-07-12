@@ -15,7 +15,14 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === 'development';
   const enableSourceMaps = isDev;
   return {
+    optimizeDeps: {
+      exclude: ['@ember-data/store'],
+    },
     build: {
+      treeshake: {
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false,
+      },
       sourcemap: enableSourceMaps,
       rollupOptions: isDev
         ? {
@@ -29,13 +36,17 @@ export default defineConfig(({ mode }) => {
               manualChunks(id) {
                 if (
                   id.includes('/compat/') ||
-                  id.includes('@ember') ||
+                  id.includes('@ember/') ||
                   id.includes('/rsvp/') ||
                   id.includes('/router_js/') ||
                   id.includes('dag-map') ||
                   id.includes('route-recognizer') ||
+                  id.includes('tracked-built-ins') ||
+                  id.includes('tracked-toolbox') ||
+                  id.includes('@ember-data/') ||
                   id.includes('/backburner.js/') ||
                   id.includes('@glimmer') ||
+                  id.includes('ember-inflector') ||
                   id.includes('ember-source')
                 ) {
                   // chunk for ember runtime
@@ -71,6 +82,7 @@ export default defineConfig(({ mode }) => {
         addonExport('tracked-toolbox'),
         addonExport('ember-concurrency-decorators'),
         addonExport('ember-bootstrap'),
+        addonExport('ember-inflector'),
         {
           find: 'ember-simple-auth/use-session-setup-method',
           replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
@@ -91,7 +103,6 @@ export default defineConfig(({ mode }) => {
           find: '@glimmer/validator',
           replacement: nodePath('@glimmer/validator/dist/modules/es2017'),
         },
-
         {
           find: /^ember-testing$/,
           replacement: 'ember-source/dist/packages/ember-testing',
@@ -143,13 +154,13 @@ export default defineConfig(({ mode }) => {
         },
         {
           find: '@glimmer/tracking/primitives/cache',
-          replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
+          replacement: nodePath(
+            `ember-source/dist/packages/@glimmer/tracking/primitives/cache.js`
+          ),
         },
         {
-          find: /@glimmer\/tracking[^/]$/,
-          replacement: fileURLToPath(
-            new URL('./src/config/ember.ts', import.meta.url)
-          ),
+          find: /@glimmer\/tracking$/,
+          replacement: nodePath(`ember-source/dist/packages/@glimmer/tracking`),
         },
         {
           find: '@embroider/macros',
@@ -195,6 +206,18 @@ export default defineConfig(({ mode }) => {
           find: `@ember/${pkg}`,
           replacement: nodePath(`ember-source/dist/packages/@ember/${pkg}`),
         })),
+        ...eDataPackages().map((pkg) => ({
+          find: `@ember-data/${pkg}`,
+          replacement: nodePath(`@ember-data/${pkg}/addon`),
+        })),
+        {
+          find: /^ember-data$/,
+          replacement: 'ember-data/addon',
+        },
+        {
+          find: /^@ember-data\/private-build-infra$/,
+          replacement: compatPath('ember-data-private-build-infra'),
+        },
       ],
     },
     plugins: [
@@ -227,16 +250,16 @@ export default defineConfig(({ mode }) => {
                 [
                   '@babel/plugin-proposal-decorators',
                   {
-                    legacy: true,
+                    version: 'legacy',
                   },
                 ],
-                ['@babel/plugin-proposal-class-properties', { loose: false }],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
               ],
               presets: ['@babel/preset-typescript'],
             },
           })
         : null,
-      // babel config for app code
+      // babel config for app.js code
       babel({
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
@@ -250,7 +273,7 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
+          /^.*(@ember-data|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
         babelConfig: defaultBabelConfig([], isProd),
       }),
       // ...
@@ -264,10 +287,16 @@ function emberPackages() {
   return fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
 }
 
+function eDataPackages() {
+  const els = fs.readdirSync('node_modules/@ember-data');
+  return els.filter((e) => e !== 'private-build-infra');
+}
+
 function localScopes() {
   return [
     'addons',
     'authenticators',
+    'models',
     'components',
     'config',
     'controllers',
@@ -334,13 +363,19 @@ function templateCompilationPlugin(isProd: boolean) {
 
 function defaultBabelPlugins(isProd: boolean) {
   return [
+    // ['@babel/plugin-transform-typescript', { allowDeclareFields: true }],
     [
       '@babel/plugin-proposal-decorators',
       {
-        legacy: true,
+        version: 'legacy',
       },
     ],
-    ['@babel/plugin-proposal-class-properties', { loose: false }],
+    [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true,
+      },
+    ],
     templateCompilationPlugin(isProd),
   ];
 }
