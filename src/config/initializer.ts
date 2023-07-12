@@ -4,7 +4,7 @@ import type ApplicationClass from '@ember/application';
 import type RouteClass from './router';
 import { default as initializer } from '../initializers/logger';
 import { default as instanceInitializer } from '../instance-initializers/logger';
-import { default as emberDataInitializer } from '../initializer/ember-data';
+import { default as emberDataInitializer } from '../initializers/ember-data';
 
 export function init(
   Application: typeof ApplicationClass,

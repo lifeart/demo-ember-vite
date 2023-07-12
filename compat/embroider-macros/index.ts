@@ -1,7 +1,7 @@
 import * as renderer from '@ember/renderer';
 import * as validator from '@glimmer/validator';
 import * as manager from '@glimmer/manager';
-import * as recordData from '@ember-data/record-data/-private';
+import * as recordData from '@ember-data/json-api';
 import * as model from '@ember-data/model/-private';
 
 export function isDevelopingApp() {
@@ -12,7 +12,11 @@ export function isDevelopingApp() {
 
 export function getOwnConfig(...args: unknown[]) {
   console.info('getOwnConfig', ...args);
-  return {};
+  return {
+    env: {
+      DEBUG: true,
+    },
+  };
 }
 
 export function dependencySatisfies(name: string, version: string) {
@@ -62,7 +66,7 @@ export function importSync(name: string) {
   if (name === '@glimmer/manager') {
     return manager;
   }
-  if (name === '@ember-data/record-data/-private') {
+  if (name === '@ember-data/json-api') {
     return recordData;
   }
   if (name === '@ember-data/model/-private') {

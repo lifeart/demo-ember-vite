@@ -91,7 +91,10 @@ export default defineConfig(({ mode }) => {
           find: '@glimmer/validator',
           replacement: nodePath('@glimmer/validator/dist/modules/es2017'),
         },
-
+        {
+          find: '@ember-data/json-api',
+          replacement: '@ember-data/json-api/addon',
+        },
         {
           find: /^ember-testing$/,
           replacement: 'ember-source/dist/packages/ember-testing',
@@ -214,7 +217,7 @@ export default defineConfig(({ mode }) => {
         {
           find: '@ember-data/private-build-infra',
           replacement: compatPath('ember-data-private-build-infra'),
-        }
+        },
       ],
     },
     plugins: [
@@ -285,8 +288,8 @@ function emberPackages() {
 }
 
 function eDataPackages() {
-  const els =  fs.readdirSync('node_modules/@ember-data');
-  return els.filter(e => e !== 'store' && e !== 'private-build-infra')
+  const els = fs.readdirSync('node_modules/@ember-data');
+  return els.filter((e) => e !== 'store' && e !== 'private-build-infra');
 }
 
 function localScopes() {
@@ -359,12 +362,7 @@ function templateCompilationPlugin(isProd: boolean) {
 
 function defaultBabelPlugins(isProd: boolean) {
   return [
-    // [
-    //   '@babel/plugin-proposal-private-methods',
-    //   {
-    //     loose: true,
-    //   },
-    // ],
+    ['@babel/plugin-transform-typescript', { allowDeclareFields: true }],
     [
       '@babel/plugin-proposal-decorators',
       {
@@ -377,7 +375,6 @@ function defaultBabelPlugins(isProd: boolean) {
         loose: true,
       },
     ],
-    ['@babel/plugin-proposal-class-properties', { loose: false }],
     templateCompilationPlugin(isProd),
   ];
 }
