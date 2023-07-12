@@ -15,14 +15,17 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === 'development';
   const enableSourceMaps = isDev;
   return {
-    optimizeDeps: {
-      exclude: ['@ember-data/store'],
+    // optimizeDeps: {
+    //   exclude: ['@ember-data/**'], // (store)
+    // },
+    treeshake: {
+      correctVarValueBeforeDeclaration: false,
+      moduleSideEffects: false,
+      preset: 'smallest',
+      propertyReadSideEffects: false,
+      unknownGlobalSideEffects: false,
     },
     build: {
-      treeshake: {
-        propertyReadSideEffects: false,
-        unknownGlobalSideEffects: false,
-      },
       sourcemap: enableSourceMaps,
       rollupOptions: isDev
         ? {
@@ -226,7 +229,7 @@ export default defineConfig(({ mode }) => {
       i18nLoader(),
       !isDev
         ? babel({
-            filter: /^.*@(ember|glimmer)\/.*\.(ts|js)$/,
+            filter: /^.*@(ember|glimmer|ember-data)\/.*\.(ts|js)$/,
             babelConfig: {
               babelrc: false,
               configFile: false,

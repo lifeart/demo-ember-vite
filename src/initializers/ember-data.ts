@@ -1,5 +1,13 @@
-// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
-import setupContainer from 'ember-data/addon/setup-container';
+import type Application from '@ember/application';
+
+function initializeStore(application: Application) {
+  application.registerOptionsForType('serializer', { singleton: false });
+  application.registerOptionsForType('adapter', { singleton: false });
+}
+
+function setupContainer(application: Application) {
+  initializeStore(application);
+}
 
 /*
   This code initializes EmberData in an Ember application.
