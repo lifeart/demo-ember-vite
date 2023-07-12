@@ -15,6 +15,9 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === 'development';
   const enableSourceMaps = isDev;
   return {
+    optimizeDeps: {
+      exclude: ['@ember-data/store'],
+    },
     build: {
       sourcemap: enableSourceMaps,
       rollupOptions: isDev
@@ -71,6 +74,7 @@ export default defineConfig(({ mode }) => {
         addonExport('tracked-toolbox'),
         addonExport('ember-concurrency-decorators'),
         addonExport('ember-bootstrap'),
+        addonExport('ember-inflector'),
         {
           find: 'ember-simple-auth/use-session-setup-method',
           replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
