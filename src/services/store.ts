@@ -11,7 +11,6 @@ export default class Store extends EDataStore {
     return this.#adapter;
   }
   constructor() {
-    debugger;
     // eslint-disable-next-line prefer-rest-params
     super(...arguments);
     this.requestManager = new RequestManager();
