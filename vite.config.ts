@@ -288,6 +288,7 @@ function localScopes() {
   return [
     'addons',
     'authenticators',
+    'models',
     'components',
     'config',
     'controllers',

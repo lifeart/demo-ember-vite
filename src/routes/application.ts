@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import translations from 'ember-intl/translations';
 import SessionService from 'ember-simple-auth/addon/services/session';
 import type IntlService from 'ember-intl/addon/services/intl';
-import type Store from '@ember-data/store';
+import type Store from '@/services/store';
 
 export class ApplicationRoute extends Route {
   @service session: SessionService;
@@ -25,6 +25,14 @@ export class ApplicationRoute extends Route {
 
   model() {
     console.log(this.store);
+
+    this.store.createRecord('pet', {
+      name: 'Fluffy',
+      owner: this.store.createRecord('person', {
+        name: 'John Doe',
+        pet: null,
+      }),
+    }).save();
 
     return ['red', 'yellow', 'blue'];
   }

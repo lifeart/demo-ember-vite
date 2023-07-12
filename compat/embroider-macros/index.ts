@@ -17,6 +17,8 @@ export function getOwnConfig(...args: unknown[]) {
   return {
     packages: {
       HAS_GRAPH_PACKAGE: true,
+      HAS_JSON_API_PACKAGE: true,
+      HAS_MODEL_PACKAGE: true,
     },
     polyfillUUID: false,
     debug: {

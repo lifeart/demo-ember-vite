@@ -20,6 +20,11 @@ import LoginTemplate from '@/templates/login.hbs';
 
 /* imported services */
 import DateService from '@/services/date';
+import StoreService from '@/services/store';
+
+/* ember-data stuff */
+import Pet from '@/models/pet';
+import Person from '@/models/person';
 
 /* imported components */
 import HelloWorld from '@/components/HelloWorld';
@@ -35,8 +40,11 @@ import IsDev from '@/helpers/is-dev';
 import ClickTracker from '@/modifiers/click-tracker';
 
 export const InitialRegistry = {
+  'model:pet': Pet,
+  'model:person': Person,
   'authenticator:custom': CustomAuthenticator,
   'service:date': DateService,
+  'service:store': StoreService,
   'controller:application': ApplicationController,
   'controller:login': LoginController,
   'route:application': ApplicationRoute,
