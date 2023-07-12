@@ -96,6 +96,10 @@ export default defineConfig(({ mode }) => {
           replacement: '@ember-data/json-api/addon',
         },
         {
+          find: '@ember-data/graph',
+          replacement: '@ember-data/graph/addon',
+        },
+        {
           find: /^ember-testing$/,
           replacement: 'ember-source/dist/packages/ember-testing',
         },
@@ -203,19 +207,19 @@ export default defineConfig(({ mode }) => {
           replacement: nodePath(`@ember-data/${pkg}/addon`),
         })),
         {
-          find: /^ember-data/,
+          find: /^ember-data$/,
           replacement: 'ember-data/addon',
         },
         {
-          find: '@ember-data/store/-private',
+          find: /^@ember-data\/store\/-private$/,
           replacement: nodePath('@ember-data/store/addon/-private'),
         },
         {
-          find: '@ember-data/store',
+          find: /^@ember-data\/store$/,
           replacement: nodePath('@ember-data/store/addon'),
         },
         {
-          find: '@ember-data/private-build-infra',
+          find: /^@ember-data\/private-build-infra$/,
           replacement: compatPath('ember-data-private-build-infra'),
         },
       ],

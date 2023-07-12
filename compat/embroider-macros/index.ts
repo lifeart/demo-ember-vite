@@ -3,6 +3,7 @@ import * as validator from '@glimmer/validator';
 import * as manager from '@glimmer/manager';
 import * as recordData from '@ember-data/json-api';
 import * as model from '@ember-data/model/-private';
+import * as graph from '@ember-data/graph/-private';
 
 export function isDevelopingApp() {
   // eslint-disable-next-line prefer-rest-params
@@ -14,6 +15,9 @@ export function getOwnConfig(...args: unknown[]) {
   console.info('getOwnConfig', ...args);
   // edata config
   return {
+    packages: {
+      HAS_GRAPH_PACKAGE: true,
+    },
     polyfillUUID: false,
     debug: {
       LOG_IDENTIFIERS: true,
@@ -76,6 +80,9 @@ export function importSync(name: string) {
   }
   if (name === '@ember-data/model/-private') {
     return model;
+  }
+  if (name === '@ember-data/graph/-private') {
+    return graph;
   }
 
   console.info('importSync', name, new Error().stack);
