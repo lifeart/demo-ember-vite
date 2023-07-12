@@ -355,7 +355,7 @@ function templateCompilationPlugin(isProd: boolean) {
 
 function defaultBabelPlugins(isProd: boolean) {
   return [
-    ['@babel/plugin-transform-typescript', { allowDeclareFields: true }],
+    // ['@babel/plugin-transform-typescript', { allowDeclareFields: true }],
     [
       '@babel/plugin-proposal-decorators',
       {
