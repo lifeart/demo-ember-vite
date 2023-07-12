@@ -12,7 +12,7 @@ export function isDevelopingApp() {
 }
 
 export function getOwnConfig(...args: unknown[]) {
-  console.info('getOwnConfig', ...args);
+  // console.info('getOwnConfig', ...args);
   // edata config
   return {
     packages: {
