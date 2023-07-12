@@ -96,14 +96,6 @@ export default defineConfig(({ mode }) => {
           replacement: nodePath('@glimmer/validator/dist/modules/es2017'),
         },
         {
-          find: '@ember-data/json-api',
-          replacement: '@ember-data/json-api/addon',
-        },
-        {
-          find: '@ember-data/graph',
-          replacement: '@ember-data/graph/addon',
-        },
-        {
           find: /^ember-testing$/,
           replacement: 'ember-source/dist/packages/ember-testing',
         },
