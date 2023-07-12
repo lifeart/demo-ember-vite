@@ -34,7 +34,20 @@ import IsDev from '@/helpers/is-dev';
 /* imported modifiers */
 import ClickTracker from '@/modifiers/click-tracker';
 
+// ember-data debug adapter
+import DataDebugAdapter from '@ember-data/debug';
+import StoreService from '@/services/store';
+/* ember-data stuff */
+import Pet from '@/models/pet';
+import Person from '@/models/person';
+
 export const InitialRegistry = {
+  'service:store': StoreService,
+  'model:pet': Pet,
+  'model:person': Person,
+  // debug ember-data adapter
+  'data-adapter:main': DataDebugAdapter,
+
   'authenticator:custom': CustomAuthenticator,
   'service:date': DateService,
   'controller:application': ApplicationController,

@@ -2,7 +2,7 @@ import 'vite/modulepreload-polyfill';
 import '@glint/environment-ember-loose';
 import './style.css';
 
-import Ember from '@/config/ember';
+import Ember from 'ember';
 import App from '@/config/application';
 import { init } from '@/config/initializer';
 import { setupApplicationGlobals } from '@/config/helpers';

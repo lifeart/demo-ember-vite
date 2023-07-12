@@ -19,6 +19,10 @@ export default defineConfig(({ mode }) => {
       exclude: ['@ember-data/store'],
     },
     build: {
+      treeshake: {
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false,
+      },
       sourcemap: enableSourceMaps,
       rollupOptions: isDev
         ? {
@@ -32,13 +36,17 @@ export default defineConfig(({ mode }) => {
               manualChunks(id) {
                 if (
                   id.includes('/compat/') ||
-                  id.includes('@ember') ||
+                  id.includes('@ember/') ||
                   id.includes('/rsvp/') ||
                   id.includes('/router_js/') ||
                   id.includes('dag-map') ||
                   id.includes('route-recognizer') ||
+                  id.includes('tracked-built-ins') ||
+                  id.includes('tracked-toolbox') ||
+                  id.includes('@ember-data/') ||
                   id.includes('/backburner.js/') ||
                   id.includes('@glimmer') ||
+                  id.includes('ember-inflector') ||
                   id.includes('ember-source')
                 ) {
                   // chunk for ember runtime
@@ -146,13 +154,13 @@ export default defineConfig(({ mode }) => {
         },
         {
           find: '@glimmer/tracking/primitives/cache',
-          replacement: '@glimmer/validator/dist/modules/es2017/lib/tracking.js',
+          replacement: nodePath(
+            `ember-source/dist/packages/@glimmer/tracking/primitives/cache.js`
+          ),
         },
         {
           find: /@glimmer\/tracking$/,
-          replacement: fileURLToPath(
-            new URL('./src/config/ember.ts', import.meta.url)
-          ),
+          replacement: nodePath(`ember-source/dist/packages/@glimmer/tracking`),
         },
         {
           find: '@embroider/macros',
