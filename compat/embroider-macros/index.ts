@@ -1,6 +1,7 @@
 import * as renderer from '@ember/renderer';
 import * as validator from '@glimmer/validator';
 import * as manager from '@glimmer/manager';
+import { DEBUG } from '@glimmer/env';
 import * as recordData from '@ember-data/json-api';
 import * as model from '@ember-data/model/-private';
 import * as graph from '@ember-data/graph/-private';
@@ -25,7 +26,7 @@ export function getOwnConfig(...args: unknown[]) {
       LOG_IDENTIFIERS: true,
     },
     env: {
-      DEBUG: true,
+      DEBUG,
     },
   };
 }
