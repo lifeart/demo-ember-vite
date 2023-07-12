@@ -12,7 +12,12 @@ export function isDevelopingApp() {
 
 export function getOwnConfig(...args: unknown[]) {
   console.info('getOwnConfig', ...args);
+  // edata config
   return {
+    polyfillUUID: false,
+    debug: {
+      LOG_IDENTIFIERS: true,
+    },
     env: {
       DEBUG: true,
     },
