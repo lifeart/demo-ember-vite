@@ -20,14 +20,6 @@ import LoginTemplate from '@/templates/login.hbs';
 
 /* imported services */
 import DateService from '@/services/date';
-import StoreService from '@/services/store';
-
-// ember-data debug adapter
-import DataDebugAdapter from '@ember-data/debug';
-
-/* ember-data stuff */
-import Pet from '@/models/pet';
-import Person from '@/models/person';
 
 /* imported components */
 import HelloWorld from '@/components/HelloWorld';
@@ -43,14 +35,8 @@ import IsDev from '@/helpers/is-dev';
 import ClickTracker from '@/modifiers/click-tracker';
 
 export const InitialRegistry = {
-  // debug ember-data adapter
-  'data-adapter:main': DataDebugAdapter,
-
-  'model:pet': Pet,
-  'model:person': Person,
   'authenticator:custom': CustomAuthenticator,
   'service:date': DateService,
-  'service:store': StoreService,
   'controller:application': ApplicationController,
   'controller:login': LoginController,
   'route:application': ApplicationRoute,
