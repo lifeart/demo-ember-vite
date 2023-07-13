@@ -13,7 +13,7 @@ import {
   HAS_GRAPH_PACKAGE,
   HAS_DEBUG_PACKAGE,
   HAS_RECORD_DATA_PACKAGE,
-} from '@ember-data/private-build-infra';
+} from './../ember-data-private-build-infra';
 
 export function isDevelopingApp() {
   // eslint-disable-next-line prefer-rest-params

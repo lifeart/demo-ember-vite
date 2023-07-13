@@ -1,12 +1,13 @@
-export const LOG_PAYLOADS = false;
-export const LOG_IDENTIFIERS = true;
-export const LOG_NOTIFICATIONS = false;
-export const LOG_INSTANCE_CACHE = false;
-export const LOG_GRAPH = true;
-export const LOG_MUTATIONS = false;
-export const LOG_OPERATIONS = false;
+/* eslint-disable no-var */
+export var LOG_PAYLOADS = false;
+export var LOG_IDENTIFIERS = true;
+export var LOG_NOTIFICATIONS = false;
+export var LOG_INSTANCE_CACHE = false;
+export var LOG_GRAPH = true;
+export var LOG_MUTATIONS = false;
+export var LOG_OPERATIONS = false;
 
-export const DEBUGGING = {
+export var DEBUGGING = {
   LOG_PAYLOADS,
   LOG_IDENTIFIERS,
   LOG_NOTIFICATIONS,

@@ -47,6 +47,7 @@ export default defineConfig(({ mode }) => {
                   id.includes('tracked-built-ins') ||
                   id.includes('tracked-toolbox') ||
                   id.includes('@ember-data/') ||
+                  id.includes('embroider-macros') ||
                   id.includes('/backburner.js/') ||
                   id.includes('@glimmer') ||
                   id.includes('ember-inflector') ||
