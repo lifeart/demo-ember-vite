@@ -5,6 +5,7 @@ import { DEBUG } from '@glimmer/env';
 import * as recordData from '@ember-data/json-api';
 import * as model from '@ember-data/model/-private';
 import * as graph from '@ember-data/graph/-private';
+import { DEBUGGING, DEPRECATIONS } from '@ember-data/private-build-infra';
 
 export function isDevelopingApp() {
   // eslint-disable-next-line prefer-rest-params
@@ -22,9 +23,8 @@ export function getOwnConfig(...args: unknown[]) {
       HAS_MODEL_PACKAGE: true,
     },
     polyfillUUID: false,
-    debug: {
-      LOG_IDENTIFIERS: true,
-    },
+    debug: DEBUGGING,
+    deprecations: DEPRECATIONS,
     env: {
       DEBUG,
     },
