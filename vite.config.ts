@@ -86,6 +86,7 @@ export default defineConfig(({ mode }) => {
         addonExport('ember-concurrency-decorators'),
         addonExport('ember-bootstrap'),
         addonExport('ember-inflector'),
+        addonExport('@ember/string'),
         {
           find: 'ember-simple-auth/use-session-setup-method',
           replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
@@ -209,6 +210,12 @@ export default defineConfig(({ mode }) => {
           find: `@ember/${pkg}`,
           replacement: nodePath(`ember-source/dist/packages/@ember/${pkg}`),
         })),
+        ...emberGlimmerDepsPackages().map((pkg) => ({
+          find: `@glimmer/${pkg}`,
+          replacement: nodePath(
+            `ember-source/dist/dependencies/@glimmer/${pkg}`
+          ),
+        })),
         ...eDataPackages().map((pkg) => ({
           find: `@ember-data/${pkg}`,
           replacement: nodePath(`@ember-data/${pkg}/addon`),
@@ -285,6 +292,13 @@ export default defineConfig(({ mode }) => {
     // ...
   };
 });
+
+function emberGlimmerDepsPackages() {
+  return fs
+    .readdirSync('node_modules/ember-source/dist/dependencies/@glimmer')
+    .filter((el) => !el.includes('env.') && !el.includes('manager.'))
+    .map((el) => el.replace('.js', ''));
+}
 
 function emberPackages() {
   return fs.readdirSync('node_modules/ember-source/dist/packages/@ember');
