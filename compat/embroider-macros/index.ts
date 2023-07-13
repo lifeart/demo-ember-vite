@@ -5,7 +5,15 @@ import { DEBUG } from '@glimmer/env';
 import * as recordData from '@ember-data/json-api';
 import * as model from '@ember-data/model/-private';
 import * as graph from '@ember-data/graph/-private';
-import { DEBUGGING, DEPRECATIONS } from '@ember-data/private-build-infra';
+import {
+  DEBUGGING,
+  DEPRECATIONS,
+  HAS_JSON_API_PACKAGE,
+  HAS_MODEL_PACKAGE,
+  HAS_GRAPH_PACKAGE,
+  HAS_DEBUG_PACKAGE,
+  HAS_RECORD_DATA_PACKAGE,
+} from '@ember-data/private-build-infra';
 
 export function isDevelopingApp() {
   // eslint-disable-next-line prefer-rest-params
@@ -13,14 +21,35 @@ export function isDevelopingApp() {
   return true;
 }
 
+// export function generateProdDefineConfig() {
+//   const prefix = 'getOwnConfig()';
+//   const config = getOwnConfig();
+//   const items = {
+//     [`${prefix}.env.DEBUG`]: DEBUG,
+//     [`${prefix}.polyfillUUID`]: config.polyfillUUID,
+//   };
+//   Object.keys(config.packages).forEach((key) => {
+//     items[`${prefix}.packages.${key}`] = config.packages[key];
+//   });
+//   Object.keys(config.deprecations).forEach((key) => {
+//     items[`${prefix}.deprecations.${key}`] = config.deprecations[key];
+//   });
+//   Object.keys(config.debug).forEach((key) => {
+//     items[`${prefix}.debug.${key}`] = config.debug[key];
+//   });
+//   return items;
+// }
+
 export function getOwnConfig(...args: unknown[]) {
   // console.info('getOwnConfig', ...args);
   // edata config
   return {
     packages: {
-      HAS_GRAPH_PACKAGE: true,
-      HAS_JSON_API_PACKAGE: true,
-      HAS_MODEL_PACKAGE: true,
+      HAS_GRAPH_PACKAGE,
+      HAS_RECORD_DATA_PACKAGE,
+      HAS_JSON_API_PACKAGE,
+      HAS_MODEL_PACKAGE,
+      HAS_DEBUG_PACKAGE,
     },
     polyfillUUID: false,
     debug: DEBUGGING,
