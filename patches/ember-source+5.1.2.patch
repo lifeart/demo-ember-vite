@@ -1,0 +1,168 @@
+diff --git a/node_modules/ember-source/dist/dependencies/@glimmer/manager.js b/node_modules/ember-source/dist/dependencies/@glimmer/manager.js
+index 3c53152..21da6fa 100644
+--- a/node_modules/ember-source/dist/dependencies/@glimmer/manager.js
++++ b/node_modules/ember-source/dist/dependencies/@glimmer/manager.js
+@@ -879,5 +879,5 @@ function getComponentTemplate(obj) {
+ 
+   return undefined;
+ }
+-
+-export { CustomComponentManager, CustomHelperManager, CustomModifierManager, capabilityFlagsFrom, componentCapabilities, getComponentTemplate, getCustomTagFor, getInternalComponentManager, getInternalHelperManager, getInternalModifierManager, hasCapability, hasDestroyable, hasInternalComponentManager, hasInternalHelperManager, hasInternalModifierManager, hasValue, helperCapabilities, managerHasCapability, modifierCapabilities, setComponentManager, setComponentTemplate, setCustomTagFor, setHelperManager, setInternalComponentManager, setInternalHelperManager, setInternalModifierManager, setModifierManager };
++var capabilities = () => CAPABILITIES;
++export { capabilities, CustomComponentManager, CustomHelperManager, CustomModifierManager, capabilityFlagsFrom, componentCapabilities, getComponentTemplate, getCustomTagFor, getInternalComponentManager, getInternalHelperManager, getInternalModifierManager, hasCapability, hasDestroyable, hasInternalComponentManager, hasInternalHelperManager, hasInternalModifierManager, hasValue, helperCapabilities, managerHasCapability, modifierCapabilities, setComponentManager, setComponentTemplate, setCustomTagFor, setHelperManager, setInternalComponentManager, setInternalHelperManager, setInternalModifierManager, setModifierManager };
+diff --git a/node_modules/ember-source/dist/ember.debug.js b/node_modules/ember-source/dist/ember.debug.js
+index 6344c33..a66f0d6 100644
+--- a/node_modules/ember-source/dist/ember.debug.js
++++ b/node_modules/ember-source/dist/ember.debug.js
+@@ -27035,6 +27035,8 @@ define("@glimmer/global-context", ["exports"], function (_exports) {
+   _exports.deprecate = deprecate;
+   var globalContextWasSet = false;
+   function setGlobalContext(context) {
++    console.log('setGlobalContext10');
++
+     var _a;
+     if (true /* DEBUG */) {
+       if (globalContextWasSet) {
+diff --git a/node_modules/ember-source/dist/packages/@ember/debug/index.js b/node_modules/ember-source/dist/packages/@ember/debug/index.js
+index 27eb287..ce45e34 100644
+--- a/node_modules/ember-source/dist/packages/@ember/debug/index.js
++++ b/node_modules/ember-source/dist/packages/@ember/debug/index.js
+@@ -209,4 +209,9 @@ if (DEBUG && !isTesting()) {
+     }, false);
+   }
+ }
++if (typeof deprecate !== 'function') {
++  deprecate = function (message, test, options) {
++    console.log('deprecate', message, test, options);
++  };
++}
+ export { assert, info, warn, debug, deprecate, debugSeal, debugFreeze, runInDebug, deprecateFunc, setDebugFunction, getDebugFunction, _warnIfUsingStrippedFeatureFlags };
+\ No newline at end of file
+diff --git a/node_modules/ember-source/dist/packages/@ember/routing/route.js b/node_modules/ember-source/dist/packages/@ember/routing/route.js
+index 9f15d9a..bcf9675 100644
+--- a/node_modules/ember-source/dist/packages/@ember/routing/route.js
++++ b/node_modules/ember-source/dist/packages/@ember/routing/route.js
+@@ -5,6 +5,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
+   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+   return c > 3 && r && Object.defineProperty(target, key, r), r;
+ };
++import { getComponentTemplate } from '@glimmer/manager';
+ import { privatize as P } from '@ember/-internals/container';
+ import { addObserver, defineProperty, descriptorForProperty, flushAsyncObservers } from '@ember/-internals/metal';
+ import { getOwner } from '@ember/-internals/owner';
+@@ -1021,6 +1022,9 @@ function buildRenderOptions(route, nameOrOptions, options) {
+     controller.set('model', model);
+   }
+   let template = owner.lookup(`template:${templateName}`);
++  if (typeof template !== 'finction' && typeof template === 'object') {
++    template = getComponentTemplate(template);
++  }
+   assert(`Could not find "${templateName}" template, view, or component.`, isDefaultRender || template !== undefined);
+   let parent;
+   if (into && (parent = parentRoute(route)) && into === parent.routeName) {
+diff --git a/node_modules/ember-source/dist/packages/@ember/test/index.js b/node_modules/ember-source/dist/packages/@ember/test/index.js
+index 336fa24..4393023 100644
+--- a/node_modules/ember-source/dist/packages/@ember/test/index.js
++++ b/node_modules/ember-source/dist/packages/@ember/test/index.js
+@@ -1,15 +1,16 @@
+-import require, { has } from 'require';
++import * as testing from 'ember-testing';
++import { DEBUG } from '@glimmer/env';
+ export let registerAsyncHelper;
+ export let registerHelper;
+ export let registerWaiter;
+ export let unregisterHelper;
+ export let unregisterWaiter;
+-if (has('ember-testing')) {
++if (DEBUG) {
+   // SAFETY: since `require` is opaque to TS, we need to inform it that this is
+   // the actual type of what we import. This `require` needs to stay in sync
+   // with the `import type` statement above. (This cast *increases* safety,
+   // because the result of `require` is `any`.)
+-  let Test = require('ember-testing').Test;
++  let Test = testing.Test;
+   registerAsyncHelper = Test.registerAsyncHelper;
+   registerHelper = Test.registerHelper;
+   registerWaiter = Test.registerWaiter;
+diff --git a/node_modules/ember-source/dist/packages/ember/index.js b/node_modules/ember-source/dist/packages/ember/index.js
+index bc7a5d9..4c42340 100644
+--- a/node_modules/ember-source/dist/packages/ember/index.js
++++ b/node_modules/ember-source/dist/packages/ember/index.js
+@@ -1,7 +1,9 @@
+ /**
+ @module ember
+ */
+-import require, { has } from 'require';
++import { DEBUG } from '@glimmer/env'
++import * as testing from 'ember-testing';
++import * as waiters from 'ember-testing/lib/test/waiters'
+ import { getENV, getLookup, setLookup } from '@ember/-internals/environment';
+ import * as utils from '@ember/-internals/utils';
+ import { Registry as InternalRegistry, Container as InternalContainer } from '@ember/-internals/container';
+@@ -56,6 +58,38 @@ import { isNone as emberIsNone, isBlank as emberIsBlank, isEmpty as emberIsEmpty
+ import * as glimmerRuntime from '@glimmer/runtime';
+ import { helperCapabilities, setModifierManager, setComponentTemplate, getComponentTemplate, setHelperManager } from '@glimmer/manager';
+ import { assertDestroyablesDestroyed, associateDestroyableChild, destroy as emberDestroy, enableDestroyableTracking, isDestroying, isDestroyed, registerDestructor, unregisterDestructor } from '@ember/destroyable';
++
++const registry = {
++  'ember-testing/lib/test/waiters': DEBUG ? waiters : undefined,
++};
++  
++function define(a, b) {
++  console.log(`define: ${a}`, b);
++  registry[a] = b;
++}
++
++function require(a) {
++  if (a in registry) {
++    console.log(`require from registry: ${a}`);
++
++    return registry[a];
++  }
++  console.log(`require: ${a}`);
++  try {
++    return window.requireModule(a);
++  } catch(e) {
++    console.error(e);
++  }
++}
++  
++function has(a) {
++  if (a === 'ember-testing') {
++    return DEBUG ? true : false;
++  }
++  console.log(`has: ${a}`);
++  return false;
++}
++
+ // eslint-disable-next-line @typescript-eslint/no-namespace
+ var Ember;
+ (function (Ember) {
+@@ -316,7 +350,7 @@ var Ember;
+     require,
+     define,
+     // @ts-expect-error These properties don't appear as being defined
+-    registry: typeof requirejs !== 'undefined' ? requirejs.entries : require.entries
++    registry: registry
+   };
+ })(Ember || (Ember = {}));
+ Object.defineProperty(Ember, 'ENV', {
+@@ -377,7 +411,7 @@ function defineEmberTemplateCompilerLazyLoad(key) {
+     configurable: true,
+     enumerable: true,
+     get() {
+-      if (has('ember-template-compiler')) {
++      if (false) {
+         let templateCompiler = require('ember-template-compiler');
+         EmberHTMLBars.precompile = EmberHandlebars.precompile = templateCompiler.precompile;
+         EmberHTMLBars.compile = EmberHandlebars.compile = templateCompiler.compile;
+@@ -407,8 +441,7 @@ function defineEmberTestingLazyLoad(key) {
+     configurable: true,
+     enumerable: true,
+     get() {
+-      if (has('ember-testing')) {
+-        let testing = require('ember-testing');
++      if (DEBUG) {
+         let {
+           Test,
+           Adapter,
