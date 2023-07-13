@@ -6,7 +6,7 @@ import { resolve } from 'node:path';
 import hbsResolver from './plugins/hbs-resolver';
 import gtsResolver from './plugins/gts-resolver';
 import i18nLoader from './plugins/i18n-loader';
-
+import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
 import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
 import transformImports from 'ember-template-imports/src/babel-plugin';
 
@@ -74,6 +74,7 @@ export default defineConfig(({ mode }) => {
     define: {
       ENV_DEBUG: isProd ? false : true,
       ENV_CI: false,
+      ...generateDefineConfig(isProd),
     },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
