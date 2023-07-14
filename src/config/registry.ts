@@ -26,7 +26,7 @@ import HelloWorld from '@/components/HelloWorld';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
+import Hot from '@/components/Hot';
 /* imported helpers */
 import MemoryUsage from '@/helpers/memory-usage';
 import IsDev from '@/helpers/is-dev';
@@ -65,6 +65,8 @@ export const InitialRegistry = {
   'component:button': Button,
   'component:header': Header,
   'component:footer': Footer,
+
+  'component:hot': Hot,
 
   'helper:memory-usage': MemoryUsage as unknown as () => string, // glint fix
   'helper:is-dev': IsDev,

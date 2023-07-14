@@ -27,9 +27,11 @@ export default class HelloWorld extends Component {
         {{t 'hello.world'}}
       </div>
       <div class="mt-4">
+        <Hot @module="/components/Button/template.hbs">
       <Button data-test-lang="en-us" {{on "click" (fn this.setLanguage "en-us")}}>en-us</Button>
       <Button data-test-lang="fr-fr" {{on "click" (fn this.setLanguage "fr-fr")}}>fr-fr</Button>
       <Button data-test-lang="ru-ru" {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
+      </Hot>
       </div>
     </div>
       
