@@ -276,10 +276,9 @@ export default defineConfig(({ mode }) => {
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
         babelConfig: defaultBabelConfig(
-          [
-            transformImports,
-            babelHotReloadPlugin,
-          ],
+          [transformImports, isProd ? null : babelHotReloadPlugin].filter(
+            (el) => el !== null
+          ),
           isProd,
           enableSourceMaps
         ),
