@@ -4,13 +4,13 @@ import { getComponentTemplate } from '@glimmer/manager';
 
 export default class Button extends Component {
   static template = template;
-  a = '';
+  a = 's';
 }
 
 if (import.meta.hot) {
   import.meta.hot.accept((newModule) => {
     const tpl = getComponentTemplate(Button.template);
-    const moduleName = tpl(undefined).moduleName;
+    const moduleName = tpl().moduleName;
     window.dispatchEvent(
       new CustomEvent('hot-reload', {
         detail: {
@@ -22,7 +22,7 @@ if (import.meta.hot) {
   });
   import.meta.hot.accept('./template.hbs', (newFoo) => {
     const tpl = getComponentTemplate(newFoo.default);
-    const moduleName = tpl(undefined).moduleName;
+    const moduleName = tpl().moduleName;
     class NewComponent extends Button {
       static template = tpl;
     }

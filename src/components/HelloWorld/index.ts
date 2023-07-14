@@ -27,7 +27,7 @@ export default class HelloWorld extends Component {
         {{t 'hello.world'}}
       </div>
       <div class="mt-4">
-        <Hot @module="/components/Button/template.hbs" @component='Button' as |Button|>
+        <Hot @component='Button' as |Button|>
       <Button data-test-lang="en-us" {{on "click" (fn this.setLanguage "en-us")}}>en-us</Button>
       <Button data-test-lang="fr-fr" {{on "click" (fn this.setLanguage "fr-fr")}}>fr-fr</Button>
       <Button data-test-lang="ru-ru" {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
@@ -100,7 +100,7 @@ export default class HelloWorld extends Component {
       <h3 class="text-lg font-medium leading-6 text-gray-900">.gts component test:</h3>
 
       <div class="mt-2">
-      <Hot @module="/components/HelloWorld/sample.gts" @component={{Sample}} as |Sample|>
+      <Hot @component={{Sample}} as |Sample|>
         <Sample />
       </Hot>
       </div>
