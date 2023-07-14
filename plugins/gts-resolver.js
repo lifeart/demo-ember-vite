@@ -35,14 +35,14 @@ function hotLoad(id) {
   }`;
 }
 
-export default function hbsResolver() {
+export default function hbsResolver(isProd) {
   return {
     name: 'gts-resolver',
     enforce: 'pre',
     transform(src, id) {
       if (fileRegex.test(id, id)) {
         return {
-          code: tpl(src, id) + hotLoad(id),
+          code: isProd ? tpl(src, id) : tpl(src, id) + hotLoad(id),
           map: null, // provide source map if available
         };
       }

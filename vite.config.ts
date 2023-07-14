@@ -234,7 +234,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       hbsResolver(isProd),
-      gtsResolver(),
+      gtsResolver(isProd),
       i18nLoader(),
       !isDev
         ? babel({
