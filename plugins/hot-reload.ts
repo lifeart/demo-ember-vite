@@ -55,12 +55,12 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
           fileName.includes('/src/') && !fileName.includes('/node_modules/');
 
         const isComponentFile = fileName.includes('/components/');
-        const isHBS = fileName.endsWith('.hbs');
+        // const isHBS = fileName.endsWith('.hbs');
         if (!isSrcFile || !isComponentFile) {
           return;
         }
         const sources: string[] = Array.from(state.sourcesToHotReload);
-        console.log('sources', sources, fileName);
+        // console.log('sources', sources, fileName);
         // console.log('state.file.opts.filename', fileName);
         if (state.moduleName || sources.length > 0) {
           // check if we already have import getComponentTemplate from '@glimmer/manager';
@@ -122,9 +122,9 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
 
         */
         if (state.moduleName) {
-          if (isHBS) {
-            console.log('isHBS', fileName, state.moduleName);
-          }
+        //   if (isHBS) {
+        //     console.log('isHBS', fileName, state.moduleName);
+        //   }
           // check for import.meta.hot already exist
 
           const hasImportMetaHot = path.node.body.find((node: any) => {
