@@ -1,6 +1,6 @@
 import EmberGlimmerComponentManager from 'ember-component-manager';
 import Component from '@glimmer/component';
-import { setOwner, getOwner } from '@ember/application';
+import { setOwner, getOwner } from '@ember/owner';
 import { capabilities } from '@ember/component';
 import { setComponentManager } from '@ember/component';
 import { Ember } from '../../types/global';
@@ -13,7 +13,6 @@ class CustomComponentManager extends EmberGlimmerComponentManager {
     ...args: Parameters<EmberGlimmerComponentManager['createComponent']>
   ) {
     const component = super.createComponent(...args);
-
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setOwner(component, getOwner(this)!);
 

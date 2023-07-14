@@ -9,7 +9,7 @@ import i18nLoader from './plugins/i18n-loader';
 import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
 import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
 import transformImports from 'ember-template-imports/src/babel-plugin';
-
+import { babelHotReloadPlugin } from './plugins/hot-reload';
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -234,7 +234,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       hbsResolver(isProd),
-      gtsResolver(),
+      gtsResolver(isProd),
       i18nLoader(),
       !isDev
         ? babel({
@@ -276,7 +276,9 @@ export default defineConfig(({ mode }) => {
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
         babelConfig: defaultBabelConfig(
-          [transformImports],
+          [transformImports, isProd ? null : babelHotReloadPlugin].filter(
+            (el) => el !== null
+          ),
           isProd,
           enableSourceMaps
         ),

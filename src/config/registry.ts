@@ -1,5 +1,5 @@
 import type { IRegistry } from './utils';
-
+import { DEBUG } from '@glimmer/env';
 /* imported routes */
 import { ApplicationRoute } from '../routes/application';
 import LoginRoute from '../routes/login';
@@ -26,7 +26,7 @@ import HelloWorld from '@/components/HelloWorld';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
+import Hot from '@/components/Hot';
 /* imported helpers */
 import MemoryUsage from '@/helpers/memory-usage';
 import IsDev from '@/helpers/is-dev';
@@ -41,7 +41,7 @@ import StoreService from '@/services/store';
 import Pet from '@/models/pet';
 import Person from '@/models/person';
 
-export const InitialRegistry = {
+const InitialRegistry = {
   'service:store': StoreService,
   'model:pet': Pet,
   'model:person': Person,
@@ -65,6 +65,8 @@ export const InitialRegistry = {
   'component:button': Button,
   'component:header': Header,
   'component:footer': Footer,
+
+  'component:hot': DEBUG ? Hot : null,
 
   'helper:memory-usage': MemoryUsage as unknown as () => string, // glint fix
   'helper:is-dev': IsDev,
