@@ -7,7 +7,7 @@
      alt="Ember.js logo"
      src="./public/ember.svg">
 
-This is [Ember](https://emberjs.com/) [application](https://ember-vite.netlify.app/) running only on [Vite](https://vitejs.dev/). [![Netlify Status](https://api.netlify.com/api/v1/badges/ea52e30e-79bc-4f23-9e2f-321abab60b85/deploy-status)](https://ember-vite.netlify.app/)
+This is [Ember application](https://ember-vite.netlify.app/) running only on [Vite](https://vitejs.dev/). [![Netlify Status](https://api.netlify.com/api/v1/badges/ea52e30e-79bc-4f23-9e2f-321abab60b85/deploy-status)](https://ember-vite.netlify.app/)
 
 * It's `TypeScript`'ed by default.
 * It uses `vite` to build the app.
@@ -36,6 +36,7 @@ This application does not use `ember-cli` or `embroider` at all.
 
 ## Motivation
 
+- 🚀 Hot Module Replacement support
 - ⚡️ No complex build process
 - 💡 Instant Server Start
 - 🛠️ Rich customization features
@@ -46,8 +47,9 @@ This application does not use `ember-cli` or `embroider` at all.
 
 ## Features
 
+1. Hot Module Replacement
 1. Strict mode
-2. Ember-Data support
+1. Ember-Data support
 1. Lazy-loading for routes
 1. Template-only components
 1. Style imports from components
