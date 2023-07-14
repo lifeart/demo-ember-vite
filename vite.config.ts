@@ -9,6 +9,7 @@ import i18nLoader from './plugins/i18n-loader';
 import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
 import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
 import transformImports from 'ember-template-imports/src/babel-plugin';
+import { preprocess, traverse, ASTv1, print, builders } from '@glimmer/syntax';
 
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
@@ -276,7 +277,129 @@ export default defineConfig(({ mode }) => {
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
         babelConfig: defaultBabelConfig(
-          [transformImports],
+          [
+            transformImports,
+            function () {
+              // const t = babel.types;
+              // console.log('entering program');
+
+              const ignoredComponents = ['LinkTo'];
+              const visitor = {
+                CallExpression(path) {
+                  if (path.node.callee.name !== 'precompileTemplate') {
+                    return;
+                  }
+                  if (path.node.arguments.length === 1) {
+                    // simple global template case
+                    // TemplateElement
+                    const tpl = path.node.arguments[0].quasis[0].value.raw;
+                    const ast = preprocess(tpl);
+                    traverse(ast, {
+                      ElementNode(node: ASTv1.ElementNode) {
+                        if (node.tag.toLowerCase() === node.tag) {
+                          return;
+                        }
+                        if (node.processed) {
+                          return;
+                        }
+                        node.processed = true;
+                        const originalTag = node.tag;
+                        if (ignoredComponents.includes(originalTag)) {
+                          return;
+                        }
+                        const newNode = builders.element('Hot', {
+                          children: [node],
+                          attrs: [
+                            builders.attr(
+                              '@component',
+                              builders.string(originalTag)
+                            ),
+                          ],
+                          blockParams: [originalTag],
+                        });
+                        newNode.processed = true;
+                        return newNode;
+                      },
+                    });
+                    // print the ast
+
+                    const newTpl = print(ast);
+
+                    path.node.arguments[0].quasis[0].value.raw = newTpl;
+                    path.node.arguments[0].quasis[0].value.cooked = newTpl;
+                    // console.log(tpl);
+                  } else if (path.node.arguments.length === 2) {
+                    if (path.node.arguments[1].type === 'ObjectExpression') {
+                      // console.log(path.node.arguments[1].properties);
+                      // search for scope property
+
+                      const scope = path.node.arguments[1].properties.find(
+                        (prop) => prop.key.name === 'scope'
+                      );
+                      // search for return value of ArrowFunctionExpression in scope.value
+                      // const arrowFunc = scope.value;
+                      const scopeKeys = scope.value.body.properties.map(
+                        (prop) => prop.key.name
+                      );
+
+                      const tpl = path.node.arguments[0].quasis[0].value.raw;
+                      const ast = preprocess(tpl);
+                      traverse(ast, {
+                        ElementNode(node: ASTv1.ElementNode) {
+                          if (node.tag.toLowerCase() === node.tag) {
+                            return;
+                          }
+                          if (node.processed) {
+                            return;
+                          }
+                          const originalTag = node.tag;
+
+                          if (ignoredComponents.includes(originalTag)) {
+                            return;
+                          }
+                          node.processed = true;
+                          const newNode = builders.element('Hot', {
+                            children: [node],
+                            attrs: [
+                              builders.attr(
+                                '@component',
+                                scopeKeys.includes(originalTag)
+                                  ? builders.mustache(
+                                      builders.path(originalTag)
+                                    )
+                                  : builders.string(originalTag)
+                              ),
+                            ],
+                            blockParams: [originalTag],
+                          });
+                          newNode.processed = true;
+                          return newNode;
+                        },
+                      });
+                      // print the ast
+
+                      const newTpl = print(ast);
+
+                      path.node.arguments[0].quasis[0].value.raw = newTpl;
+                      path.node.arguments[0].quasis[0].value.cooked = newTpl;
+                      // console.log(scopeKeys);
+                      // may be local template
+                      // console.log(path.node.arguments[0].quasis[0].value.raw);
+                      // console.log(path.node.arguments[1].properties[0].value.value);
+                      // console.log(path.node.arguments[1].properties[1].value.value);
+                      // console.log(path.node.arguments[1].properties[2].value.value);
+                      // console.log(path.node.arguments[1].properties[3].value.value);
+                    }
+                    // may be external imports
+                  }
+                  // console.log(path.parent.arguments);
+                  // console.log('entering program');
+                  // print current path node as string
+                },
+              };
+              return { visitor };
+            },
+          ],
           isProd,
           enableSourceMaps
         ),

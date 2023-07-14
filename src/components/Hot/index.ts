@@ -4,6 +4,24 @@ import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
 import { getComponentTemplate } from '@glimmer/manager';
 
+// Take from https://github.com/emberjs/ember.js/blob/b31998b6a0cccd22a8fb6fab21d24e5e7f2cb70d/packages/ember-template-compiler/lib/system/dasherize-component-name.ts
+// we need this because Ember.String.dasherize('XTestWrapper') -> xtest-wrapper, not x-test-wrapper
+const SIMPLE_DASHERIZE_REGEXP = /[A-Z]|::/g;
+const ALPHA = /[A-Za-z0-9]/;
+export function dasherizeName(name = '') {
+  return name.replace(SIMPLE_DASHERIZE_REGEXP, (char, index) => {
+    if (char === '::') {
+      return '/';
+    }
+
+    if (index === 0 || !ALPHA.test(name[index - 1])) {
+      return char.toLowerCase();
+    }
+
+    return `-${char.toLowerCase()}`;
+  });
+}
+
 // eslint-disable-next-line no-var
 var GlobalRefCache: Record<string, unknown> = {};
 interface Args {
@@ -21,7 +39,7 @@ export default class Hot extends Component<Args> {
     let { component } = this.args;
     if (typeof component === 'string') {
       const maybeComponent = owner.application.__registry__.resolve(
-        `component:${component.toLowerCase()}`
+        `component:${dasherizeName(component)}`
       );
       if (maybeComponent) {
         component = maybeComponent;
