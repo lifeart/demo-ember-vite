@@ -8,7 +8,7 @@ import { getComponentTemplate } from '@glimmer/manager';
 // we need this because Ember.String.dasherize('XTestWrapper') -> xtest-wrapper, not x-test-wrapper
 const SIMPLE_DASHERIZE_REGEXP = /[A-Z]|::/g;
 const ALPHA = /[A-Za-z0-9]/;
-export function dasherizeName(name = '') {
+function dasherizeName(name = '') {
   return name.replace(SIMPLE_DASHERIZE_REGEXP, (char, index) => {
     if (char === '::') {
       return '/';
@@ -20,6 +20,14 @@ export function dasherizeName(name = '') {
 
     return `-${char.toLowerCase()}`;
   });
+}
+
+function shouldSkipFile(moduleName: string) {
+  return moduleName.includes('/node_modules/');
+}
+
+function moduleNameFromFile(file: string) {
+  return '/' + file.split('/src/')[1];
 }
 
 // eslint-disable-next-line no-var
@@ -49,14 +57,19 @@ export default class Hot extends Component<Args> {
     }
     const tpl = getComponentTemplate(component);
     const moduleName = tpl().moduleName;
-    const module = '/' + moduleName.split('/src/')[1];
+    if (shouldSkipFile(moduleName)) {
+      this.originalComponent = component;
+      console.info('Skip hot reload for', moduleName);
+      return;
+    }
+    const module = moduleNameFromFile(moduleName);
     // console.log('moduleName', moduleName);
     this.originalComponent = GlobalRefCache[module] || component;
 
     const fn = (a: Event) => {
       const detail = (a as unknown as CustomEvent).detail;
       const ref = module;
-      const target = '/' + detail.moduleName.split('/src/')[1];
+      const target = moduleNameFromFile(detail.moduleName);
       if (ref === target) {
         this.revision++;
         GlobalRefCache[module] = detail.component;

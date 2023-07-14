@@ -51,9 +51,14 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         const isNodeModules = fileName.includes('/node_modules/');
         const isTestFile = fileName.includes('/tests/');
         const isComponentFile = fileName.includes('/components/');
+        const isTemplate = fileName.includes('/templates/');
 
         state.shouldProcess =
-          isSrcFile && !isNodeModules && !isTestFile && isComponentFile;
+          isSrcFile &&
+          !isNodeModules &&
+          !isTestFile &&
+          (isComponentFile || isTemplate);
+
         state.moduleName = '';
         state.sourcesToHotReload = new Set();
       },
@@ -65,33 +70,32 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         const sources: string[] = Array.from(state.sourcesToHotReload);
         // console.log('sources', sources, fileName);
         // console.log('state.file.opts.filename', fileName);
-        if (state.moduleName || sources.length > 0) {
-          // check if we already have import getComponentTemplate from '@glimmer/manager';
-          const hasImport = path.node.body.find((node: any) => {
-            return (
-              node.type === 'ImportDeclaration' &&
-              node.source.value === '@glimmer/manager' &&
-              node.specifiers.find(
-                (specifier: any) =>
-                  specifier.imported.name === 'getComponentTemplate'
-              )
-            );
-          });
+        // check if we already have import getComponentTemplate from '@glimmer/manager';
+        const hasImport = path.node.body.find((node: any) => {
+          return (
+            node.type === 'ImportDeclaration' &&
+            node.source.value === '@glimmer/manager' &&
+            node.specifiers.find(
+              (specifier: any) =>
+                specifier.imported.name === 'getComponentTemplate'
+            )
+          );
+        });
 
-          // add import { getComponentTemplate } from '@glimmer/manager'; to the top
-          !hasImport &&
-            path.node.body.unshift(
-              t.importDeclaration(
-                [
-                  t.importSpecifier(
-                    t.identifier('getComponentTemplate'),
-                    t.identifier('getComponentTemplate')
-                  ),
-                ],
-                t.stringLiteral('@glimmer/manager')
-              )
-            );
-        }
+        // add import { getComponentTemplate } from '@glimmer/manager'; to the top
+        !hasImport &&
+          path.node.body.unshift(
+            t.importDeclaration(
+              [
+                t.importSpecifier(
+                  t.identifier('getComponentTemplate'),
+                  t.identifier('getComponentTemplate')
+                ),
+              ],
+              t.stringLiteral('@glimmer/manager')
+            )
+          );
+
         /* 
         add this to the bottom of the file
         if (import.meta.hot) {
@@ -124,6 +128,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
   });
 
         */
+        // console.log('state.moduleName', state.moduleName);
         if (state.moduleName) {
           //   if (isHBS) {
           //     console.log('isHBS', fileName, state.moduleName);
@@ -324,6 +329,95 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                 ])
               )
             );
+        } else {
+          path.node.body.push(
+            t.ifStatement(
+              t.memberExpression(
+                t.memberExpression(
+                  t.identifier('import'),
+                  t.identifier('meta')
+                ),
+                t.identifier('hot')
+              ),
+              t.blockStatement([
+                t.expressionStatement(
+                  t.callExpression(
+                    t.memberExpression(
+                      t.memberExpression(
+                        t.memberExpression(
+                          t.identifier('import'),
+                          t.identifier('meta')
+                        ),
+                        t.identifier('hot')
+                      ),
+                      t.identifier('accept')
+                    ),
+                    [
+                      t.arrowFunctionExpression(
+                        [t.identifier('newModule')],
+                        t.blockStatement([
+                          t.variableDeclaration('const', [
+                            t.variableDeclarator(
+                              t.identifier('tpl'),
+                              t.callExpression(
+                                t.identifier('getComponentTemplate'),
+                                [
+                                  t.memberExpression(
+                                    t.identifier('newModule'),
+                                    t.identifier('default')
+                                  ),
+                                ]
+                              )
+                            ),
+                          ]),
+                          t.variableDeclaration('const', [
+                            t.variableDeclarator(
+                              t.identifier('moduleName'),
+                              t.memberExpression(
+                                t.callExpression(t.identifier('tpl'), []),
+                                t.identifier('moduleName')
+                              )
+                            ),
+                          ]),
+                          t.expressionStatement(
+                            t.callExpression(
+                              t.memberExpression(
+                                t.identifier('window'),
+                                t.identifier('dispatchEvent')
+                              ),
+                              [
+                                t.newExpression(t.identifier('CustomEvent'), [
+                                  t.stringLiteral('hot-reload'),
+                                  t.objectExpression([
+                                    t.objectProperty(
+                                      t.identifier('detail'),
+                                      t.objectExpression([
+                                        t.objectProperty(
+                                          t.identifier('moduleName'),
+                                          t.identifier('moduleName')
+                                        ),
+                                        t.objectProperty(
+                                          t.identifier('component'),
+                                          t.memberExpression(
+                                            t.identifier('newModule'),
+                                            t.identifier('default')
+                                          )
+                                        ),
+                                      ])
+                                    ),
+                                  ]),
+                                ]),
+                              ]
+                            )
+                          ),
+                        ])
+                      ),
+                    ]
+                  )
+                ),
+              ])
+            )
+          );
         }
 
         // console.log(path.toString());
