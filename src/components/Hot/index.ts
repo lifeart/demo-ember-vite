@@ -10,7 +10,6 @@ interface Args {
   component: unknown;
 }
 export default class Hot extends Component<Args> {
-  @tracked isVisible = true;
   revision = 0;
   @tracked originalComponent: null | unknown = null;
   get component() {
