@@ -100,7 +100,9 @@ export default class HelloWorld extends Component {
       <h3 class="text-lg font-medium leading-6 text-gray-900">.gts component test:</h3>
 
       <div class="mt-2">
-      <Sample />
+      <Hot @module="/components/HelloWorld/sample.gts" @component={{Sample}} as |Sample|>
+        <Sample />
+      </Hot>
       </div>
     </div>
 

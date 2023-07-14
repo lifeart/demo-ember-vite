@@ -18,6 +18,23 @@ function tpl(raw, id) {
   return result.output;
 }
 
+function hotLoad(id) {
+  return `
+  if (import.meta.hot) {
+    import.meta.hot.accept((newModule) => {
+      const moduleName = '${id}';
+      window.dispatchEvent(
+        new CustomEvent('hot-reload', {
+          detail: {
+            moduleName,
+            component: newModule.default,
+          },
+        })
+      );
+    });
+  }`;
+}
+
 export default function hbsResolver() {
   return {
     name: 'gts-resolver',
@@ -25,7 +42,7 @@ export default function hbsResolver() {
     transform(src, id) {
       if (fileRegex.test(id, id)) {
         return {
-          code: tpl(src, id),
+          code: tpl(src, id) + hotLoad(id),
           map: null, // provide source map if available
         };
       }
