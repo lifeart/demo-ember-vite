@@ -46,19 +46,22 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
   const visitor = {
     Program: {
       enter(_: any, state: any) {
+        const fileName = state.file.opts.filename || '';
+        const isSrcFile = fileName.includes('/src/');
+        const isNodeModules = fileName.includes('/node_modules/');
+        const isTestFile = fileName.includes('/tests/');
+        const isComponentFile = fileName.includes('/components/');
+
+        state.shouldProcess =
+          isSrcFile && !isNodeModules && !isTestFile && isComponentFile;
         state.moduleName = '';
         state.sourcesToHotReload = new Set();
       },
       exit(path: any, state: any) {
-        const fileName = state.file.opts.filename || '';
-        const isSrcFile =
-          fileName.includes('/src/') && !fileName.includes('/node_modules/');
-
-        const isComponentFile = fileName.includes('/components/');
-        // const isHBS = fileName.endsWith('.hbs');
-        if (!isSrcFile || !isComponentFile) {
+        if (!state.shouldProcess) {
           return;
         }
+
         const sources: string[] = Array.from(state.sourcesToHotReload);
         // console.log('sources', sources, fileName);
         // console.log('state.file.opts.filename', fileName);
@@ -122,9 +125,9 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
 
         */
         if (state.moduleName) {
-        //   if (isHBS) {
-        //     console.log('isHBS', fileName, state.moduleName);
-        //   }
+          //   if (isHBS) {
+          //     console.log('isHBS', fileName, state.moduleName);
+          //   }
           // check for import.meta.hot already exist
 
           const hasImportMetaHot = path.node.body.find((node: any) => {
@@ -327,12 +330,18 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
       },
     },
     ExportDefaultDeclaration(path: any, state: any) {
+      if (!state.shouldProcess) {
+        return;
+      }
       if (t.isClassDeclaration(path.node.declaration)) {
         // get className and moduleName
         state.moduleName = path.node.declaration.id.name;
       }
     },
     ImportDeclaration(path: any, state: any) {
+      if (!state.shouldProcess) {
+        return;
+      }
       // detect import ends with `.hbs`
       const source = path.node.source.value;
       const isRelative = source.startsWith('.');
@@ -340,7 +349,10 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         state.sourcesToHotReload.add(path.node.source.value);
       }
     },
-    CallExpression(path: any) {
+    CallExpression(path: any, state: any) {
+      if (!state.shouldProcess) {
+        return;
+      }
       if (path.node.callee.name !== PrecompileFunctionName) {
         return;
       }
