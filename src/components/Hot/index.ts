@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { precompileTemplate } from '@ember/template-compilation';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
-
 // eslint-disable-next-line no-var
 var GlobalRefCache: Record<string, unknown> = {};
 interface Args {
@@ -16,10 +15,18 @@ export default class Hot extends Component<Args> {
   get component() {
     return this.originalComponent;
   }
-  constructor() {
-    super(...arguments);
-
-    const { component, module } = this.args;
+  constructor(owner: any, args: Args) {
+    super(owner, args);
+    // eslint-disable-next-line prefer-const
+    let { component, module } = this.args;
+    if (typeof component === 'string') {
+      const maybeComponent = owner.application.__registry__.resolve(`component:${component.toLowerCase()}`);
+      if (maybeComponent) {
+        component = maybeComponent;
+      } else {
+        throw new Error(`Component ${component} not found`);
+      }
+    }
     this.originalComponent = GlobalRefCache[module] || component;
 
     const fn = (a: Event) => {
