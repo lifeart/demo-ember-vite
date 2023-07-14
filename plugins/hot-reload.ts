@@ -10,6 +10,7 @@ const HotComponentName = 'Hot';
 const HotComponentAttribute = '@component';
 const PrecompileFunctionName = 'precompileTemplate';
 const ScopePropertyName = 'scope';
+const WindowHotReloadEventName = 'hot-reload';
 
 function elementTransform(node: SeenElement, scopeKeys: string[]) {
   if (node.tag.toLowerCase() === node.tag) {
@@ -206,7 +207,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                                 ),
                                 [
                                   t.newExpression(t.identifier('CustomEvent'), [
-                                    t.stringLiteral('hot-reload'),
+                                    t.stringLiteral(WindowHotReloadEventName),
                                     t.objectExpression([
                                       t.objectProperty(
                                         t.identifier('detail'),
@@ -299,7 +300,9 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                                     t.newExpression(
                                       t.identifier('CustomEvent'),
                                       [
-                                        t.stringLiteral('hot-reload'),
+                                        t.stringLiteral(
+                                          WindowHotReloadEventName
+                                        ),
                                         t.objectExpression([
                                           t.objectProperty(
                                             t.identifier('detail'),
@@ -387,7 +390,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                               ),
                               [
                                 t.newExpression(t.identifier('CustomEvent'), [
-                                  t.stringLiteral('hot-reload'),
+                                  t.stringLiteral(WindowHotReloadEventName),
                                   t.objectExpression([
                                     t.objectProperty(
                                       t.identifier('detail'),
