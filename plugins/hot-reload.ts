@@ -87,6 +87,7 @@ function hasImportMetaHot(node: babelTypes.Program) {
 export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
   // get file name
   const t = babel.types;
+  let cnt = 0;
   const visitor = {
     Program: {
       enter(_: any, state: any) {
@@ -278,6 +279,8 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                   )
                 ),
                 ...sources.map((source: string) => {
+                  cnt++;
+                  const cmpName = state.moduleName + '_' + cnt;
                   return t.expressionStatement(
                     t.callExpression(
                       t.memberExpression(
@@ -319,7 +322,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                               ),
                             ]),
                             t.classDeclaration(
-                              t.identifier('NewComponent'),
+                              t.identifier(cmpName),
                               t.identifier(state.moduleName),
                               t.classBody([
                                 t.classProperty(
@@ -351,7 +354,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                                           ),
                                           t.objectProperty(
                                             t.identifier('component'),
-                                            t.identifier('NewComponent')
+                                            t.identifier(cmpName)
                                           ),
                                         ])
                                       ),
