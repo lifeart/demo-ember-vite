@@ -46,6 +46,12 @@ export function registerComponent<T>(
 
 export function extendRegistry(registry) {
   Object.keys(registry).forEach((key) => {
-    window[env.APP.globalName].register(key, registry[key]);
+    try {
+      window[env.APP.globalName].register(key, registry[key]);
+    } catch(e) {
+      // hot-reload case
+      window[env.APP.globalName].unregister(key);
+      window[env.APP.globalName].register(key, registry[key]);
+    }
   });
 }

@@ -75,9 +75,7 @@ function hasImportMetaHot(node: babelTypes.Program) {
     return (
       node.type === 'IfStatement' &&
       node.test.type === 'MemberExpression' &&
-      node.test.object.type === 'MemberExpression' &&
-      node.test.object.object.type === 'Identifier' &&
-      node.test.object.object.name === 'import' &&
+      node.test.object.type === 'MetaProperty' &&
       node.test.object.property.type === 'Identifier' &&
       node.test.object.property.name === 'meta' &&
       node.test.property.type === 'Identifier' &&
@@ -89,6 +87,7 @@ function hasImportMetaHot(node: babelTypes.Program) {
 export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
   // get file name
   const t = babel.types;
+  let cnt = 0;
   const visitor = {
     Program: {
       enter(_: any, state: any) {
@@ -156,197 +155,39 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
 
         */
         // console.log('state.moduleName', state.moduleName);
-        if (state.moduleName) {
-          //   if (isHBS) {
-          //     console.log('isHBS', fileName, state.moduleName);
-          //   }
-          // check for import.meta.hot already exist
+        const hasImportMetaHotReload = hasImportMetaHot(path.node);
+        console.log(hasImportMetaHotReload, state.file.opts.filename);
 
-          const hasImportMetaHotReload = hasImportMetaHot(path.node);
-          !hasImportMetaHotReload &&
-            path.node.body.push(
-              t.ifStatement(
-                t.memberExpression(
+        /*
+          generate ast builder code for:     const fallback = () => ({ moduleName: new URL(import.meta.url).pathname });
+        */
+        const fallbackVar = t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.identifier('fallback'),
+            t.arrowFunctionExpression(
+              [],
+              t.objectExpression([
+                t.objectProperty(
+                  t.identifier('moduleName'),
                   t.memberExpression(
-                    t.identifier('import'),
-                    t.identifier('meta')
-                  ),
-                  t.identifier('hot')
-                ),
-                t.blockStatement([
-                  t.expressionStatement(
-                    t.callExpression(
+                    t.newExpression(t.identifier('URL'), [
                       t.memberExpression(
                         t.memberExpression(
-                          t.memberExpression(
-                            t.identifier('import'),
-                            t.identifier('meta')
-                          ),
-                          t.identifier('hot')
+                          t.identifier('import'),
+                          t.identifier('meta')
                         ),
-                        t.identifier('accept')
+                        t.identifier('url')
                       ),
-                      [
-                        t.arrowFunctionExpression(
-                          [t.identifier('newModule')],
-                          t.blockStatement([
-                            t.variableDeclaration('const', [
-                              t.variableDeclarator(
-                                t.identifier('tpl'),
-                                t.callExpression(
-                                  t.identifier('getComponentTemplate'),
-                                  [
-                                    t.memberExpression(
-                                      t.identifier('newModule'),
-                                      t.identifier('default')
-                                    ),
-                                  ]
-                                )
-                              ),
-                            ]),
-                            t.variableDeclaration('const', [
-                              t.variableDeclarator(
-                                t.identifier('moduleName'),
-                                t.memberExpression(
-                                  t.callExpression(t.identifier('tpl'), []),
-                                  t.identifier('moduleName')
-                                )
-                              ),
-                            ]),
-                            t.expressionStatement(
-                              t.callExpression(
-                                t.memberExpression(
-                                  t.identifier('window'),
-                                  t.identifier('dispatchEvent')
-                                ),
-                                [
-                                  t.newExpression(t.identifier('CustomEvent'), [
-                                    t.stringLiteral(WindowHotReloadEventName),
-                                    t.objectExpression([
-                                      t.objectProperty(
-                                        t.identifier('detail'),
-                                        t.objectExpression([
-                                          t.objectProperty(
-                                            t.identifier('moduleName'),
-                                            t.identifier('moduleName')
-                                          ),
-                                          t.objectProperty(
-                                            t.identifier('component'),
-                                            t.memberExpression(
-                                              t.identifier('newModule'),
-                                              t.identifier('default')
-                                            )
-                                          ),
-                                        ])
-                                      ),
-                                    ]),
-                                  ]),
-                                ]
-                              )
-                            ),
-                          ])
-                        ),
-                      ]
-                    )
-                  ),
-                  ...sources.map((source: string) => {
-                    return t.expressionStatement(
-                      t.callExpression(
-                        t.memberExpression(
-                          t.memberExpression(
-                            t.memberExpression(
-                              t.identifier('import'),
-                              t.identifier('meta')
-                            ),
-                            t.identifier('hot')
-                          ),
-                          t.identifier('accept')
-                        ),
-                        [
-                          t.stringLiteral(source),
-                          t.arrowFunctionExpression(
-                            [t.identifier('newModule')],
-                            t.blockStatement([
-                              t.variableDeclaration('const', [
-                                t.variableDeclarator(
-                                  t.identifier('tpl'),
-                                  t.callExpression(
-                                    t.identifier('getComponentTemplate'),
-                                    [
-                                      t.memberExpression(
-                                        t.identifier('newModule'),
-                                        t.identifier('default')
-                                      ),
-                                    ]
-                                  )
-                                ),
-                              ]),
-                              t.variableDeclaration('const', [
-                                t.variableDeclarator(
-                                  t.identifier('moduleName'),
-                                  t.memberExpression(
-                                    t.callExpression(t.identifier('tpl'), []),
-                                    t.identifier('moduleName')
-                                  )
-                                ),
-                              ]),
-                              t.classDeclaration(
-                                t.identifier('NewComponent'),
-                                t.identifier(state.moduleName),
-                                t.classBody([
-                                  t.classProperty(
-                                    t.identifier('template'),
-                                    t.identifier('tpl'),
-                                    undefined,
-                                    undefined,
-                                    false,
-                                    true
-                                  ),
-                                ])
-                              ),
-                              t.expressionStatement(
-                                t.callExpression(
-                                  t.memberExpression(
-                                    t.identifier('window'),
-                                    t.identifier('dispatchEvent')
-                                  ),
-                                  [
-                                    t.newExpression(
-                                      t.identifier('CustomEvent'),
-                                      [
-                                        t.stringLiteral(
-                                          WindowHotReloadEventName
-                                        ),
-                                        t.objectExpression([
-                                          t.objectProperty(
-                                            t.identifier('detail'),
-                                            t.objectExpression([
-                                              t.objectProperty(
-                                                t.identifier('moduleName'),
-                                                t.identifier('moduleName')
-                                              ),
-                                              t.objectProperty(
-                                                t.identifier('component'),
-                                                t.identifier('NewComponent')
-                                              ),
-                                            ])
-                                          ),
-                                        ]),
-                                      ]
-                                    ),
-                                  ]
-                                )
-                              ),
-                            ])
-                          ),
-                        ]
-                      )
-                    );
-                  }),
-                ])
-              )
-            );
-        } else {
+                    ]),
+                    t.identifier('pathname')
+                  )
+                ),
+              ])
+            )
+          ),
+        ]);
+
+        !hasImportMetaHotReload &&
           path.node.body.push(
             t.ifStatement(
               t.memberExpression(
@@ -373,17 +214,22 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                       t.arrowFunctionExpression(
                         [t.identifier('newModule')],
                         t.blockStatement([
+                          fallbackVar,
                           t.variableDeclaration('const', [
                             t.variableDeclarator(
                               t.identifier('tpl'),
-                              t.callExpression(
-                                t.identifier('getComponentTemplate'),
-                                [
-                                  t.memberExpression(
-                                    t.identifier('newModule'),
-                                    t.identifier('default')
-                                  ),
-                                ]
+                              t.logicalExpression(
+                                '||',
+                                t.callExpression(
+                                  t.identifier('getComponentTemplate'),
+                                  [
+                                    t.memberExpression(
+                                      t.identifier('newModule'),
+                                      t.identifier('default')
+                                    ),
+                                  ]
+                                ),
+                                t.identifier('fallback')
                               )
                             ),
                           ]),
@@ -432,10 +278,100 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                     ]
                   )
                 ),
+                ...sources.map((source: string) => {
+                  cnt++;
+                  const cmpName = state.moduleName + '_' + cnt;
+                  return t.expressionStatement(
+                    t.callExpression(
+                      t.memberExpression(
+                        t.memberExpression(
+                          t.memberExpression(
+                            t.identifier('import'),
+                            t.identifier('meta')
+                          ),
+                          t.identifier('hot')
+                        ),
+                        t.identifier('accept')
+                      ),
+                      [
+                        t.stringLiteral(source),
+                        t.arrowFunctionExpression(
+                          [t.identifier('newModule')],
+                          t.blockStatement([
+                            t.variableDeclaration('const', [
+                              t.variableDeclarator(
+                                t.identifier('tpl'),
+                                t.callExpression(
+                                  t.identifier('getComponentTemplate'),
+                                  [
+                                    t.memberExpression(
+                                      t.identifier('newModule'),
+                                      t.identifier('default')
+                                    ),
+                                  ]
+                                )
+                              ),
+                            ]),
+                            t.variableDeclaration('const', [
+                              t.variableDeclarator(
+                                t.identifier('moduleName'),
+                                t.memberExpression(
+                                  t.callExpression(t.identifier('tpl'), []),
+                                  t.identifier('moduleName')
+                                )
+                              ),
+                            ]),
+                            t.classDeclaration(
+                              t.identifier(cmpName),
+                              t.identifier(state.moduleName),
+                              t.classBody([
+                                t.classProperty(
+                                  t.identifier('template'),
+                                  t.identifier('tpl'),
+                                  undefined,
+                                  undefined,
+                                  false,
+                                  true
+                                ),
+                              ])
+                            ),
+                            t.expressionStatement(
+                              t.callExpression(
+                                t.memberExpression(
+                                  t.identifier('window'),
+                                  t.identifier('dispatchEvent')
+                                ),
+                                [
+                                  t.newExpression(t.identifier('CustomEvent'), [
+                                    t.stringLiteral(WindowHotReloadEventName),
+                                    t.objectExpression([
+                                      t.objectProperty(
+                                        t.identifier('detail'),
+                                        t.objectExpression([
+                                          t.objectProperty(
+                                            t.identifier('moduleName'),
+                                            t.identifier('moduleName')
+                                          ),
+                                          t.objectProperty(
+                                            t.identifier('component'),
+                                            t.identifier(cmpName)
+                                          ),
+                                        ])
+                                      ),
+                                    ]),
+                                  ]),
+                                ]
+                              )
+                            ),
+                          ])
+                        ),
+                      ]
+                    )
+                  );
+                }),
               ])
             )
           );
-        }
 
         // console.log(path.toString());
       },
