@@ -29,6 +29,7 @@ function shouldSkipFile(moduleName: string) {
 function moduleNameFromFile(file: string) {
   return '/' + file.split('/src/')[1];
 }
+const HotReloadEvent = 'hot-reload';
 
 // eslint-disable-next-line no-var
 var GlobalRefCache: Record<string, unknown> = {};
@@ -55,11 +56,20 @@ export default class Hot extends Component<Args> {
         throw new Error(`Component ${component} not found`);
       }
     }
-    const tpl = getComponentTemplate(component);
+    const tpl = getComponentTemplate(component as object);
+    if (!tpl) {
+      this.originalComponent = component;
+      console.info(
+        'Component has no template. Skipping hot reload for',
+        component
+      );
+      return;
+      // here, likely we could resolve template from registry by component name (if really needed)
+    }
     const moduleName = tpl().moduleName;
     if (shouldSkipFile(moduleName)) {
       this.originalComponent = component;
-      console.info('Skip hot reload for', moduleName);
+      console.info('Skipping hot reload for', moduleName);
       return;
     }
     const module = moduleNameFromFile(moduleName);
@@ -76,9 +86,9 @@ export default class Hot extends Component<Args> {
         this.originalComponent = detail.component;
       }
     };
-    window.addEventListener('hot-reload', fn);
+    window.addEventListener(HotReloadEvent, fn);
     registerDestructor(this, () => {
-      window.removeEventListener('hot-reload', fn);
+      window.removeEventListener(HotReloadEvent, fn);
     });
   }
   static template = precompileTemplate(`

@@ -41,6 +41,51 @@ function elementTransform(node: SeenElement, scopeKeys: string[]) {
   return newNode;
 }
 
+function shouldProcess(fileName: string) {
+  const isSrcFile = fileName.includes('/src/');
+  const isNodeModules = fileName.includes('/node_modules/');
+  const isTestFile = fileName.includes('/tests/');
+  const isComponentFile = fileName.includes('/components/');
+  const isTemplate = fileName.includes('/templates/');
+  return (
+    isSrcFile &&
+    !isNodeModules &&
+    !isTestFile &&
+    (isComponentFile || isTemplate)
+  );
+}
+
+function hasImportDeclaration(node: babelTypes.Program) {
+  return node.body.find((node) => {
+    return (
+      node.type === 'ImportDeclaration' &&
+      node.source.value === '@glimmer/manager' &&
+      node.specifiers.find(
+        (specifier) =>
+          'imported' in specifier &&
+          'name' in specifier.imported &&
+          specifier.imported.name === 'getComponentTemplate'
+      )
+    );
+  });
+}
+
+function hasImportMetaHot(node: babelTypes.Program) {
+  return node.body.find((node) => {
+    return (
+      node.type === 'IfStatement' &&
+      node.test.type === 'MemberExpression' &&
+      node.test.object.type === 'MemberExpression' &&
+      node.test.object.object.type === 'Identifier' &&
+      node.test.object.object.name === 'import' &&
+      node.test.object.property.type === 'Identifier' &&
+      node.test.object.property.name === 'meta' &&
+      node.test.property.type === 'Identifier' &&
+      node.test.property.name === 'hot'
+    );
+  });
+}
+
 export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
   // get file name
   const t = babel.types;
@@ -48,18 +93,8 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
     Program: {
       enter(_: any, state: any) {
         const fileName = state.file.opts.filename || '';
-        const isSrcFile = fileName.includes('/src/');
-        const isNodeModules = fileName.includes('/node_modules/');
-        const isTestFile = fileName.includes('/tests/');
-        const isComponentFile = fileName.includes('/components/');
-        const isTemplate = fileName.includes('/templates/');
 
-        state.shouldProcess =
-          isSrcFile &&
-          !isNodeModules &&
-          !isTestFile &&
-          (isComponentFile || isTemplate);
-
+        state.shouldProcess = shouldProcess(fileName);
         state.moduleName = '';
         state.sourcesToHotReload = new Set();
       },
@@ -72,16 +107,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         // console.log('sources', sources, fileName);
         // console.log('state.file.opts.filename', fileName);
         // check if we already have import getComponentTemplate from '@glimmer/manager';
-        const hasImport = path.node.body.find((node: any) => {
-          return (
-            node.type === 'ImportDeclaration' &&
-            node.source.value === '@glimmer/manager' &&
-            node.specifiers.find(
-              (specifier: any) =>
-                specifier.imported.name === 'getComponentTemplate'
-            )
-          );
-        });
+        const hasImport = hasImportDeclaration(path.node);
 
         // add import { getComponentTemplate } from '@glimmer/manager'; to the top
         !hasImport &&
@@ -136,20 +162,8 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
           //   }
           // check for import.meta.hot already exist
 
-          const hasImportMetaHot = path.node.body.find((node: any) => {
-            return (
-              node.type === 'IfStatement' &&
-              node.test.type === 'MemberExpression' &&
-              node.test.object.type === 'MemberExpression' &&
-              node.test.object.object.type === 'Identifier' &&
-              node.test.object.object.name === 'import' &&
-              node.test.object.property.type === 'Identifier' &&
-              node.test.object.property.name === 'meta' &&
-              node.test.property.type === 'Identifier' &&
-              node.test.property.name === 'hot'
-            );
-          });
-          !hasImportMetaHot &&
+          const hasImportMetaHotReload = hasImportMetaHot(path.node);
+          !hasImportMetaHotReload &&
             path.node.body.push(
               t.ifStatement(
                 t.memberExpression(
