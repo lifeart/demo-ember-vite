@@ -3,7 +3,6 @@ import { precompileTemplate } from '@ember/template-compilation';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
 import { getComponentTemplate } from '@glimmer/manager';
-
 // Take from https://github.com/emberjs/ember.js/blob/b31998b6a0cccd22a8fb6fab21d24e5e7f2cb70d/packages/ember-template-compiler/lib/system/dasherize-component-name.ts
 // we need this because Ember.String.dasherize('XTestWrapper') -> xtest-wrapper, not x-test-wrapper
 const SIMPLE_DASHERIZE_REGEXP = /[A-Z]|::/g;
@@ -36,7 +35,7 @@ var GlobalRefCache: Record<string, unknown> = {};
 interface Args {
   component: unknown;
 }
-var seenEvents = new WeakSet();
+const seenEvents = new WeakSet();
 export default class Hot extends Component<Args> {
   revision = 0;
   @tracked originalComponent: null | unknown = null;
@@ -80,17 +79,31 @@ export default class Hot extends Component<Args> {
     const fn = (a: Event) => {
       if (!seenEvents.has(a)) {
         seenEvents.add(a);
+        // singletone case, likely need to be an service
         if (a.detail.moduleName.includes('/src/templates/')) {
           console.log('template is updated', owner);
-          const routeName = a.detail.moduleName.split('/templates/')[1].split('.')[0];
-          const key = `template:${routeName}`;
-          console.log('Refreshing route', routeName);
-          delete owner.__container__.factoryManagerCache[key];
-          delete owner.base.__registry__._resolveCache[key];
-          delete owner.base.__registry__.registrations[key];
+          const routeName = a.detail.moduleName
+            .split('/templates/')[1]
+            .split('.')[0];
+          const key = `template:${routeName.split('.').join('/')}`;
+          const routeKey = `route:${routeName.split('.').join('/')}`;
+          const hasRouteClass = routeKey in owner.base.__registry__.registrations;
+          const routeInstance = owner.lookup(routeKey);
           owner.unregister(key);
           owner.register(key, a.detail.component);
-          owner.lookup(`route:application`).refresh();
+
+          // found ember did not re-render template if model return stable thing
+          if (routeInstance.model.toString().includes('[STATE_SYMBOL]')) {
+            if (!hasRouteClass) {
+              // patching default router
+              routeInstance.model = () => ({}); // new ref needed for refresh
+              owner.lookup(routeKey).refresh();
+            } else {
+              owner.lookup(`route:application`).refresh();
+            }
+          } else {
+            owner.lookup(routeKey).refresh();
+          }
           return;
         }
       }
