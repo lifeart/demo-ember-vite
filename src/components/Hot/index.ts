@@ -36,6 +36,7 @@ var GlobalRefCache: Record<string, unknown> = {};
 interface Args {
   component: unknown;
 }
+var seenEvents = new WeakSet();
 export default class Hot extends Component<Args> {
   revision = 0;
   @tracked originalComponent: null | unknown = null;
@@ -77,6 +78,22 @@ export default class Hot extends Component<Args> {
     this.originalComponent = GlobalRefCache[module] || component;
 
     const fn = (a: Event) => {
+      if (!seenEvents.has(a)) {
+        seenEvents.add(a);
+        if (a.detail.moduleName.includes('/src/templates/')) {
+          console.log('template is updated', owner);
+          const routeName = a.detail.moduleName.split('/templates/')[1].split('.')[0];
+          const key = `template:${routeName}`;
+          console.log('Refreshing route', routeName);
+          delete owner.__container__.factoryManagerCache[key];
+          delete owner.base.__registry__._resolveCache[key];
+          delete owner.base.__registry__.registrations[key];
+          owner.unregister(key);
+          owner.register(key, a.detail.component);
+          owner.lookup(`route:application`).refresh();
+          return;
+        }
+      }
       const detail = (a as unknown as CustomEvent).detail;
       const ref = module;
       const target = moduleNameFromFile(detail.moduleName);

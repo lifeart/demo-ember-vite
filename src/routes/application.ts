@@ -26,15 +26,19 @@ export class ApplicationRoute extends Route {
   model() {
     console.log(this.store);
 
-    const owner = this.store.createRecord('person', {
-      id: '2',
-      name: 'John Doe',
-    });
+    const owner =
+      this.store.peekRecord('person', '2') ||
+      this.store.createRecord('person', {
+        id: '2',
+        name: 'John Doe',
+      });
 
-    const pet = this.store.createRecord('pet', {
-      name: 'Fluffy',
-      id: '1',
-    });
+    const pet =
+      this.store.peekRecord('pet', '1') ||
+      this.store.createRecord('pet', {
+        name: 'Fluffy',
+        id: '1',
+      });
 
     console.log(owner, pet);
     // owner.dog = pet;
