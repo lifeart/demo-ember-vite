@@ -156,7 +156,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         */
         // console.log('state.moduleName', state.moduleName);
         const hasImportMetaHotReload = hasImportMetaHot(path.node);
-        console.log(hasImportMetaHotReload, state.file.opts.filename);
+        // console.log(hasImportMetaHotReload, state.file.opts.filename);
 
         /*
           generate ast builder code for:     const fallback = () => ({ moduleName: new URL(import.meta.url).pathname });
