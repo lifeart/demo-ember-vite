@@ -44,7 +44,7 @@ module('Integration | Component | Hot', function (hooks) {
     await render(component);
     assert.dom('button').exists({ count: 4 });
 
-    const moduleName = '/src/components/Button/template.hbs';
+    const moduleName = '/src/components/Button/index.hbs';
     window.dispatchEvent(
         new CustomEvent('hot-reload', {
             detail: {

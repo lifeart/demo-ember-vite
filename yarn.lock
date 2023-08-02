@@ -1530,6 +1530,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@gavant/glint-template-types@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@gavant/glint-template-types/-/glint-template-types-0.3.4.tgz#8c68f9789b37dbc2dbaf534a85bf58adcf6a8df4"
+  integrity sha512-PlHcqp9QbFa8/fszVHeSssS6W4VgYZmynjdLGoNy5pjw/COLSOVhGQJu4YuEcY7bGfJrPactzk3JMAuEcVd90g==
+
 "@glimmer/compiler@0.84.2":
   version "0.84.2"
   resolved "https://registry.yarnpkg.com/@glimmer/compiler/-/compiler-0.84.2.tgz#ff4ef4fb244afa254189a579fa4453b2783ae7ab"

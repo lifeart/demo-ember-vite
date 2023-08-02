@@ -1,7 +1,14 @@
 import Component from '@glimmer/component';
-import template from './template.hbs';
+import template from './index.hbs';
 
-export default class Button extends Component {
+export interface ButtonSignature {
+  Element: HTMLButtonElement;
+  Blocks: {
+    default: [];
+  };
+}
+
+export default class Button extends Component<ButtonSignature> {
   static template = template;
   a = '';
 }

@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
-import template from './template.hbs';
+import template from './index.hbs';
 
-export default class Button extends Component {
+export default class Bootstrap extends Component {
   submit = () => console.log('submit');
   static template = template;
 }

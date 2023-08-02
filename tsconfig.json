@@ -41,7 +41,7 @@
       "ember-simple-auth/*": ["./node_modules/ember-simple-auth/addon/*"],
     }
   },
-  "include": ["src", "types"],
+  "include": ["src", "types", "./node_modules/@gavant/glint-template-types/types"],
   "glint": {
     "environment": {
       "ember-template-imports": {
