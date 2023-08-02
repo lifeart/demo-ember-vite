@@ -397,6 +397,12 @@ function defaultBabelPlugins(isProd: boolean) {
         loose: true,
       },
     ],
+    [
+      '@babel/plugin-proposal-class-static-block',
+      {
+        loose: true,
+      },
+    ],
     templateCompilationPlugin(isProd),
   ];
 }
@@ -411,6 +417,11 @@ function defaultBabelConfig(
     configFile: false,
     sourceMaps: enableSourceMaps,
     plugins: [...plugins, ...defaultBabelPlugins(isProd)],
-    presets: [['@babel/preset-typescript', { allExtensions: true }]],
+    presets: [
+      [
+        '@babel/preset-typescript',
+        { allExtensions: true, onlyRemoveTypeImports: true },
+      ],
+    ],
   };
 }

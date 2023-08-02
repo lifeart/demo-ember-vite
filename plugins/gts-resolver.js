@@ -1,22 +1,13 @@
-import { preprocessEmbeddedTemplates } from 'ember-template-imports/lib/preprocess-embedded-templates';
-import { getTemplateLocals } from '@glimmer/syntax';
-import * as util from 'ember-template-imports/lib/util';
+import { Preprocessor } from 'content-tag';
 
+const p = new Preprocessor();
 const fileRegex = /\.(gts|gjs)$/;
 
 function tpl(raw, id) {
-  const result = preprocessEmbeddedTemplates(raw, {
-    getTemplateLocals,
-    relativePath: id,
-    templateTag: util.TEMPLATE_TAG_NAME,
-    templateTagReplacement: util.TEMPLATE_TAG_PLACEHOLDER,
-    includeSourceMaps: false,
-    importIdentifier: util.TEMPLATE_LITERAL_IDENTIFIER,
-    importPath: util.TEMPLATE_LITERAL_MODULE_SPECIFIER,
-    includeTemplateTokens: true,
-  });
-
-  return result.output.replace('strictMode: true', 'isStrictMode: true');
+  const result = p.process(raw, id);
+  // console.log(result);
+  return result;
+  //result.output.replace('strictMode: true', 'isStrictMode: true');
 }
 
 function hotLoad(id) {
