@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import Button from '@/components/Button/index.ts';
+import Button from '@/components/Button';
 
 function add(a: number, b: number) {
     return a + b;

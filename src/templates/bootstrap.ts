@@ -1,14 +1,20 @@
-import { precompileTemplate } from '@ember/template-compilation';
+import { template } from '@ember/template-compiler';
 import Bootstrap from '../components/Bootstrap';
 import EmberBootstrapRegistry from './../addons/ember-bootstrap';
-import { extendRegistry } from '@/config/utils';
+import { extendRegistry, resoleFromRegistry } from '@/config/utils';
+import { LinkTo } from '@ember/routing';
+
 extendRegistry(EmberBootstrapRegistry);
 
-export default precompileTemplate(
+const PageTitle = resoleFromRegistry('helper:page-title');
+
+export default template(
   `
-    {{page-title "Bootstrap"}}
-    <LinkTo @route='main'>Home</LinkTo>
-   <Bootstrap />
+  {{title "Bootstrap"}}
+  <LinkTo @route='main'>Home</LinkTo>
+  <Bootstrap />
 `,
-  { isStrictMode: true, scope: () => ({ Bootstrap }) }
+  {
+    scope: () => ({ LinkTo, Bootstrap, title: PageTitle }),
+  }
 );

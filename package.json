@@ -26,6 +26,7 @@
     "test:playwright": "playwright test"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-static-block": "^7.21.0",
     "@glint/core": "^0.9.7",
     "@glint/environment-ember-loose": "^0.9.7",
     "@glint/template": "^0.9.7",
@@ -78,10 +79,11 @@
     "@types/jest": "^29.5.0",
     "@types/qunit": "^2.19.4",
     "autoprefixer": "^10.4.13",
-    "babel-plugin-ember-template-compilation": "^2.0.0",
+    "babel-plugin-ember-template-compilation": "2.1.1",
     "babel-plugin-unassert": "^3.2.0",
     "backburner.js": "^2.7.0",
     "bootstrap": "5",
+    "content-tag": "^1.0.1",
     "dag-map": "^2.0.2",
     "ember-bootstrap": "^5.1.1",
     "ember-cookies": "^1.0.0",
