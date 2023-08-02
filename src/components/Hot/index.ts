@@ -28,6 +28,13 @@ function shouldSkipFile(moduleName: string) {
 function moduleNameFromFile(file: string) {
   return '/' + file.split('/src/')[1];
 }
+
+function isRouteTemplate(moduleName: string) {
+  return moduleName.includes('/src/templates/');
+}
+function routeNameFromTemplate(moduleName: string): string {
+  return moduleName.split('/templates/')[1].split('.')[0];
+}
 const HotReloadEvent = 'hot-reload';
 
 // eslint-disable-next-line no-var
@@ -66,7 +73,7 @@ export default class Hot extends Component<Args> {
       return;
       // here, likely we could resolve template from registry by component name (if really needed)
     }
-    const moduleName = tpl().moduleName;
+    const moduleName: string = tpl().moduleName;
     if (shouldSkipFile(moduleName)) {
       this.originalComponent = component;
       console.info('Skipping hot reload for', moduleName);
@@ -76,18 +83,16 @@ export default class Hot extends Component<Args> {
     // console.log('moduleName', moduleName);
     this.originalComponent = GlobalRefCache[module] || component;
 
-    const fn = (a: Event) => {
+    const fn = (a: CustomEvent<{ component: unknown; moduleName: string }>) => {
       if (!seenEvents.has(a)) {
         seenEvents.add(a);
-        // singletone case, likely need to be an service
-        if (a.detail.moduleName.includes('/src/templates/')) {
-          console.log('template is updated', owner);
-          const routeName = a.detail.moduleName
-            .split('/templates/')[1]
-            .split('.')[0];
-          const key = `template:${routeName.split('.').join('/')}`;
-          const routeKey = `route:${routeName.split('.').join('/')}`;
-          const hasRouteClass = routeKey in owner.base.__registry__.registrations;
+        // singleton case, likely need to be an service
+        if (isRouteTemplate(a.detail.moduleName)) {
+          const routeName = routeNameFromTemplate(a.detail.moduleName);
+          const key = `template:${routeName}`;
+          const routeKey = `route:${routeName}`;
+          const hasRouteClass =
+            routeKey in owner.base.__registry__.registrations;
           const routeInstance = owner.lookup(routeKey);
           owner.unregister(key);
           owner.register(key, a.detail.component);

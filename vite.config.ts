@@ -411,6 +411,6 @@ function defaultBabelConfig(
     configFile: false,
     sourceMaps: enableSourceMaps,
     plugins: [...plugins, ...defaultBabelPlugins(isProd)],
-    presets: ['@babel/preset-typescript'],
+    presets: [['@babel/preset-typescript', { allExtensions: true }]],
   };
 }
