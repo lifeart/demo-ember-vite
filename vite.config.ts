@@ -8,7 +8,6 @@ import gtsResolver from './plugins/gts-resolver';
 import i18nLoader from './plugins/i18n-loader';
 import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
 import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
-import transformImports from 'ember-template-imports/src/babel-plugin';
 import { babelHotReloadPlugin } from './plugins/hot-reload';
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
@@ -276,9 +275,9 @@ export default defineConfig(({ mode }) => {
         // regexp to match files in src folder
         filter: /^.*(src|tests)\/.*\.(ts|js|hbs|gts|gjs)$/,
         babelConfig: defaultBabelConfig(
-          [transformImports, isProd ? null : babelHotReloadPlugin].filter(
+          [isProd ? null : babelHotReloadPlugin].filter(
             (el) => el !== null
-          ),
+          ) as never[],
           isProd,
           enableSourceMaps
         ),
@@ -288,7 +287,7 @@ export default defineConfig(({ mode }) => {
         // regexp to match files in src folder
         filter:
           /^.*(@ember-data|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
-        babelConfig: defaultBabelConfig([], isProd),
+        babelConfig: addonBabelConfig([], isProd),
       }),
       // ...
     ].filter((el) => el !== null),
@@ -405,6 +404,16 @@ function defaultBabelPlugins(isProd: boolean) {
     ],
     templateCompilationPlugin(isProd),
   ];
+}
+
+function addonBabelConfig(
+  plugins = [],
+  isProd: boolean,
+  enableSourceMaps = false
+) {
+  const config = defaultBabelConfig(plugins, isProd, enableSourceMaps);
+  config.presets[0][1].onlyRemoveTypeImports = false;
+  return config;
 }
 
 function defaultBabelConfig(

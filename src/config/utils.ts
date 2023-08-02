@@ -44,6 +44,11 @@ export function registerComponent<T>(
   }
 }
 
+export function resoleFromRegistry<T>(key: RegistryKey): T {
+  // application.__registry__.resolve
+  return window[env.APP.globalName].resolveRegistration(key) as T;
+}
+
 export function extendRegistry(registry) {
   Object.keys(registry).forEach((key) => {
     try {

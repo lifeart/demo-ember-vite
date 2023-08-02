@@ -8,6 +8,6 @@ module('Integration | Component | HelloWorld | new', function (hooks) {
   test('it renders', async function (assert) {
     const component = <template><HelloWorld /></template>
     await render(component);
-    assert.dom('button').exists({ count: 4 });
+    assert.dom('button').exists({ count: 5 });
   });
 });
