@@ -14,9 +14,6 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === 'development';
   const enableSourceMaps = isDev;
   return {
-    // optimizeDeps: {
-    //   exclude: ['@ember-data/**'], // (store)
-    // },
     treeshake: {
       correctVarValueBeforeDeclaration: false,
       moduleSideEffects: false,
@@ -74,6 +71,11 @@ export default defineConfig(({ mode }) => {
       ENV_DEBUG: isProd ? false : true,
       ENV_CI: false,
       ...generateDefineConfig(isProd),
+    },
+    optimizeDeps: {
+      esbuildOptions: {
+        external: ['ember-template-compiler'],
+      },
     },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],

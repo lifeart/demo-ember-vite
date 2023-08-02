@@ -1,4 +1,5 @@
-import Router, { HashReturnType } from '@/config/router';
+import Router from '@/config/router';
+import type { HashReturnType } from '@/config/router';
 import MainTemplate from './templates/main';
 
 export enum Routes {
