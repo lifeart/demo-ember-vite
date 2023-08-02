@@ -15,7 +15,8 @@ function tpl(raw, id) {
     importPath: util.TEMPLATE_LITERAL_MODULE_SPECIFIER,
     includeTemplateTokens: true,
   });
-  return result.output;
+
+  return result.output.replace('strictMode: true', 'isStrictMode: true');
 }
 
 function hotLoad(id) {
