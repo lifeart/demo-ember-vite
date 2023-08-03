@@ -6,5 +6,5 @@ function add(a: number, b: number) {
 }
 
 export default class MyComponent extends Component {
-    <template><Button>{{add 1 2}}</Button></template>
+    <template><Button>{{add 2 3}}</Button></template>
 }
