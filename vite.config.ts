@@ -72,11 +72,6 @@ export default defineConfig(({ mode }) => {
       ENV_CI: false,
       ...generateDefineConfig(isProd),
     },
-    optimizeDeps: {
-      esbuildOptions: {
-        external: ['ember-template-compiler'],
-      },
-    },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
       alias: [
@@ -93,6 +88,11 @@ export default defineConfig(({ mode }) => {
         {
           find: 'ember-simple-auth/use-session-setup-method',
           replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
+        },
+        {
+          find: 'ember-template-compiler',
+          replacement:
+            'node_modules/ember-source/dist/ember-template-compiler.js',
         },
         {
           find: /ember-simple-auth\/(?!(app|addon)\/)(.+)/,

@@ -8,7 +8,12 @@ type SeenElement = ASTv1.ElementNode & { [Seen]?: boolean };
 
 const HotComponentName = 'Hot';
 const HotComponentAttribute = '@component';
-const PrecompileFunctionName = 'precompileTemplate';
+const HotComponentPath = '@/components/Hot';
+const PrecompileFunctionNames = [
+  'precompileTemplate',
+  'compileTemplate',
+  'template',
+];
 const ScopePropertyName = 'scope';
 const WindowHotReloadEventName = 'hot-reload';
 
@@ -42,12 +47,14 @@ function elementTransform(node: SeenElement, scopeKeys: string[]) {
 }
 
 function shouldProcess(fileName: string) {
+  const isHotComponent = fileName.includes('/components/Hot');
   const isSrcFile = fileName.includes('/src/');
   const isNodeModules = fileName.includes('/node_modules/');
   const isTestFile = fileName.includes('/tests/');
   const isComponentFile = fileName.includes('/components/');
   const isTemplate = fileName.includes('/templates/');
   return (
+    !isHotComponent &&
     isSrcFile &&
     !isNodeModules &&
     !isTestFile &&
@@ -70,6 +77,15 @@ function hasImportDeclaration(node: babelTypes.Program) {
   });
 }
 
+function hasImportedHotComponent(node: babelTypes.Program) {
+  return node.body.find((node) => {
+    return (
+      node.type === 'ImportDeclaration' &&
+      node.source.value === HotComponentPath
+    );
+  });
+}
+
 function hasImportMetaHot(node: babelTypes.Program) {
   return node.body.find((node) => {
     return (
@@ -84,20 +100,31 @@ function hasImportMetaHot(node: babelTypes.Program) {
   });
 }
 
-export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
+export function babelHotReloadPlugin(babel: { types: typeof babelTypes }): {
+  visitor: Record<string, any>;
+} {
   // get file name
   const t = babel.types;
   let cnt = 0;
+  type State = {
+    shouldProcess: boolean;
+    file: { opts: { filename?: string } };
+    moduleName: string;
+    sourcesToHotReload: Set<string>;
+  };
+  interface Path<T> {
+    node: T;
+  }
   const visitor = {
     Program: {
-      enter(_: any, state: any) {
+      enter(_: Path<babelTypes.Program>, state: State) {
         const fileName = state.file.opts.filename || '';
 
         state.shouldProcess = shouldProcess(fileName);
         state.moduleName = '';
         state.sourcesToHotReload = new Set();
       },
-      exit(path: any, state: any) {
+      exit(path: Path<babelTypes.Program>, state: State) {
         if (!state.shouldProcess) {
           return;
         }
@@ -156,6 +183,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         */
         // console.log('state.moduleName', state.moduleName);
         const hasImportMetaHotReload = hasImportMetaHot(path.node);
+        const hasImportedHot = hasImportedHotComponent(path.node);
         // console.log(hasImportMetaHotReload, state.file.opts.filename);
 
         /*
@@ -186,6 +214,14 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
             )
           ),
         ]);
+
+        !hasImportedHot &&
+          path.node.body.push(
+            t.importDeclaration(
+              [t.importDefaultSpecifier(t.identifier(HotComponentName))],
+              t.stringLiteral(HotComponentPath)
+            )
+          );
 
         !hasImportMetaHotReload &&
           path.node.body.push(
@@ -372,11 +408,12 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
               ])
             )
           );
-
-        // console.log(path.toString());
       },
     },
-    ExportDefaultDeclaration(path: any, state: any) {
+    ExportDefaultDeclaration(
+      path: Path<babelTypes.ExportDefaultDeclaration>,
+      state: State
+    ) {
       if (!state.shouldProcess) {
         return;
       }
@@ -385,7 +422,7 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         state.moduleName = path.node.declaration.id.name;
       }
     },
-    ImportDeclaration(path: any, state: any) {
+    ImportDeclaration(path: Path<babelTypes.ImportDeclaration>, state: State) {
       if (!state.shouldProcess) {
         return;
       }
@@ -396,13 +433,23 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
         state.sourcesToHotReload.add(path.node.source.value);
       }
     },
-    CallExpression(path: any, state: any) {
+    CallExpression(path: Path<babelTypes.CallExpression>, state: State) {
       if (!state.shouldProcess) {
         return;
       }
-      if (path.node.callee.name !== PrecompileFunctionName) {
+      // if (state.file.opts.filename.endsWith('.gts')) {
+      //   // console.log(path.toString());
+      // }
+      if (!t.isIdentifier(path.node.callee)) {
+        // console.log('return', path.node.callee,  state.file.opts.filename);
         return;
       }
+      if (!PrecompileFunctionNames.includes(path.node.callee.name)) {
+        // console.log('return-2', path.node.callee.name, state.file.opts.filename);
+        return;
+      }
+
+      // console.log('continue', path.node.callee.name, state.file.opts.filename);
 
       let scopeKeys: string[] = [];
 
@@ -426,13 +473,32 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
                       ''
                   )
                   .filter((e) => e && e.length) as string[];
+                // add Hot to scope
+                scope.value.body.properties.push(
+                  t.objectProperty(
+                    t.identifier(HotComponentName),
+                    t.identifier(HotComponentName),
+                    false,
+                    true
+                  )
+                );
               }
             }
           }
         }
       }
-
-      const tpl = path.node.arguments[0].quasis[0].value.raw;
+      let tpl = '';
+      const firstArg = path.node.arguments[0];
+      const isTemplateLiteral = t.isTemplateLiteral(firstArg);
+      const isStringLiteral = t.isStringLiteral(firstArg);
+      if (isTemplateLiteral && firstArg.quasis.length) {
+        const q = firstArg.quasis[0];
+        if (q) {
+          tpl = q.value.raw;
+        }
+      } else if (isStringLiteral) {
+        tpl = firstArg.value;
+      }
       const ast = preprocess(tpl);
       traverse(ast, {
         ElementNode(node: ASTv1.ElementNode) {
@@ -443,9 +509,13 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }) {
 
       const newTpl = print(ast);
 
-      path.node.arguments[0].quasis[0] = t.templateElement({
-        raw: newTpl,
-      });
+      if (isTemplateLiteral) {
+        firstArg.quasis[0] = t.templateElement({
+          raw: newTpl,
+        });
+      } else if (isStringLiteral) {
+        firstArg.value = newTpl;
+      }
     },
   };
   return { visitor };
