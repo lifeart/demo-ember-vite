@@ -97,7 +97,6 @@
     "ember-resolver": "10.1.1",
     "ember-simple-auth": "6.0.0-rc.1",
     "ember-source": "5.1.2",
-    "ember-template-imports": "3.4.2",
     "ember-truth-helpers": "^3.1.1",
     "jest": "^29.5.0",
     "nyc": "^15.1.0",
