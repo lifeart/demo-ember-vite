@@ -473,6 +473,15 @@ export function babelHotReloadPlugin(babel: { types: typeof babelTypes }): {
                       ''
                   )
                   .filter((e) => e && e.length) as string[];
+                // add Hot to scope
+                scope.value.body.properties.push(
+                  t.objectProperty(
+                    t.identifier(HotComponentName),
+                    t.identifier(HotComponentName),
+                    false,
+                    true
+                  )
+                );
               }
             }
           }
