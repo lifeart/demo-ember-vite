@@ -11,6 +11,7 @@ import type IntlService from 'ember-intl/addon/services/intl';
 import Cell from '../EmberResources/Cell/index.gts';
 import Resource from '../EmberResources/Resource/index.gts';
 import ResourceFactory from '../EmberResources/ResourceFactory/index.gts';
+import RemoteData from '../EmberResources/RemoteData/index.gts';
 
 const calculateSummary = (a: number, b: number) => `${a}+${b}=${a + b}`;
 export default class HelloWorld extends Component {
@@ -118,6 +119,9 @@ export default class HelloWorld extends Component {
 
       <h4 class="text-md mt-2 font-medium leading-5">ResourceFactory</h4>
       <ResourceFactory />
+
+      <h4 class="text-md mt-2 font-medium leading-5">RemoteData</h4>
+      <RemoteData />
     </div>
 
     `,
@@ -132,6 +136,7 @@ export default class HelloWorld extends Component {
         Cell,
         Resource,
         ResourceFactory,
+        RemoteData,
       }),
     }
   );
