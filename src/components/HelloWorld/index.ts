@@ -8,6 +8,10 @@ import './style.css';
 import Select from '@/components/Select';
 import Sample from './sample.gts';
 import type IntlService from 'ember-intl/addon/services/intl';
+import Cell from '../EmberResources/Cell/index.gts';
+import Resource from '../EmberResources/Resource/index.gts';
+import ResourceFactory from '../EmberResources/ResourceFactory/index.gts';
+
 const calculateSummary = (a: number, b: number) => `${a}+${b}=${a + b}`;
 export default class HelloWorld extends Component {
   @service('date') dateService!: DateService;
@@ -32,7 +36,7 @@ export default class HelloWorld extends Component {
       <Button data-test-lang="ru-ru" {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
       </div>
     </div>
-      
+
 
     <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
       <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -48,7 +52,7 @@ export default class HelloWorld extends Component {
 
     <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
       <h3 class="text-lg font-medium leading-6 text-gray-900">
-        
+
         <code>eq</code>, <code>and</code> helpers test:
       </h3>
 
@@ -58,7 +62,7 @@ export default class HelloWorld extends Component {
       </div>
     </div>
 
-      
+
     <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
       <h3 class="text-lg font-medium leading-6 text-gray-900">Template only component test:</h3>
 
@@ -74,7 +78,7 @@ export default class HelloWorld extends Component {
       <Local />
       </div>
     </div>
-      
+
 
     <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
       <h3 class="text-lg font-medium leading-6 text-gray-900">Summary calculation helper test:</h3>
@@ -83,8 +87,8 @@ export default class HelloWorld extends Component {
       {{calculateSummary 3 2}}
       </div>
     </div>
-      
- 
+
+
     <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
       <h3 class="text-lg font-medium leading-6 text-gray-900">Ember Power Select test:</h3>
 
@@ -92,7 +96,7 @@ export default class HelloWorld extends Component {
       <Select />
       </div>
     </div>
-     
+
 
     <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
       <h3 class="text-lg font-medium leading-6 text-gray-900">.gts component test:</h3>
@@ -102,7 +106,20 @@ export default class HelloWorld extends Component {
       </div>
     </div>
 
-      
+
+    <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900">ember-resources</h3>
+
+      <h4 class="text-md mt-2 font-medium leading-5">Cell</h4>
+      <Cell />
+
+      <h4 class="text-md mt-2 font-medium leading-5">Resource</h4>
+      <Resource />
+
+      <h4 class="text-md mt-2 font-medium leading-5">ResourceFactory</h4>
+      <ResourceFactory />
+    </div>
+
     `,
     {
       isStrictMode: true,
@@ -112,6 +129,9 @@ export default class HelloWorld extends Component {
         Sample,
         calculateSummary,
         TemplateOnlyComponent,
+        Cell,
+        Resource,
+        ResourceFactory,
       }),
     }
   );

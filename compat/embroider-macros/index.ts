@@ -6,6 +6,7 @@ import * as recordData from '@ember-data/json-api';
 import * as model from '@ember-data/model/-private';
 import * as graph from '@ember-data/graph/-private';
 import { getDataConfig } from './../ember-data-private-build-infra';
+import * as owner from '@ember/owner';
 
 export function isDevelopingApp() {
   // eslint-disable-next-line prefer-rest-params
@@ -47,6 +48,9 @@ export function dependencySatisfies(name: string, version: string) {
   if (name === 'ember-source' && version === '>=4.5.0-beta.1') {
     return true;
   }
+  if (name === 'ember-source' && version === '>=4.12.0') {
+    return true;
+  }
   console.info('dependencySatisfies', name, version, new Error().stack);
   return true;
 }
@@ -75,8 +79,11 @@ export function importSync(name: string) {
   if (name === '@ember-data/graph/-private') {
     return graph;
   }
+  if (name === '@ember/owner') {
+    return owner;
+  }
 
-  console.info('importSync', name, new Error().stack);
+  console.info('importSync1', name, new Error().stack);
   return true;
 }
 
