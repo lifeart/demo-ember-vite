@@ -90,6 +90,7 @@ yarn dev
 1. `ember-page-title`
 1. `ember-notify`
 1. `ember-ref-bucket`
+1. `ember-modal-dialog`
 
 [(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons)
 
