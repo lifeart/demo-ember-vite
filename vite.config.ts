@@ -147,13 +147,6 @@ export default defineConfig(({ mode }) => {
           replacement: compatPath('ember-cli-test-loader/index.ts'),
         },
         {
-          find: 'ember-qunit-styles/container.css',
-          replacement: nodePath(
-            'ember-qunit/vendor/ember-qunit/test-container-styles.css'
-          ),
-        },
-
-        {
           find: '@ember/test-helpers',
           replacement:
             '@ember/test-helpers/addon-test-support/@ember/test-helpers',
@@ -162,7 +155,6 @@ export default defineConfig(({ mode }) => {
           find: '@ember/test-waiters',
           replacement: '@ember/test-waiters/addon/@ember/test-waiters',
         },
-        { find: 'ember-qunit', replacement: 'ember-qunit/addon-test-support' },
         {
           find: '@glimmer/tracking/primitives/cache',
           replacement: nodePath(
