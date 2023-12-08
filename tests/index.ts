@@ -1,4 +1,4 @@
-import 'ember-qunit-styles/container.css';
+import './../node_modules/ember-qunit/dist/test-container-styles.css';
 import 'qunit/qunit/qunit.css';
 import './../src/style.css';
 
