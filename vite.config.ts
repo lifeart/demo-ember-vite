@@ -34,32 +34,32 @@ export default defineConfig(({ mode }) => {
           }
         : {
             output: {
-              manualChunks(id) {
-                if (
-                  id.includes('/compat/') ||
-                  id.includes('@ember/') ||
-                  id.includes('/rsvp/') ||
-                  id.includes('/router_js/') ||
-                  id.includes('dag-map') ||
-                  id.includes('route-recognizer') ||
-                  id.includes('tracked-built-ins') ||
-                  id.includes('tracked-toolbox') ||
-                  id.includes('@ember-data/') ||
-                  id.includes('embroider-macros') ||
-                  id.includes('/backburner.js/') ||
-                  id.includes('@glimmer') ||
-                  id.includes('ember-inflector') ||
-                  id.includes('ember-source')
-                ) {
-                  // chunk for ember runtime
-                  return 'core';
-                }
-                if (id.endsWith('/src/addons/index.ts')) {
-                  // initial addons and application chunk
-                  return 'app';
-                }
-                return undefined;
-              },
+              // manualChunks(id) {
+              //   if (
+              //     id.includes('/compat/') ||
+              //     id.includes('@ember/') ||
+              //     id.includes('/rsvp/') ||
+              //     id.includes('/router_js/') ||
+              //     id.includes('dag-map') ||
+              //     id.includes('route-recognizer') ||
+              //     id.includes('tracked-built-ins') ||
+              //     id.includes('tracked-toolbox') ||
+              //     id.includes('@ember-data/') ||
+              //     id.includes('embroider-macros') ||
+              //     id.includes('/backburner.js/') ||
+              //     id.includes('@glimmer') ||
+              //     id.includes('ember-inflector') ||
+              //     id.includes('ember-source')
+              //   ) {
+              //     // chunk for ember runtime
+              //     return 'core';
+              //   }
+              //   if (id.endsWith('/src/addons/index.ts')) {
+              //     // initial addons and application chunk
+              //     return 'app';
+              //   }
+              //   return undefined;
+              // },
             },
           },
     },
