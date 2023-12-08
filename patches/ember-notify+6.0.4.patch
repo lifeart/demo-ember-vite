@@ -1,0 +1,37 @@
+diff --git a/node_modules/ember-notify/addon/components/ember-notify.js b/node_modules/ember-notify/addon/components/ember-notify.js
+index 3079547..8135c1a 100644
+--- a/node_modules/ember-notify/addon/components/ember-notify.js
++++ b/node_modules/ember-notify/addon/components/ember-notify.js
+@@ -3,11 +3,11 @@ import { computed } from '@ember/object';
+ import { oneWay } from '@ember/object/computed';
+ import { inject as service } from '@ember/service';
+ import Component from '@ember/component';
+-import layout from '../templates/components/ember-notify';
++// import layout from '../templates/components/ember-notify';
+ import Message from 'ember-notify/message';
+ 
+ export default Component.extend({
+-  layout,
++  // layout,
+ 
+   notify: service(),
+ 
+diff --git a/node_modules/ember-notify/addon/components/ember-notify/message.js b/node_modules/ember-notify/addon/components/ember-notify/message.js
+index 4a60397..1a1c46f 100644
+--- a/node_modules/ember-notify/addon/components/ember-notify/message.js
++++ b/node_modules/ember-notify/addon/components/ember-notify/message.js
+@@ -2,12 +2,12 @@ import { isArray } from '@ember/array';
+ import { later } from '@ember/runloop';
+ import { computed } from '@ember/object';
+ import Component from '@ember/component';
+-import layout from '../../templates/components/ember-notify/message';
++// import layout from '../../templates/components/ember-notify/message';
+ 
+ const DEFAULT_MESSAGE = {};
+ 
+ export default Component.extend({
+-  layout,
++  // layout,
+   message: DEFAULT_MESSAGE,
+   closeAfter: null,
+   run: null,

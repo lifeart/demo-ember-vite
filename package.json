@@ -91,6 +91,7 @@
     "ember-data": "5.1.1",
     "ember-intl": "^5.7.2",
     "ember-modifier": "^4.0.0",
+    "ember-notify": "^6.0.4",
     "ember-page-title": "^7.0.0",
     "ember-power-select": "^6.0.1",
     "ember-qunit": "^6.1.1",
