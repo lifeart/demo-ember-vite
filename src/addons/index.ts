@@ -9,6 +9,7 @@ import EmberStyleModifier from './ember-style-modifier';
 import EmberIntl from './ember-intl';
 import EmberPageTitle from './ember-page-title';
 import EmberData from './ember-data';
+import EmberNotify from './ember-notify';
 
 const registry = {
   ...EmberSimpleAuthRegistry,
@@ -22,6 +23,7 @@ const registry = {
   ...EmberIntl,
   ...EmberPageTitle,
   ...EmberData,
+  ...EmberNotify,
 };
 
 export default registry;

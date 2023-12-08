@@ -85,6 +85,7 @@ export default defineConfig(({ mode }) => {
         addonExport('ember-bootstrap'),
         addonExport('ember-inflector'),
         addonExport('@ember/string'),
+        addonExport('ember-notify'),
         {
           find: 'ember-simple-auth/use-session-setup-method',
           replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
@@ -231,7 +232,10 @@ export default defineConfig(({ mode }) => {
           find: /^@ember-data\/private-build-infra$/,
           replacement: compatPath('ember-data-private-build-infra'),
         },
-      ],
+      ].reduce((acc, el) => {
+        const items = Array.isArray(el) ? el : [el];
+        return [...acc, ...items];
+      }, []),
     },
     plugins: [
       hbsResolver(isProd),
@@ -288,7 +292,7 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(@ember-data|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
+          /^.*(@ember-data|ember-notify|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
         babelConfig: addonBabelConfig([], isProd),
       }),
       // ...
@@ -334,10 +338,16 @@ function localScopes() {
 }
 
 function addonExport(name: string) {
-  return {
-    find: name,
-    replacement: nodePath(`${name}/addon`),
-  };
+  return [
+    {
+      find: `${name}/vendor`,
+      replacement: nodePath(`${name}/vendor`),
+    },
+    {
+      find: name,
+      replacement: nodePath(`${name}/addon`),
+    },
+  ];
 }
 
 function nodePath(name: string) {
