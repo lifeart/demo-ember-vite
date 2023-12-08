@@ -9,6 +9,7 @@ import i18nLoader from './plugins/i18n-loader';
 import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
 import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
 import { babelHotReloadPlugin } from './plugins/hot-reload';
+import { removeLegacyLayout } from './plugins/remove-legacy-layout';
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -414,6 +415,7 @@ function defaultBabelPlugins(isProd: boolean) {
         loose: true,
       },
     ],
+    removeLegacyLayout,
     templateCompilationPlugin(isProd),
   ];
 }
