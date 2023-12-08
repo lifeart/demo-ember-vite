@@ -10,6 +10,7 @@ import { generateDefineConfig } from './compat/ember-data-private-build-infra/in
 import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
 import { babelHotReloadPlugin } from './plugins/hot-reload';
 import { removeLegacyLayout } from './plugins/remove-legacy-layout';
+import { dropImportSync } from './plugins/drop-import-sync';
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -33,32 +34,32 @@ export default defineConfig(({ mode }) => {
           }
         : {
             output: {
-              manualChunks(id) {
-                if (
-                  id.includes('/compat/') ||
-                  id.includes('@ember/') ||
-                  id.includes('/rsvp/') ||
-                  id.includes('/router_js/') ||
-                  id.includes('dag-map') ||
-                  id.includes('route-recognizer') ||
-                  id.includes('tracked-built-ins') ||
-                  id.includes('tracked-toolbox') ||
-                  id.includes('@ember-data/') ||
-                  id.includes('embroider-macros') ||
-                  id.includes('/backburner.js/') ||
-                  id.includes('@glimmer') ||
-                  id.includes('ember-inflector') ||
-                  id.includes('ember-source')
-                ) {
-                  // chunk for ember runtime
-                  return 'core';
-                }
-                if (id.endsWith('/src/addons/index.ts')) {
-                  // initial addons and application chunk
-                  return 'app';
-                }
-                return undefined;
-              },
+              // manualChunks(id) {
+              //   if (
+              //     id.includes('/compat/') ||
+              //     id.includes('@ember/') ||
+              //     id.includes('/rsvp/') ||
+              //     id.includes('/router_js/') ||
+              //     id.includes('dag-map') ||
+              //     id.includes('route-recognizer') ||
+              //     id.includes('tracked-built-ins') ||
+              //     id.includes('tracked-toolbox') ||
+              //     id.includes('@ember-data/') ||
+              //     id.includes('embroider-macros') ||
+              //     id.includes('/backburner.js/') ||
+              //     id.includes('@glimmer') ||
+              //     id.includes('ember-inflector') ||
+              //     id.includes('ember-source')
+              //   ) {
+              //     // chunk for ember runtime
+              //     return 'core';
+              //   }
+              //   if (id.endsWith('/src/addons/index.ts')) {
+              //     // initial addons and application chunk
+              //     return 'app';
+              //   }
+              //   return undefined;
+              // },
             },
           },
     },
@@ -87,6 +88,7 @@ export default defineConfig(({ mode }) => {
         addonExport('ember-inflector'),
         addonExport('@ember/string'),
         addonExport('ember-notify'),
+        addonExport('ember-modal-dialog'),
         {
           find: 'ember-simple-auth/use-session-setup-method',
           replacement: './compat/ember-simple-auth/use-session-setup-method.ts',
@@ -123,6 +125,10 @@ export default defineConfig(({ mode }) => {
         {
           find: 'ember-cli-version-checker',
           replacement: compatPath('ember-cli-version-checker/index.ts'),
+        },
+        {
+          find: 'compat-ember-decorators/component',
+          replacement: compatPath('ember-decorators/component.ts'),
         },
         {
           find: 'require',
@@ -293,8 +299,18 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(@ember-data|ember-notify|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
-        babelConfig: addonBabelConfig([], isProd),
+          /^.*(@ember-data|ember-notify|ember-wormhole|ember-modal-dialog|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
+        babelConfig: addonBabelConfig(
+          [
+            dropImportSync(['ember-modal-dialog']),
+            removeLegacyLayout([
+              'ember-wormhole',
+              'ember-modal-dialog',
+              'ember-notify',
+            ]),
+          ],
+          isProd
+        ),
       }),
       // ...
     ].filter((el) => el !== null),
@@ -340,6 +356,10 @@ function localScopes() {
 
 function addonExport(name: string) {
   return [
+    {
+      find: `${name}/app`,
+      replacement: nodePath(`${name}/app`),
+    },
     {
       find: `${name}/vendor`,
       replacement: nodePath(`${name}/vendor`),
@@ -415,7 +435,6 @@ function defaultBabelPlugins(isProd: boolean) {
         loose: true,
       },
     ],
-    removeLegacyLayout,
     templateCompilationPlugin(isProd),
   ];
 }

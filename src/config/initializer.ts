@@ -3,7 +3,8 @@ import registry from './registry';
 import type ApplicationClass from '@ember/application';
 import type RouteClass from './router';
 import { default as initializer } from '../initializers/logger';
-import { default as instanceInitializer } from '../instance-initializers/logger';
+import { default as logger } from '../instance-initializers/logger';
+import { default as modalDialog } from '../instance-initializers/ember-modal-dialog';
 import { default as emberDataInitializer } from '../initializers/ember-data';
 
 export function init(
@@ -15,7 +16,8 @@ export function init(
   Application.initializer(emberDataInitializer);
 
   // Init instance initializers
-  Application.instanceInitializer(instanceInitializer);
+  Application.instanceInitializer(logger);
+  Application.instanceInitializer(modalDialog);
 
   const app = Application.create({
     name: ENV.modulePrefix,

@@ -10,6 +10,7 @@ import EmberIntl from './ember-intl';
 import EmberPageTitle from './ember-page-title';
 import EmberData from './ember-data';
 import EmberNotify from './ember-notify';
+import EmberModalDialog from './ember-modal-dialog';
 
 const registry = {
   ...EmberSimpleAuthRegistry,
@@ -24,6 +25,7 @@ const registry = {
   ...EmberPageTitle,
   ...EmberData,
   ...EmberNotify,
+  ...EmberModalDialog,
 };
 
 export default registry;
