@@ -164,10 +164,6 @@ export default defineConfig(({ mode }) => {
         },
         { find: 'ember-qunit', replacement: 'ember-qunit/addon-test-support' },
         {
-          find: 'qunit-dom',
-          replacement: 'qunit-dom/dist/addon-test-support/index.js',
-        },
-        {
           find: '@glimmer/tracking/primitives/cache',
           replacement: nodePath(
             `ember-source/dist/packages/@glimmer/tracking/primitives/cache.js`
