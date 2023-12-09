@@ -1,11 +1,23 @@
+import type { NodePath } from '@babel/traverse';
+import type { Program, ImportDeclaration, CallExpression } from '@babel/types';
+import type * as b from '@babel/types';
+
 export function dropImportSync(addons: string[]) {
-  return function dropImportSyncPlugin(babel) {
-    const { types: t } = babel;
+  return function dropImportSyncPlugin(babel: any) {
+    const { types: t } = babel as { types: typeof b };
     let cnt = 0;
+    type State = {
+      file: {
+        opts: {
+          filename: string;
+        };
+      };
+      importsToAppend?: ImportDeclaration[];
+    };
     function keyValue() {
       return `_$key${cnt++}`;
     }
-    const shouldContinue = (state) => {
+    const shouldContinue = (state: State) => {
       const fName = state.file.opts.filename;
       return (
         fName.includes('node_modules') &&
@@ -17,7 +29,7 @@ export function dropImportSync(addons: string[]) {
       name: 'drop-import-sync', // not required
       visitor: {
         Program: {
-          exit(path, state) {
+          exit(path: NodePath<Program>, state: State) {
             if (!shouldContinue(state)) {
               return;
             }
@@ -35,24 +47,42 @@ export function dropImportSync(addons: string[]) {
             }
           },
         },
-        ImportDeclaration(path, state) {
+        ImportDeclaration(path: NodePath<ImportDeclaration>, state: State) {
           if (!shouldContinue(state)) {
             return;
           }
           if (path.node.source.value === '@embroider/macros') {
             path.node.specifiers = path.node.specifiers.filter((el) => {
-              return el.imported.name !== 'importSync';
+              if (
+                t.isImportDefaultSpecifier(el) ||
+                t.isImportNamespaceSpecifier(el)
+              ) {
+                return true;
+              }
+              if (t.isStringLiteral(el.imported)) {
+                return;
+              }
+              return el.imported && el.imported.name !== 'importSync';
             });
             if (path.node.specifiers.length === 0) {
               path.remove();
             }
           }
         },
-        CallExpression(path, state) {
+        CallExpression(path: NodePath<CallExpression>, state: State) {
           if (!shouldContinue(state)) {
             return;
           }
-          if (path.node.callee && path.node.callee.name === 'importSync') {
+          if (t.isV8IntrinsicIdentifier(path.node.callee)) {
+            return;
+          }
+          if (
+            path.node.callee &&
+            t.isIdentifier(path.node.callee) &&
+            path.node.callee.name === 'importSync' &&
+            path.node.arguments[0] &&
+            t.isStringLiteral(path.node.arguments[0])
+          ) {
             path.node.callee.name = '_$importSync';
             state.importsToAppend = state.importsToAppend || [];
             const literalName = keyValue();
