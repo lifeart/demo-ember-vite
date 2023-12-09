@@ -163,5 +163,11 @@ Now we have new addon in our project. It should work out of the box for classic 
 
 As we see, it's quite easy to redefine any part of addon, including component name, and it should be an easy way to fix possible breakage just overriding template / component with file from `src` folder.
 
+If addon has more complex logic, we also have few samples:
+
+1. If addon define new registry namespace, search for `ember-responsive`, `ember-intl` mentions in codebase.
+1. If addon provide custom babel / handlebars plugins, search for `ember-ref-bucket`, `ember-concurrency` mentions in codebase.
+1. If addon provide custom styles, search for `ember-bootstrap`, `ember-modal-dialog` mentions in codebase.
+
 ## Licence
 [MIT](./LICENCE.md)
