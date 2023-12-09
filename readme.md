@@ -119,7 +119,7 @@ PR's are welcome.
 
 1. Install dependency `yarn add addon-name`.
 2. Create `addon-name.ts` file in `src/addons` folder.
-3. Import needed `helpers` / `modifiers` / `components` from `addon-name` (check samples in same folder), note that you should keep extensions while importing, don't forget to check correct path's from `node_modules` folder.
+3. Import needed `helpers`, `modifiers`, `components`, `services` from `addon-name` (check samples in same folder), note that you should keep extensions while importing, don't forget to check correct path's from `node_modules` folder.
 ```ts
 import SayHello from 'addon-name/components/my-component.js';
 import SayHelloTemplate from 'addon-name/templates/my-component.hbs';
