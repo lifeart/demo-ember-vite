@@ -35,18 +35,18 @@ import IsDev from '@/helpers/is-dev';
 import ClickTracker from '@/modifiers/click-tracker';
 
 // ember-data debug adapter
-import DataDebugAdapter from '@ember-data/debug';
-import StoreService from '@/services/store';
+// import DataDebugAdapter from '@ember-data/debug';
+// import StoreService from '@/services/store';
 /* ember-data stuff */
-import Pet from '@/models/pet';
-import Person from '@/models/person';
+// import Pet from '@/models/pet';
+// import Person from '@/models/person';
 
 const InitialRegistry = {
-  'service:store': StoreService,
-  'model:pet': Pet,
-  'model:person': Person,
+  // 'service:store': StoreService,
+  // 'model:pet': Pet,
+  // 'model:person': Person,
   // debug ember-data adapter
-  'data-adapter:main': DataDebugAdapter,
+  // 'data-adapter:main': DataDebugAdapter,
 
   'authenticator:custom': CustomAuthenticator,
   'service:date': DateService,

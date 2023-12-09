@@ -5,7 +5,7 @@ import type RouteClass from './router';
 import { default as initializer } from '../initializers/logger';
 import { default as logger } from '../instance-initializers/logger';
 import { default as modalDialog } from '../instance-initializers/ember-modal-dialog';
-import { default as emberDataInitializer } from '../initializers/ember-data';
+// import { default as emberDataInitializer } from '../initializers/ember-data';
 import { default as emberResponsive } from '../initializers/ember-responsive';
 import breakpoints from './breakpoints';
 
@@ -15,7 +15,7 @@ export function init(
 ) {
   // Init initializers
   Application.initializer(initializer);
-  Application.initializer(emberDataInitializer);
+  // Application.initializer(emberDataInitializer);
   Application.initializer(emberResponsive);
 
   // Init instance initializers

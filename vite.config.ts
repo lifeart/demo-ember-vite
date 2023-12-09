@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve } from 'node:path';
-import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
+// import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
 import {
   Addon,
   compatPath,
@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
       define: {
         ENV_DEBUG: isProd ? false : true,
         ENV_CI: false,
-        ...generateDefineConfig(isProd),
+        // ...generateDefineConfig(isProd),
       },
       resolve: {
         extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
@@ -63,19 +63,56 @@ export default defineConfig(({ mode }) => {
 
       ...internalPackages(mode),
 
-      Addon('@ember-data', mode)
-        .needBabel()
-        .addAliases(
-          eDataPackages().map((pkg) => ({
-            find: `@ember-data/${pkg}`,
-            replacement: nodePath(`@ember-data/${pkg}/addon`),
-          }))
-        )
-        .addAlias(/^ember-data$/, 'ember-data/addon')
-        .addAlias(
-          /^@ember-data\/private-build-infra$/,
-          compatPath('ember-data-private-build-infra')
-        ),
+      // compat things for 3.24
+      Addon('@ember/template-compilation', mode).addSelfAlias(
+        compatPath('ember-template-compilation/index.ts')
+      ),
+      Addon('@ember/owner', mode).addSelfAlias(
+        compatPath('ember-owner/index.ts')
+      ),
+      Addon('@ember/routing', mode).addSelfAlias(compatPath('ember-routing')),
+      Addon('@glimmer/manager', mode).addSelfAlias(
+        compatPath('glimmer-manager')
+      ),
+      Addon('ember-source', mode).addAlias(
+        'ember-source/dist/packages/@ember/template-factory/index.js',
+        compatPath('ember-template-factory/index.ts')
+      ),
+      Addon('@ember/array', mode).addSelfAlias(
+        compatPath('ember-array/index.ts')
+      ),
+      Addon('@ember/utils', mode).addSelfAlias(
+        compatPath('ember-utils/index.ts')
+      ),
+      Addon('@glimmer/tracking', mode).addAlias(
+        '@glimmer/tracking/primitives/cache',
+        compatPath('glimmer-tracking/primitives/cache.ts')
+      ),
+      Addon('node-module', mode).addSelfAlias(
+        compatPath('node-module/index.ts')
+      ),
+      Addon('@ember/template', mode).addSelfAlias(
+        compatPath('ember-template/index.ts')
+      ),
+      Addon('@ember/test', mode).addSelfAlias(
+        compatPath('ember-test/index.ts')
+      ),
+
+      //
+
+      // Addon('@ember-data', mode)
+      //   .needBabel()
+      //   .addAliases(
+      //     eDataPackages().map((pkg) => ({
+      //       find: `@ember-data/${pkg}`,
+      //       replacement: nodePath(`@ember-data/${pkg}/addon`),
+      //     }))
+      //   )
+      //   .addAlias(/^ember-data$/, 'ember-data/addon')
+      //   .addAlias(
+      //     /^@ember-data\/private-build-infra$/,
+      //     compatPath('ember-data-private-build-infra')
+      //   ),
       Addon('ember-notify', mode)
         .needAlias()
         .needBabel({ removeLegacyLayout: true }),
@@ -89,7 +126,7 @@ export default defineConfig(({ mode }) => {
       Addon('ember-basic-dropdown', mode).needBabel(),
       Addon('ember-ref-bucket', mode).needAlias().needBabel(),
       Addon('ember-page-title', mode).needBabel(),
-      Addon('tracked-toolbox', mode).needAlias().needBabel(),
+      // Addon('tracked-toolbox', mode).needAlias().needBabel(),
       Addon('@ember-decorators/object', mode).needAlias(),
       Addon('@ember-decorators/component', mode).needAlias(),
       Addon('@ember-decorators/utils', mode).needAlias(),
@@ -101,15 +138,15 @@ export default defineConfig(({ mode }) => {
         'ember-intl/-private',
         nodePath('ember-intl/addon/-private')
       ),
-      Addon('ember-simple-auth', mode)
-        .addNestedAlias(
-          'use-session-setup-method',
-          './compat/ember-simple-auth/use-session-setup-method.ts'
-        )
-        .addAlias(
-          /ember-simple-auth\/(?!(app|addon)\/)(.+)/,
-          'ember-simple-auth/addon/$2'
-        ),
+      // Addon('ember-simple-auth', mode)
+      //   .addNestedAlias(
+      //     'use-session-setup-method',
+      //     './compat/ember-simple-auth/use-session-setup-method.ts'
+      //   )
+      //   .addAlias(
+      //     /ember-simple-auth\/(?!(app|addon)\/)(.+)/,
+      //     'ember-simple-auth/addon/$2'
+      //   ),
     ]
   );
 });

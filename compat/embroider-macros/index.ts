@@ -1,11 +1,11 @@
-import * as renderer from '@ember/renderer';
+// import * as renderer from '@ember/renderer';
 import * as validator from '@glimmer/validator';
 import * as manager from '@glimmer/manager';
 import { DEBUG } from '@glimmer/env';
-import * as recordData from '@ember-data/json-api';
-import * as model from '@ember-data/model/-private';
-import * as graph from '@ember-data/graph/-private';
-import { getDataConfig } from './../ember-data-private-build-infra';
+// import * as recordData from '@ember-data/json-api';
+// import * as model from '@ember-data/model/-private';
+// import * as graph from '@ember-data/graph/-private';
+// import { getDataConfig } from './../ember-data-private-build-infra';
 import * as owner from '@ember/owner';
 
 export function isDevelopingApp() {
@@ -62,7 +62,7 @@ export function macroCondition(value: boolean) {
 
 export function importSync(name: string) {
   if (name === '@ember/renderer') {
-    return renderer;
+    return {};
   }
   if (name === '@glimmer/validator') {
     return validator;
@@ -71,13 +71,13 @@ export function importSync(name: string) {
     return manager;
   }
   if (name === '@ember-data/json-api') {
-    return recordData;
+    // return recordData;
   }
   if (name === '@ember-data/model/-private') {
-    return model;
+    // return model;
   }
   if (name === '@ember-data/graph/-private') {
-    return graph;
+    // return graph;
   }
   if (name === '@ember/owner') {
     return owner;

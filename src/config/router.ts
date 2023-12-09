@@ -2,7 +2,7 @@ import EmberRouter from '@ember/routing/router';
 import config from './env';
 import type Controller from '@ember/controller';
 import Route from '@ember/routing/route';
-import { PrecompiledTemplate } from '@ember/template-compilation';
+import type { PrecompiledTemplate } from '@ember/template-compilation';
 import { getOwner } from '@ember/application';
 
 /*
