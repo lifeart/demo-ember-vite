@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve } from 'node:path';
-import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
+import { generateDefineConfig } from './compat/ember-data-private-build-infra/index';
 import {
   Addon as AddonConstructor,
   compatPath,
@@ -44,33 +44,26 @@ export default defineConfig(({ mode }) => {
       preview: {
         port: 4200,
       },
-      define: {
-        ENV_DEBUG: isProd ? false : true,
-        ENV_CI: false,
-        ...generateDefineConfig(isProd),
-      },
-      resolve: {
-        extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.hbs'],
-        alias: [
-          {
-            find: `@/tests/`,
-            replacement: fileURLToPath(new URL(`./tests/`, projectRoot)),
-          },
-          ...localScopes().map((scope) => ({
-            find: `@/${scope}`,
-            replacement: fileURLToPath(new URL(`./src/${scope}`, projectRoot)),
-          })),
-        ],
-      },
-      plugins: [],
     },
     [
-      App(),
+      App()
+        .extendDefineConfig({
+          ENV_DEBUG: isProd ? false : true,
+          ENV_CI: false,
+        })
+        .addAlias(`@/tests/`, fileURLToPath(new URL(`./tests/`, projectRoot)))
+        .addAliases(
+          localScopes().map((scope) => ({
+            find: `@/${scope}`,
+            replacement: fileURLToPath(new URL(`./src/${scope}`, projectRoot)),
+          }))
+        ),
 
       ...internalPackages(mode),
 
       Addon('@ember-data')
         .needBabel()
+        .extendDefineConfig(generateDefineConfig(isProd))
         .addAliases(
           eDataPackages().map((pkg) => ({
             find: `@ember-data/${pkg}`,
@@ -108,11 +101,11 @@ export default defineConfig(({ mode }) => {
       Addon('ember-simple-auth')
         .addNestedAlias(
           'use-session-setup-method',
-          './compat/ember-simple-auth/use-session-setup-method.ts'
+          compatPath('ember-simple-auth/use-session-setup-method.ts')
         )
         .addAlias(
           /ember-simple-auth\/(?!(app|addon)\/)(.+)/,
-          'ember-simple-auth/addon/$2'
+          nodePath('ember-simple-auth/addon/$2')
         ),
     ]
   );

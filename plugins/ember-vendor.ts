@@ -13,8 +13,11 @@ const modeModulesPath = path.resolve(
 export function internalPackages(mode: string) {
   return [
     Addon('ember & ember-source & @ember/*', mode)
-      .addAlias(/^ember$/, 'ember-source/dist/packages/ember')
-      .addAlias(/^ember\/version$/, 'ember-source/dist/packages/ember/version')
+      .addAlias(/^ember$/, nodePath('ember-source/dist/packages/ember'))
+      .addAlias(
+        /^ember\/version$/,
+        nodePath('ember-source/dist/packages/ember/version')
+      )
       .addAliases(
         emberPackages().map((pkg) => ({
           find: `@ember/${pkg}`,
@@ -23,10 +26,10 @@ export function internalPackages(mode: string) {
       ),
 
     Addon('@glimmer/*', mode)
-      .addAlias(
-        '@glimmer/validator',
-        nodePath('@glimmer/validator/dist/modules/es2017')
-      )
+      // .addAlias(
+      //   '@glimmer/validator',
+      //   nodePath('@glimmer/validator/dist/modules/es2017')
+      // )
       .addAlias(
         '@glimmer/tracking/primitives/cache',
         nodePath(
@@ -39,7 +42,7 @@ export function internalPackages(mode: string) {
       )
       .addAlias(
         '@glimmer/component',
-        '@glimmer/component/addon/-private/component'
+        nodePath('@glimmer/component/addon/-private/component')
       )
       .addAlias('@glimmer/env', compatPath('glimmer-env'))
       .addAliases(
@@ -57,15 +60,15 @@ export function internalPackages(mode: string) {
     ),
 
     Addon('ember-component-manager', mode).addSelfAlias(
-      '@glimmer/component/addon/-private/ember-component-manager'
+      nodePath('@glimmer/component/addon/-private/ember-component-manager')
     ),
 
     Addon('@ember/test-helpers', mode).addSelfAlias(
-      '@ember/test-helpers/addon-test-support/@ember/test-helpers'
+      nodePath('@ember/test-helpers/addon-test-support/@ember/test-helpers')
     ),
 
     Addon('@ember/test-waiters', mode).addSelfAlias(
-      '@ember/test-waiters/addon/@ember/test-waiters'
+      nodePath('@ember/test-waiters/addon/@ember/test-waiters')
     ),
 
     Addon('ember-compatibility-helpers', mode).addSelfAlias(
@@ -87,13 +90,16 @@ export function internalPackages(mode: string) {
     ),
     Addon('require', mode).addSelfAlias(compatPath('require/index.ts')),
     Addon('ember-template-compiler', mode).addSelfAlias(
-      'node_modules/ember-source/dist/ember-template-compiler.js'
+      nodePath('ember-source/dist/ember-template-compiler.js')
     ),
     Addon('ember-testing', mode)
-      .addAlias(/^ember-testing$/, 'ember-source/dist/packages/ember-testing')
+      .addAlias(
+        /^ember-testing$/,
+        nodePath('ember-source/dist/packages/ember-testing')
+      )
       .addAlias(
         /^ember-testing\//,
-        'ember-source/dist/packages/ember-testing/'
+        nodePath('ember-source/dist/packages/ember-testing/')
       ),
     Addon('@embroider/macros', mode).addSelfAlias(
       compatPath('embroider-macros/index.ts')

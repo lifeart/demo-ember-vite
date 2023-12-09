@@ -18,6 +18,16 @@ export function App(mode: string) {
   const isDev = addon.isDev;
   const enableSourceMaps = isDev;
 
+  addon.resolveExtensions([
+    '.mjs',
+    '.js',
+    '.ts',
+    '.jsx',
+    '.tsx',
+    '.json',
+    '.hbs',
+  ]);
+
   addon.babelPlugins = [
     hbsResolver(isProd),
     gtsResolver(isProd),
@@ -79,6 +89,7 @@ export function emberAppConfig(
   addons: EmberAddon[]
 ) {
   addons.forEach((el) => el.attachToConfig(definedConfig));
+  // console.table(definedConfig.resolve.alias);
   return definedConfig;
 }
 
@@ -94,9 +105,11 @@ function addonBabelConfig(
 
 class EmberAddon {
   name!: string;
-  aliases: unknown[] = [];
+  aliases: { find: unknown; replacement: unknown }[] = [];
   babelPlugins: unknown[] = [];
   mode: string;
+  defineConfig: Record<string, unknown> = {};
+  extensions: string[] = [];
   constructor(name: string, mode: string) {
     this.name = name;
     this.mode = mode;
@@ -118,6 +131,14 @@ class EmberAddon {
       find,
       replacement: nodePath(replacement),
     });
+    return this;
+  }
+  resolveExtensions(extensions: string[]) {
+    this.extensions = Array.from(new Set([...this.extensions, ...extensions]));
+    return this;
+  }
+  extendDefineConfig(config: Record<string, unknown>) {
+    this.defineConfig = { ...this.defineConfig, ...config };
     return this;
   }
   needBabel(
@@ -172,12 +193,58 @@ class EmberAddon {
     });
     return this;
   }
-  attachToConfig(config: UserConfig) {
+  fixConfig(config: UserConfig) {
+    const resolveExtensions = config?.resolve?.extensions ?? [];
+    const resolveAlias = config?.resolve?.alias ?? [];
+    const plugins = config?.plugins ?? [];
+    const define = config?.define ?? {};
+    if (!config.resolve) {
+      config.resolve = {
+        extensions: [],
+        alias: [],
+      };
+    }
+    config.resolve.extensions = resolveExtensions;
+    config.resolve.alias = resolveAlias;
+    config.plugins = plugins;
+    config.define = define;
+
+    return config as UserConfig & {
+      resolve: {
+        extensions: string[];
+        alias: { find: unknown; replacement: unknown }[];
+      };
+      plugins: unknown[];
+      define: Record<string, unknown>;
+    };
+  }
+  attachToConfig(rawConfig: UserConfig) {
+    const config = this.fixConfig(rawConfig);
+    this.extensions.forEach((el) => {
+      if (!config.resolve.extensions.includes(el)) {
+        config.resolve.extensions.push(el);
+      }
+    });
     this.aliases.forEach((el) => {
-      config?.resolve?.alias.push(el);
+      const existingAlias = config.resolve.alias.find((alias) => alias.find === el.find);
+      if (!existingAlias) {
+        config.resolve.alias.push(el);
+      } else {
+        throw new Error(
+          `Alias ${el.find} already exists, but imported by [${this.name}] addon. Please check your config.
+            Existing alias: ${existingAlias.replacement}
+            New alias: ${el.replacement}
+          `
+        );
+      }
     });
     this.babelPlugins.forEach((el) => {
-      config?.plugins?.push(el);
+      config.plugins.push(el);
+    });
+    Object.keys(this.defineConfig).forEach((el) => {
+      if (config.define) {
+        config.define[el] = this.defineConfig[el];
+      }
     });
     return this;
   }
