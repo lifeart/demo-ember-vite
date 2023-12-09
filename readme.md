@@ -115,6 +115,40 @@ PR's are welcome.
 
 ---
 
+## How to add new addon?
+
+1. Install dependency `yarn add addon-name`.
+2. Create `addon-name.ts` file in `src/addons` folder.
+3. Import needed `helpers` / `modifiers` / `components` from `addon-name` (check samples in same folder), note that you should keep extensions while importing, don't forget to check correct path's from `node_modules` folder.
+```ts
+import SayHello from 'addon-name/components/my-component.js';
+import SayHelloTemplate from 'addon-name/templates/my-component.hbs';
+import CalcHelper from 'addon-name/helpers/calc.js';
+```
+4. Create registry object for addon (check samples in same folder)
+```ts
+const registry = {
+     'component:say-hello': setComponentTemplate(SayHelloTemplate, SayHello),
+     'helper:calc': CalcHelper,
+}
+```
+5. Export registry object in `addon-name.ts` file
+```ts
+export default registry;
+```
+6. Import created registry object in `src/addons/index.ts` file
+```ts
+import AddonName from './addon-name';
+
+const registry = {
+     // ... other addons
+     ...AddonName,
+}
+```
+
+Now we have new addon in our project. It should work out of the box for classic ember components. If you need to use it from `gts` / `gjs` files - you should import it as classic dependency inside `gts` / `gjs` file.
+
+> Note: If you have `aliasing` / `babel` problems - add new `Addon` to `vite.config.ts` file (check samples in same file)
 
 ## Licence
 [MIT](./LICENCE.md)
