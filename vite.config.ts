@@ -11,6 +11,7 @@ import refBucketTransform from 'ember-ref-bucket/lib/ref-transform.js';
 import { babelHotReloadPlugin } from './plugins/hot-reload';
 import { removeLegacyLayout } from './plugins/remove-legacy-layout';
 import { dropImportSync } from './plugins/drop-import-sync';
+import emberConcurrencyTransform from 'ember-concurrency/lib/babel-plugin-transform-ember-concurrency-async-tasks';
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
@@ -424,6 +425,7 @@ function defaultBabelPlugins(isProd: boolean) {
       },
     ],
     templateCompilationPlugin(isProd),
+    emberConcurrencyTransform,
   ];
 }
 
