@@ -5690,6 +5690,13 @@ ember-element-helper@^0.6.0:
     ember-cli-babel "^7.26.11"
     ember-cli-htmlbars "^6.0.1"
 
+ember-event-helpers@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ember-event-helpers/-/ember-event-helpers-0.1.1.tgz#8df141306c927b9d1a7bc63d63095e92c0ba90a1"
+  integrity sha512-fWcbWd4W4nRv8bbato8JB6oGRpATkR+oGYxMIqnfgTgPWaCS0ww7CuUVNpwg1TulojKMCuTXi8Fem2b1NSF1ZQ==
+  dependencies:
+    ember-cli-babel "^7.19.0"
+
 ember-focus-trap@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ember-focus-trap/-/ember-focus-trap-1.0.1.tgz#a99565f6ce55d500b92a0965e79e3ad04219f157"

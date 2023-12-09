@@ -92,6 +92,7 @@ yarn dev
 1. `ember-ref-bucket`
 1. `ember-modal-dialog`
 1. `ember-responsive`
+1. `ember-event-helpers`
 
 [(see code for samples)](https://github.com/lifeart/demo-ember-vite/tree/master/src/addons)
 

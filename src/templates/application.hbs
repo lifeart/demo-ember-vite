@@ -2,7 +2,7 @@
 <EmberNotify />
 {{#if this.showModal}}
 <ModalDialog>
-  Ember Modal Dialog test <Button {{on 'click' this.closeModal}}>Close</Button>
+  Ember Modal Dialog test <Button {{on 'click' (stop-propagation this.closeModal)}}>Close</Button>
 </ModalDialog>
 {{/if}}
 
