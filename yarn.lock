@@ -5907,6 +5907,13 @@ ember-resources@^6.3.1:
     "@embroider/macros" "^1.12.3"
     ember-async-data "^1.0.1"
 
+ember-responsive@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ember-responsive/-/ember-responsive-5.0.0.tgz#729e4fb3d2651a573600333aaa3b3d7cbd9c4642"
+  integrity sha512-JDwNIKHNcHrILGkpLqLqZ1idO7hxxt6f4M2wmiktOuzhBm2/JxUjkK+yec+tzIzXaD7rrl2/S7STa/Uj5s6TEw==
+  dependencies:
+    ember-cli-babel "^7.26.11"
+
 ember-rfc176-data@^0.3.15, ember-rfc176-data@^0.3.17:
   version "0.3.17"
   resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.17.tgz#d4fc6c33abd6ef7b3440c107a28e04417b49860a"
