@@ -61,12 +61,12 @@ const InitialRegistry = {
   'template:about': AboutTemplate,
   'template:login': LoginTemplate,
 
-  'component:hello-world': HelloWorld,
-  'component:button': Button,
-  'component:header': Header,
-  'component:footer': Footer,
+  // 'component:hello-world': HelloWorld,
+  // 'component:button': Button,
+  // 'component:header': Header,
+  // 'component:footer': Footer,
 
-  'component:hot': DEBUG ? Hot : null,
+  // 'component:hot': DEBUG ? Hot : null,
 
   'helper:memory-usage': MemoryUsage as unknown as () => string, // glint fix
   'helper:is-dev': IsDev,
