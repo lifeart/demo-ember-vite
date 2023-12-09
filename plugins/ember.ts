@@ -9,6 +9,8 @@ import hbsResolver from './hbs-resolver';
 import gtsResolver from './gts-resolver';
 import i18nLoader from './i18n-loader';
 import { babelHotReloadPlugin } from './hot-reload';
+import type { ASTv1 } from '@glimmer/syntax';
+
 
 const selfPath = import.meta.url + '/../..';
 
@@ -30,7 +32,7 @@ export function App(mode: string) {
 
   addon.babelPlugins = [
     hbsResolver(isProd),
-    gtsResolver(isProd),
+    gtsResolver(),
     i18nLoader(),
     !isDev
       ? babel({
@@ -94,7 +96,7 @@ export function emberAppConfig(
 }
 
 function addonBabelConfig(
-  plugins = [],
+  plugins: unknown[] = [],
   isProd: boolean,
   enableSourceMaps = false
 ) {
@@ -255,7 +257,7 @@ export function Addon(name: string, mode: string) {
 }
 
 export function defaultBabelConfig(
-  plugins = [],
+  plugins: unknown[] = [],
   isProd: boolean,
   enableSourceMaps = false
 ) {
@@ -317,11 +319,11 @@ function templateCompilationPlugin(isProd: boolean) {
         refBucketTransform,
         isProd
           ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            function sampleTransform(env) {
+            function sampleTransform() {
               return {
                 name: 'skip-prod-test-selectors',
                 visitor: {
-                  ElementNode(node) {
+                  ElementNode(node: ASTv1.ElementNode) {
                     node.attributes = node.attributes.filter(
                       (el) => !el.name.startsWith('data-test-')
                     );

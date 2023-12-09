@@ -2,11 +2,12 @@ import YAML from 'yaml';
 import { readdir, access, readFile } from 'fs/promises';
 import { basename, extname, join } from 'path';
 import { constants } from 'fs';
+import type { Plugin } from 'vite';
 
 const translationsFileName = 'ember-intl/translations';
 const translationsDir = 'translations';
 
-export default function i18nLoader() {
+export default function i18nLoader(): Plugin {
   return {
     name: 'i18n-loader',
     enforce: 'pre',

@@ -1,18 +1,35 @@
+import type { NodePath } from '@babel/traverse';
+import type {
+  Program,
+  ImportDeclaration,
+  ObjectProperty,
+  ClassProperty,
+} from '@babel/types';
+import type * as b from '@babel/types';
+
 export function removeLegacyLayout(addons: string[]) {
-  return function removeLegacyLayoutPlugin (babel) {
-    const shouldContinue = (state) => {
+  return function removeLegacyLayoutPlugin(babel: any) {
+    type State = {
+      file: {
+        opts: {
+          filename: string;
+        };
+      };
+      shouldAppendLayout?: boolean;
+    };
+    const shouldContinue = (state: State) => {
       const fName = state.file.opts.filename;
       return (
         fName.includes('node_modules') &&
         addons.some((el) => fName.includes(`/${el}/`))
       );
     };
-    const { types: t } = babel;
+    const { types: t } = babel as { types: typeof b };
     return {
       name: 'remove-layout',
       visitor: {
         Program: {
-          exit(path, state) {
+          exit(path: NodePath<Program>, state: State) {
             if (state.shouldAppendLayout) {
               path.node.body.push(
                 t.variableDeclaration('var', [
@@ -25,7 +42,7 @@ export function removeLegacyLayout(addons: string[]) {
             }
           },
         },
-        ImportDeclaration(path, state) {
+        ImportDeclaration(path: NodePath<ImportDeclaration>, state: State) {
           if (!shouldContinue(state)) {
             return;
           }
@@ -46,8 +63,14 @@ export function removeLegacyLayout(addons: string[]) {
             state.shouldAppendLayout = true;
           }
         },
-        ObjectProperty(path, state) {
+        ObjectProperty(path: NodePath<ObjectProperty>, state: State) {
           if (!shouldContinue(state)) {
+            return;
+          }
+          if (
+            !t.isIdentifier(path.node.key) ||
+            !t.isIdentifier(path.node.value)
+          ) {
             return;
           }
           if (
@@ -57,8 +80,14 @@ export function removeLegacyLayout(addons: string[]) {
             path.remove();
           }
         },
-        ClassProperty(path, state) {
+        ClassProperty(path: NodePath<ClassProperty>, state: State) {
           if (!shouldContinue(state)) {
+            return;
+          }
+          if (
+            !t.isIdentifier(path.node.key) ||
+            !t.isIdentifier(path.node.value)
+          ) {
             return;
           }
           if (
@@ -87,6 +116,5 @@ export function removeLegacyLayout(addons: string[]) {
         //   },
       },
     };
-  }
-  
+  };
 }

@@ -1,13 +1,16 @@
+import type { Plugin } from 'vite';
+
 const fileRegex = /\.(hbs)$/;
 
-function tpl(raw, id, isProd) {
+function tpl(raw: string, id: string, isProd: boolean) {
   const code = raw.split('`').join('\\`');
 
   const moduleName = id.includes('node_modules')
     ? id.split('node_modules/')[1]
     : id.split('src').pop();
 
-  const name = moduleName.split('/components/').pop().split('.')[0];
+  const name =
+    moduleName?.split('/components/').pop()?.split('.')[0] ?? 'unknown';
   // we always want to return a template-only component
   // and corner-cases handled by patched ember-source, and glimmer
 
@@ -26,16 +29,18 @@ function tpl(raw, id, isProd) {
   // `.trim();
 }
 
-export default function hbsResolver(isProd) {
+export default function hbsResolver(isProd: boolean): Plugin {
   return {
     name: 'hbs-resolver',
     enforce: 'pre',
     transform(src, id) {
-      if (fileRegex.test(id, id)) {
+      if (fileRegex.test(id)) {
         return {
           code: tpl(src, id, isProd),
           map: null, // provide source map if available
         };
+      } else {
+        return void 0;
       }
     },
   };
