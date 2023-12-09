@@ -3,11 +3,11 @@ import { fileURLToPath, URL } from 'node:url';
 import { resolve } from 'node:path';
 import { generateDefineConfig } from './compat/ember-data-private-build-infra/index.ts';
 import {
-  Addon,
+  Addon as AddonConstructor,
   compatPath,
   nodePath,
   emberAppConfig,
-  App,
+  App as AppConstructor,
 } from './plugins/ember';
 import { eDataPackages, internalPackages } from './plugins/ember-vendor';
 
@@ -17,6 +17,12 @@ export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
   const enableSourceMaps = isDev;
+  const Addon = (name: string) => {
+    return AddonConstructor(name, mode);
+  };
+  const App = () => {
+    return AppConstructor(mode);
+  };
   return emberAppConfig(
     {
       build: {
@@ -59,11 +65,11 @@ export default defineConfig(({ mode }) => {
       plugins: [],
     },
     [
-      App(mode),
+      App(),
 
       ...internalPackages(mode),
 
-      Addon('@ember-data', mode)
+      Addon('@ember-data')
         .needBabel()
         .addAliases(
           eDataPackages().map((pkg) => ({
@@ -76,32 +82,30 @@ export default defineConfig(({ mode }) => {
           /^@ember-data\/private-build-infra$/,
           compatPath('ember-data-private-build-infra')
         ),
-      Addon('ember-notify', mode)
-        .needAlias()
-        .needBabel({ removeLegacyLayout: true }),
-      Addon('ember-wormhole', mode).needBabel({ removeLegacyLayout: true }),
-      Addon('ember-modal-dialog', mode)
+      Addon('ember-notify').needAlias().needBabel({ removeLegacyLayout: true }),
+      Addon('ember-wormhole').needBabel({ removeLegacyLayout: true }),
+      Addon('ember-modal-dialog')
         .needAlias()
         .needBabel({ removeLegacyLayout: true, dropImportSync: true }),
-      Addon('ember-responsive', mode).needBabel({ removeLegacyLayout: true }),
-      Addon('ember-bootstrap', mode).needAlias().needBabel(),
-      Addon('ember-power-select', mode).needBabel(),
-      Addon('ember-basic-dropdown', mode).needBabel(),
-      Addon('ember-ref-bucket', mode).needAlias().needBabel(),
-      Addon('ember-page-title', mode).needBabel(),
-      Addon('tracked-toolbox', mode).needAlias().needBabel(),
-      Addon('@ember-decorators/object', mode).needAlias(),
-      Addon('@ember-decorators/component', mode).needAlias(),
-      Addon('@ember-decorators/utils', mode).needAlias(),
-      Addon('ember-concurrency', mode).needAlias(),
-      Addon('ember-concurrency-decorators', mode).needAlias(),
-      Addon('ember-inflector', mode).needAlias(),
-      Addon('ember-modifier', mode).customModuleEntry('ember-modifier/dist'),
-      Addon('ember-intl', mode).addAlias(
+      Addon('ember-responsive').needBabel({ removeLegacyLayout: true }),
+      Addon('ember-bootstrap').needAlias().needBabel(),
+      Addon('ember-power-select').needBabel(),
+      Addon('ember-basic-dropdown').needBabel(),
+      Addon('ember-ref-bucket').needAlias().needBabel(),
+      Addon('ember-page-title').needBabel(),
+      Addon('tracked-toolbox').needAlias().needBabel(),
+      Addon('@ember-decorators/object').needAlias(),
+      Addon('@ember-decorators/component').needAlias(),
+      Addon('@ember-decorators/utils').needAlias(),
+      Addon('ember-concurrency').needAlias(),
+      Addon('ember-concurrency-decorators').needAlias(),
+      Addon('ember-inflector').needAlias(),
+      Addon('ember-modifier').customModuleEntry('ember-modifier/dist'),
+      Addon('ember-intl').addAlias(
         'ember-intl/-private',
         nodePath('ember-intl/addon/-private')
       ),
-      Addon('ember-simple-auth', mode)
+      Addon('ember-simple-auth')
         .addNestedAlias(
           'use-session-setup-method',
           './compat/ember-simple-auth/use-session-setup-method.ts'
