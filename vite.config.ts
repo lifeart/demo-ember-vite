@@ -287,7 +287,7 @@ export default defineConfig(({ mode }) => {
       babel({
         // regexp to match files in src folder
         filter:
-          /^.*(@ember-data|ember-notify|ember-wormhole|ember-modal-dialog|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
+          /^.*(@ember-data|ember-responsive|ember-notify|ember-wormhole|ember-modal-dialog|ember-bootstrap|ember-ref-bucket|tracked-toolbox|ember-power-select|ember-basic-dropdown|page-title)\/.*\.(ts|js|hbs)$/,
         babelConfig: addonBabelConfig(
           [
             dropImportSync(['ember-modal-dialog']),
