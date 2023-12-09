@@ -130,6 +130,7 @@ import SayHelloTemplate from 'addon-name/templates/my-component.hbs';
 import CalcHelper from 'addon-name/helpers/calc.js';
 import SummaryModifier from 'addon-name/modifiers/summary.js';
 import SomeService from 'addon-name/services/some-service.js';
+import { setComponentTemplate } from '@glimmer/manager';
 
 setComponentTemplate(SayHelloTemplate, SayHello);
 ```
