@@ -140,7 +140,7 @@ class EmberAddon {
     const plugin = babel({
       // regexp to match files in src folder
       filter: addonFilterRegexp,
-      babelConfig: addonBabelConfig(extraPlugins, this.isProd),
+      babelConfig: addonBabelConfig(extraPlugins, this.isProd, this.isDev),
     });
     this.babelPlugins.push(plugin);
     return this;

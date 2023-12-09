@@ -10,24 +10,19 @@ index 3c53152..21da6fa 100644
 -export { CustomComponentManager, CustomHelperManager, CustomModifierManager, capabilityFlagsFrom, componentCapabilities, getComponentTemplate, getCustomTagFor, getInternalComponentManager, getInternalHelperManager, getInternalModifierManager, hasCapability, hasDestroyable, hasInternalComponentManager, hasInternalHelperManager, hasInternalModifierManager, hasValue, helperCapabilities, managerHasCapability, modifierCapabilities, setComponentManager, setComponentTemplate, setCustomTagFor, setHelperManager, setInternalComponentManager, setInternalHelperManager, setInternalModifierManager, setModifierManager };
 +var capabilities = () => CAPABILITIES;
 +export { capabilities, CustomComponentManager, CustomHelperManager, CustomModifierManager, capabilityFlagsFrom, componentCapabilities, getComponentTemplate, getCustomTagFor, getInternalComponentManager, getInternalHelperManager, getInternalModifierManager, hasCapability, hasDestroyable, hasInternalComponentManager, hasInternalHelperManager, hasInternalModifierManager, hasValue, helperCapabilities, managerHasCapability, modifierCapabilities, setComponentManager, setComponentTemplate, setCustomTagFor, setHelperManager, setInternalComponentManager, setInternalHelperManager, setInternalModifierManager, setModifierManager };
-diff --git a/node_modules/ember-source/dist/ember.debug.js b/node_modules/ember-source/dist/ember.debug.js
-index 6344c33..a66f0d6 100644
---- a/node_modules/ember-source/dist/ember.debug.js
-+++ b/node_modules/ember-source/dist/ember.debug.js
-@@ -27035,6 +27035,8 @@ define("@glimmer/global-context", ["exports"], function (_exports) {
-   _exports.deprecate = deprecate;
-   var globalContextWasSet = false;
-   function setGlobalContext(context) {
-+    console.log('setGlobalContext10');
-+
-     var _a;
-     if (true /* DEBUG */) {
-       if (globalContextWasSet) {
 diff --git a/node_modules/ember-source/dist/packages/@ember/debug/index.js b/node_modules/ember-source/dist/packages/@ember/debug/index.js
-index 27eb287..ce45e34 100644
+index 27eb287..6211df7 100644
 --- a/node_modules/ember-source/dist/packages/@ember/debug/index.js
 +++ b/node_modules/ember-source/dist/packages/@ember/debug/index.js
-@@ -209,4 +209,9 @@ if (DEBUG && !isTesting()) {
+@@ -194,6 +194,7 @@ if (DEBUG) {
+   setDebugFunction('warn', _warn);
+ }
+ let _warnIfUsingStrippedFeatureFlags;
++//
+ if (DEBUG && !isTesting()) {
+   if (typeof window !== 'undefined' && (isFirefox || isChrome) && window.addEventListener) {
+     window.addEventListener('load', () => {
+@@ -209,4 +210,9 @@ if (DEBUG && !isTesting()) {
      }, false);
    }
  }
@@ -39,7 +34,7 @@ index 27eb287..ce45e34 100644
  export { assert, info, warn, debug, deprecate, debugSeal, debugFreeze, runInDebug, deprecateFunc, setDebugFunction, getDebugFunction, _warnIfUsingStrippedFeatureFlags };
 \ No newline at end of file
 diff --git a/node_modules/ember-source/dist/packages/@ember/routing/route.js b/node_modules/ember-source/dist/packages/@ember/routing/route.js
-index 9f15d9a..bcf9675 100644
+index 8ab62bb..14a1896 100644
 --- a/node_modules/ember-source/dist/packages/@ember/routing/route.js
 +++ b/node_modules/ember-source/dist/packages/@ember/routing/route.js
 @@ -5,6 +5,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
@@ -50,7 +45,7 @@ index 9f15d9a..bcf9675 100644
  import { privatize as P } from '@ember/-internals/container';
  import { addObserver, defineProperty, descriptorForProperty, flushAsyncObservers } from '@ember/-internals/metal';
  import { getOwner } from '@ember/-internals/owner';
-@@ -1021,6 +1022,9 @@ function buildRenderOptions(route, nameOrOptions, options) {
+@@ -1025,6 +1026,9 @@ function buildRenderOptions(route, nameOrOptions, options) {
      controller.set('model', model);
    }
    let template = owner.lookup(`template:${templateName}`);
@@ -85,7 +80,7 @@ index 336fa24..4393023 100644
    registerHelper = Test.registerHelper;
    registerWaiter = Test.registerWaiter;
 diff --git a/node_modules/ember-source/dist/packages/ember/index.js b/node_modules/ember-source/dist/packages/ember/index.js
-index bc7a5d9..4c42340 100644
+index bc7a5d9..2bc5b73 100644
 --- a/node_modules/ember-source/dist/packages/ember/index.js
 +++ b/node_modules/ember-source/dist/packages/ember/index.js
 @@ -1,7 +1,9 @@
