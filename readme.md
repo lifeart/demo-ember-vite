@@ -119,17 +119,27 @@ PR's are welcome.
 
 1. Install dependency `yarn add addon-name`.
 2. Create `addon-name.ts` file in `src/addons` folder.
-3. Import needed `helpers`, `modifiers`, `components`, `services` from `addon-name` (check samples in same folder), note that you should keep extensions while importing, don't forget to check correct path's from `node_modules` folder.
+3. Import needed `helpers`, `modifiers`, `components`, `services` from `addon-name` (check samples in same folder).
+
+> We should keep extensions while importing, don't forget to check correct path's from `node_modules/addon-name` folder.
+
+> Do not forget to `setComponentTemplate` for components.
 ```ts
 import SayHello from 'addon-name/components/my-component.js';
 import SayHelloTemplate from 'addon-name/templates/my-component.hbs';
 import CalcHelper from 'addon-name/helpers/calc.js';
+import SummaryModifier from 'addon-name/modifiers/summary.js';
+import SomeService from 'addon-name/services/some-service.js';
+
+setComponentTemplate(SayHelloTemplate, SayHello);
 ```
 4. Create registry object for addon (check samples in same folder)
 ```ts
 const registry = {
-     'component:say-hello': setComponentTemplate(SayHelloTemplate, SayHello),
+     'component:say-hello': SayHello,
      'helper:calc': CalcHelper,
+     'modifier:summary': SummaryModifier,
+     'service:some-service': SomeService,
 }
 ```
 5. Export registry object in `addon-name.ts` file
@@ -149,6 +159,8 @@ const registry = {
 Now we have new addon in our project. It should work out of the box for classic ember components. If you need to use it from `gts` / `gjs` files - you should import it as classic dependency inside `gts` / `gjs` file.
 
 > Note: If you have `aliasing` / `babel` problems - add new `Addon` to `vite.config.ts` file (check samples in same file)
+
+As we see, it's quite easy to redefine any part of addon, including component name, and it should be an easy way to fix possible breakage just overriding template / component with file from `src` folder.
 
 ## Licence
 [MIT](./LICENCE.md)
