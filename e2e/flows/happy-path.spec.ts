@@ -1,12 +1,14 @@
 import { test, expect } from '@playwright/test';
 
 import { captureCoverage } from './../utils/index.ts';
+import { skipModalDialog } from './../utils/modal-dialog.ts';
 
 captureCoverage(test);
 
 test.describe('Happy path', () => {
   test('i11n is working just fine', async ({ page }) => {
     await page.goto('http://localhost:4200');
+    await skipModalDialog(page);
 
     const msgNode = page.locator('[data-test-welcome-msg]');
 
@@ -35,6 +37,7 @@ test.describe('Happy path', () => {
 
   test('dialog click is working fine', async ({ page }) => {
     await page.goto('http://localhost:4200');
+    await skipModalDialog(page);
 
     page.on('dialog', (dialog) => {
       expect(dialog.message()).toBe('Fine');
@@ -45,6 +48,7 @@ test.describe('Happy path', () => {
 
   test('power select is working fine', async ({ page }) => {
     await page.goto('http://localhost:4200');
+    await skipModalDialog(page);
 
     await expect(
       page.locator('.ember-power-select-trigger'),
@@ -71,6 +75,7 @@ test.describe('Happy path', () => {
 
   test('timer is working fine', async ({ page }) => {
     await page.goto('http://localhost:4200');
+    await skipModalDialog(page);
 
     const t1 = await page.locator('pre.font-mono').textContent();
     // eslint-disable-next-line playwright/no-wait-for-timeout
