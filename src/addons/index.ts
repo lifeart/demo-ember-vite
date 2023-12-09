@@ -1,4 +1,4 @@
-import EmberSimpleAuthRegistry from './ember-simple-auth';
+// import EmberSimpleAuthRegistry from './ember-simple-auth';
 import EmberTruthHelpers from './ember-truth-helpers';
 import EmberPowerSelect from './ember-power-select';
 import EmberBasicDropdown from './ember-basic-dropdown';
@@ -8,7 +8,7 @@ import EmberRenderModifiers from './ember-render-modifiers';
 import EmberStyleModifier from './ember-style-modifier';
 import EmberIntl from './ember-intl';
 import EmberPageTitle from './ember-page-title';
-import EmberData from './ember-data';
+// import EmberData from './ember-data';
 import EmberNotify from './ember-notify';
 import EmberModalDialog from './ember-modal-dialog';
 import EmberResponsive from './ember-responsive';
@@ -25,11 +25,11 @@ const registry = {
   ...EmberPowerSelect,
   ...EmberIntl,
   ...EmberPageTitle,
-  ...EmberData,
+  // ...EmberData,
   ...EmberNotify,
   ...EmberModalDialog,
   ...EmberResponsive,
   ...EmberEventHelpers,
 };
 
-export default registry;
+export default {};

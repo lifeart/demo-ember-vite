@@ -27,8 +27,8 @@ export default class HelloWorld extends Component {
     `
 
     <FeaturePanel>
-      <:title><code>t</code> helper test:</:title>
-      <:description>
+      <title><code>t</code> helper test:</title>
+      <description>
         <div class="mt-2" data-test-welcome-msg>
           {{t 'hello.world'}}
         </div>
@@ -37,62 +37,62 @@ export default class HelloWorld extends Component {
         <Button data-test-lang="fr-fr" {{on "click" (fn this.setLanguage "fr-fr")}}>fr-fr</Button>
         <Button data-test-lang="ru-ru" {{on "click" (fn this.setLanguage "ru-ru")}}>ru-ru</Button>
         </div>
-      </:description>
+      </description>
     </FeaturePanel>
    
     <FeaturePanel>
-      <:title>Reactivity test:</:title>
-      <:description>
+      <title>Reactivity test:</title>
+      <description>
         <pre class="font-mono">{{format-date this.dateService._date}} {{this.dateService.date}}</pre>
-      </:description>
+      </description>
     </FeaturePanel>
 
     <FeaturePanel>
-      <:title><code>eq</code>, <code>and</code> helpers test:</:title>
-      <:description>
+      <title><code>eq</code>, <code>and</code> helpers test:</title>
+      <description>
         {{if (eq "a" "a") "equal" "not equal"}}
         {{if (and (eq "a" "a") (eq "b" "b")) "equal" "not equal"}}
-      </:description>
+      </description>
     </FeaturePanel>
 
     <FeaturePanel>
-      <:title>Template only component test:</:title>
-      <:description>
+      <title>Template only component test:</title>
+      <description>
         <TemplateOnlyComponent />
-      </:description>
+      </description>
     </FeaturePanel>
 
     <FeaturePanel>
-      <:title>Local imported component:</:title>
-      <:description>
+      <title>Local imported component:</title>
+      <description>
         <Local />
-      </:description>
+      </description>
     </FeaturePanel>
 
     <FeaturePanel>
-      <:title>Summary calculation helper test:</:title>
-      <:description>
+      <title>Summary calculation helper test:</title>
+      <description>
         {{calculateSummary 3 2}}
-      </:description>
+      </description>
     </FeaturePanel>
 
     <FeaturePanel>
-      <:title>Ember Power Select test:</:title>
-      <:description>
+      <title>Ember Power Select test:</title>
+      <description>
         <Select />
-      </:description>
+      </description>
     </FeaturePanel>
 
     <FeaturePanel>
-      <:title>.gts component test:</:title>
-      <:description>
+      <title>.gts component test:</title>
+      <description>
         <Sample />
-      </:description>
+      </description>
     </FeaturePanel>
 
     <FeaturePanel>
-      <:title>ember-resources</:title>
-      <:description>
+      <title>ember-resources</title>
+      <description>
         <h4 class="text-md mt-2 font-medium leading-5">Cell</h4>
         <Cell />
 
@@ -104,7 +104,7 @@ export default class HelloWorld extends Component {
 
         <h4 class="text-md mt-2 font-medium leading-5">RemoteData</h4>
         <RemoteData />
-      </:description>
+      </description>
     </FeaturePanel>
 
     `,

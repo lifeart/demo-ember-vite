@@ -64,9 +64,9 @@ export function internalPackages(mode: string) {
       '@ember/test-helpers/addon-test-support/@ember/test-helpers'
     ),
 
-    Addon('@ember/test-waiters', mode).addSelfAlias(
-      '@ember/test-waiters/addon/@ember/test-waiters'
-    ),
+    // Addon('@ember/test-waiters', mode).addSelfAlias(
+    //   '@ember/test-waiters/addon/@ember/test-waiters'
+    // ),
 
     Addon('ember-compatibility-helpers', mode).addSelfAlias(
       compatPath('ember-compatibility-helpers/index.ts')

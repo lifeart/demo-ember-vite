@@ -1,10 +1,13 @@
-import Base from 'ember-simple-auth/authenticators/base';
+// import Base from 'ember-simple-auth/authenticators/base';
 
 interface IUserData {
   id: string;
   name: string;
 }
 
+class Base {
+  
+}
 export default class CustomAuthenticator extends Base {
   restore(data: IUserData): Promise<IUserData> {
     return Promise.resolve(data);
