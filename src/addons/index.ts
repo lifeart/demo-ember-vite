@@ -12,6 +12,7 @@ import EmberData from './ember-data';
 import EmberNotify from './ember-notify';
 import EmberModalDialog from './ember-modal-dialog';
 import EmberResponsive from './ember-responsive';
+import EmberEventHelpers from './ember-event-helpers';
 
 const registry = {
   ...EmberSimpleAuthRegistry,
@@ -28,6 +29,7 @@ const registry = {
   ...EmberNotify,
   ...EmberModalDialog,
   ...EmberResponsive,
+  ...EmberEventHelpers,
 };
 
 export default registry;
