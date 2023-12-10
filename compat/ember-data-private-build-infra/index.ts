@@ -26,7 +26,7 @@ export function generateDefineConfig(isProd: boolean) {
   Object.keys(config.debug).forEach((key) => {
     items[`${prefix}.debug.${key}`] = isProd ? false : config.debug[key];
   });
-  return items;
+  return {};
 }
 
 export function getDataConfig(debug: boolean) {

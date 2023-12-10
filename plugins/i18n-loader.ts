@@ -4,27 +4,26 @@ import { basename, extname, join } from 'path';
 import { constants } from 'fs';
 import type { Plugin } from 'vite';
 
-const translationsFileName = 'ember-intl/translations';
 const translationsDir = 'translations';
+
+const virtualModuleId = 'ember-intl/translations';
+const resolvedVirtualModuleId = '\0virtual:' + virtualModuleId;
 
 export default function i18nLoader(): Plugin {
   return {
     name: 'i18n-loader',
     enforce: 'pre',
-
     resolveId(source) {
-      if (source === translationsFileName) {
-        return source;
-      }
-
-      return null;
-    },
-
-    async load(id) {
-      if (id !== translationsFileName) {
+      if (source === virtualModuleId) {
+        return resolvedVirtualModuleId;
+      } else {
         return null;
       }
-
+    },
+    async load(id) {
+      if (id !== resolvedVirtualModuleId) {
+        return null;
+      }
       const translations = [];
       const files = await readdir(translationsDir);
 
