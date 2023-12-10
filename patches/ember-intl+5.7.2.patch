@@ -1,0 +1,18 @@
+diff --git a/node_modules/ember-intl/addon/-private/utils/hydrate.ts b/node_modules/ember-intl/addon/-private/utils/hydrate.ts
+index 29610f8..1694a78 100644
+--- a/node_modules/ember-intl/addon/-private/utils/hydrate.ts
++++ b/node_modules/ember-intl/addon/-private/utils/hydrate.ts
+@@ -1,4 +1,3 @@
+-import translations from 'ember-intl/translations';
+ import type IntlService from '../../services/intl';
+ 
+ /**
+@@ -6,7 +5,5 @@ import type IntlService from '../../services/intl';
+  * @hide
+  */
+ export default function hydrate(service: IntlService) {
+-  translations.forEach(([locale, translations]) => {
+-    service.addTranslations(locale, translations);
+-  });
++
+ }

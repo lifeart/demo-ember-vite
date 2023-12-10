@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => {
     {
       build: {
         sourcemap: enableSourceMaps,
+        chunkSizeWarningLimit: 1000,
         rollupOptions: isDev
           ? {
               input: {
@@ -49,6 +50,7 @@ export default defineConfig(({ mode }) => {
       App()
         .extendDefineConfig({
           ENV_DEBUG: isProd ? false : true,
+          DEBUG: isProd ? false : true,
           ENV_CI: false,
         })
         .addAlias(`@/tests/`, fileURLToPath(new URL(`./tests/`, projectRoot)))
